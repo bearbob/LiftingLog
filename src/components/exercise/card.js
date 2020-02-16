@@ -12,6 +12,7 @@ import {
   TextInput,
   View,
   Text,
+  TouchableOpacity,
   Button,
   Alert
 } from 'react-native';
@@ -21,17 +22,45 @@ class ExerciseCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //TODO
+      lastWeight: this.props.lastWeight,
+      lastReps: this.props.lastReps,
+      lastDate: this.props.lastDate,
+      bestWeight: this.props.bestWeight,
+      bestReps: this.props.bestReps,
+      bestDate: this.props.bestDate,
+      showInput: false
     };
+  }
+
+  formatDate (date) {
+    if(!date) return "none";
+    return date.getDate() +"."+date.getMonth()+"."+date.getFullYear();
+  }
+
+  updateStats (weight, reps, date) {
+    this.setState({
+      lastWeight: weight,
+      lastReps: reps,
+      lastDate: date
+    });
+    if(weight > this.state.bestWeight || (weight == this.state.bestWeight && reps > this.state.bestReps)) {
+      this.setState({
+        bestWeight: weight,
+        bestReps: reps,
+        bestDate: date
+      });
+    }
   }
 
   render() {
     return (
       <View style={cardStyle.maincontainer}>
-        <Text style={cardStyle.title}>{ this.props.text }</Text>
-        <Text style={cardStyle.sectionDescription}>Last: { this.props.lastWeight }kg x{ this.props.lastReps } @ { this.props.lastDate }</Text>
-        <Text style={cardStyle.sectionDescription}>Best: { this.props.bestWeight }kg x{ this.props.bestReps } @ { this.props.bestDate }</Text>
-        <ExerciseInput />
+        <TouchableOpacity onPress={() => this.setState({ showInput:!this.state.showInput })}>
+          <Text style={cardStyle.title}>{ this.props.text }</Text>
+          <Text style={cardStyle.sectionDescription}>Last: { this.state.lastWeight }kg x{ this.state.lastReps } @ { this.formatDate(this.state.lastDate) }</Text>
+          <Text style={cardStyle.sectionDescription}>Best: { this.state.bestWeight }kg x{ this.state.bestReps } @ { this.formatDate(this.state.bestDate) }</Text>
+        </TouchableOpacity>
+        {this.state.showInput && (<ExerciseInput updateCallback={this.updateStats}/>)}
       </View>
     );
   }
@@ -41,12 +70,15 @@ class ExerciseInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      weight: null,
+      reps: null,
       showDatepicker: false,
-      date: new Date()
+      date: new Date() //default date is today
     };
   }
 
   formatDate (date) {
+    if(!date) return "none";
     return date.getDate() +"."+date.getMonth()+"."+date.getFullYear();
   }
 
@@ -56,21 +88,29 @@ class ExerciseInput extends React.Component {
         <TextInput
           style={cardStyle.input}
           keyboardType="numeric"
-          value="Weight"
+          onSubmitEditing={(text, eventCount, target) => {
+              this.setState({
+                weight: text
+              });
+          }}
         />
         <Text>x</Text>
         <TextInput
           style={cardStyle.input}
           keyboardType="numeric"
-        />
-        <Text>@</Text>
-        <TextInput
-          style={cardStyle.inputDate}
-          value={this.formatDate(this.state.date)}
-          onFocus={() => {
-            this.setState({ showDatepicker:true });
+          onSubmitEditing={(text, eventCount, target) => {
+              this.setState({
+                reps: text
+              });
           }}
         />
+        <Text>@</Text>
+        <TouchableOpacity
+         style={cardStyle.button}
+         onPress={() => this.setState({ showDatepicker:true })}
+         >
+          <Text>{this.formatDate(this.state.date)}</Text>
+        </TouchableOpacity>
         {this.state.showDatepicker && (
           <DateTimePicker
             testID="dateTimePicker"
@@ -79,13 +119,22 @@ class ExerciseInput extends React.Component {
             display="default"
             onChange={(event, selectedDate) => {
                 const currentDate = selectedDate || this.state.date;
-                this.setState({ date:currentDate });
+                this.setState({
+                  date:currentDate,
+                  showDatepicker:false
+                });
             }}
           />
         )}
         <Button
           title="Add"
-          onPress={() => Alert.alert('Cannot press this one')}
+          onPress={() => {
+            if(this.state.weight == null || !this.state.reps) {
+              Alert.alert('Please enter all values')
+            } else {
+              this.props.updateCallback(this.state.weight, this.state.reps, this.state.date);
+            }
+          }}
         />
       </View>
     );
@@ -123,12 +172,11 @@ const cardStyle = StyleSheet.create({
     borderWidth: 1
   },
 
-  inputDate: {
-    height: 35,
-    width: 90,
-    borderColor: 'green',
-    borderWidth: 1
-  }
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#8ee8ff',
+    padding: 5
+  },
 });
 
 export default ExerciseCard;

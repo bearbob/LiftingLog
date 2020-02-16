@@ -46,7 +46,7 @@ const App: () => React$Node = () => {
               lastReps="5"
             />
             <ExerciseCard text="Pullup"
-              lastWeight="115"
+              lastWeight="10"
               lastReps="5"
             />
           </View>
