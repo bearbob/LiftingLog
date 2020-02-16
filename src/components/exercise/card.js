@@ -30,6 +30,7 @@ class ExerciseCard extends React.Component {
       bestDate: this.props.bestDate,
       showInput: false
     };
+    this.updateStats = this.updateStats.bind(this);
   }
 
   formatDate (date) {
@@ -38,12 +39,13 @@ class ExerciseCard extends React.Component {
   }
 
   updateStats (weight, reps, date) {
+    if(!weight || !reps || !date) return;
     this.setState({
       lastWeight: weight,
       lastReps: reps,
       lastDate: date
     });
-    if(weight > this.state.bestWeight || (weight == this.state.bestWeight && reps > this.state.bestReps)) {
+    if((!this.state.bestWeight || !this.state.bestReps) || weight > this.state.bestWeight || (weight >= this.state.bestWeight && reps > this.state.bestReps)) {
       this.setState({
         bestWeight: weight,
         bestReps: reps,
@@ -88,7 +90,7 @@ class ExerciseInput extends React.Component {
         <TextInput
           style={cardStyle.input}
           keyboardType="numeric"
-          onSubmitEditing={(text, eventCount, target) => {
+          onChangeText={(text, eventCount, target) => {
               this.setState({
                 weight: text
               });
@@ -98,7 +100,7 @@ class ExerciseInput extends React.Component {
         <TextInput
           style={cardStyle.input}
           keyboardType="numeric"
-          onSubmitEditing={(text, eventCount, target) => {
+          onChangeText={(text, eventCount, target) => {
               this.setState({
                 reps: text
               });
@@ -130,7 +132,13 @@ class ExerciseInput extends React.Component {
           title="Add"
           onPress={() => {
             if(this.state.weight == null || !this.state.reps) {
-              Alert.alert('Please enter all values')
+              if(this.state.weight == null && !this.state.reps) {
+                Alert.alert('Please enter all values');
+              } else if(this.state.weight == null && this.state.reps) {
+                Alert.alert('Please enter weight value');
+              } else {
+                Alert.alert('Please enter rep value');
+              }
             } else {
               this.props.updateCallback(this.state.weight, this.state.reps, this.state.date);
             }
