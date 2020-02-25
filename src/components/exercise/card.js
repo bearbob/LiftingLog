@@ -7,6 +7,7 @@
 
 import React from 'react';
 import {
+  AsyncStorage,
   StyleSheet,
   TextInput,
   View,
@@ -21,20 +22,70 @@ class ExerciseCard extends React.Component {
     this.state = {
       name: this.props.text,
       id: this.props.id,
-      lastWeight: this.props.lastWeight,
-      lastReps: this.props.lastReps,
-      lastDate: this.props.lastDate,
-      bestWeight: this.props.bestWeight,
-      bestReps: this.props.bestReps,
-      bestDate: this.props.bestDate,
       showInput: false
     };
     this.updateStats = this.updateStats.bind(this);
+    this._retrieveData();
+  }
+
+  getBestLog = (logArray) => {
+    return logArray.reduce((prev, current) => {
+      return (prev.weight > current.weight) ? prev : current;
+    });
+  }
+
+  getLastLog = (logArray) => {
+    return logArray.reduce((prev, current) => (prev.date > current.date) ? prev : current);
+  }
+
+  // fetch the data back asyncronously
+  async _retrieveData() {
+      try {
+          const value = await AsyncStorage.getItem(this.state.id);
+          if (value !== null) {
+              console.log("retrieving value: "+value);
+              let item = JSON.parse(value);
+              // Our data is fetched successfully
+              let best = this.getBestLog(item);
+              console.log("Best: "+JSON.stringify(best));
+              let last = this.getLastLog(item);
+              console.log("Last: "+JSON.stringify(last));
+              this.setState({
+                bestWeight: best.weight,
+                bestReps: best.reps,
+                bestDate: new Date(best.date)
+              });
+              this.setState({
+                lastWeight: last.weight,
+                lastReps: last.reps,
+                lastDate: new Date(last.date)
+              });
+          }
+      } catch (error) {
+          // Error retrieving data
+          console.log(error.message);
+      }
+  }
+
+  // create a function that saves your data asyncronously
+  async _storeData(logItem) {
+      try {
+        var array = [];
+        const value = await AsyncStorage.getItem(this.state.id);
+        if (value !== null) {
+            array = JSON.parse(value);
+        }
+        array.push(logItem);
+        await AsyncStorage.setItem(this.state.id, JSON.stringify(array));
+      } catch (error) {
+          // Error saving data
+          console.log(error.message);
+      }
   }
 
   formatDate (date) {
     if(!date) return "none";
-    return date.getDate() +"."+date.getMonth()+"."+date.getFullYear();
+    return date.getDate() +"."+(date.getMonth()+1)+"."+date.getFullYear();
   }
 
   updateStats (weight, reps, date) {
@@ -51,7 +102,9 @@ class ExerciseCard extends React.Component {
         bestDate: date
       });
     }
+    this._storeData({ weight: weight, reps: reps, date: date});
   }
+
 
   printLogLine (name, weight, reps, date) {
     if(!weight || !reps) {

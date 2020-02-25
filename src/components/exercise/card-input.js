@@ -82,11 +82,11 @@ class ExerciseInput extends React.Component {
           onPress={() => {
             if(this.state.weight == null || !this.state.reps) {
               if(this.state.weight == null && !this.state.reps) {
-                Alert.alert('Please enter all values');
+                Alert.alert('Not enough values', 'You cannot log a new entry if values are missing.');
               } else if(this.state.weight == null && this.state.reps) {
-                Alert.alert('Please enter weight value');
+                Alert.alert('Not enough values', 'Please enter a weight value.');
               } else {
-                Alert.alert('Please enter rep value');
+                Alert.alert('Not enough values', 'Please enter a repetition value.');
               }
             } else {
               this.props.updateCallback(this.state.weight, this.state.reps, this.state.date);

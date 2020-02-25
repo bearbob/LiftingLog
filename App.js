@@ -42,10 +42,12 @@ const App: () => React$Node = () => {
 
           <View style={styles.body}>
             <ExerciseCard text="Bench Press"
+              id="benchpress"
               lastWeight="115"
               lastReps="5"
             />
             <ExerciseCard text="Pullup"
+              id="pullup"
               lastWeight="10"
               lastReps="5"
             />
