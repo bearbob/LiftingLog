@@ -43,13 +43,21 @@ const App: () => React$Node = () => {
           <View style={styles.body}>
             <ExerciseCard text="Bench Press"
               id="benchpress"
-              lastWeight="115"
-              lastReps="5"
             />
             <ExerciseCard text="Pullup"
               id="pullup"
-              lastWeight="10"
-              lastReps="5"
+            />
+            <ExerciseCard text="Bent Over Row"
+              id="bentoverrow"
+            />
+            <ExerciseCard text="Military Press"
+              id="military"
+            />
+            <ExerciseCard text="Squat"
+              id="squat"
+            />
+            <ExerciseCard text="Deadlift"
+              id="deadlift"
             />
           </View>
         </ScrollView>
@@ -67,7 +75,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   body: {
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.black,
   },
   sectionContainer: {
     marginTop: 32,

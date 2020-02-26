@@ -30,7 +30,7 @@ class ExerciseInput extends React.Component {
 
   formatDate (date) {
     if(!date) return "none";
-    return date.getDate() +"."+date.getMonth()+"."+date.getFullYear();
+    return date.getDate() +"."+(date.getMonth()+1)+"."+date.getFullYear();
   }
 
   render() {
@@ -45,7 +45,7 @@ class ExerciseInput extends React.Component {
               });
           }}
         />
-        <Text>x</Text>
+        <Text style={cardStyle.buttonText}>x</Text>
         <TextInput
           style={cardStyle.input}
           keyboardType="numeric"
@@ -55,12 +55,12 @@ class ExerciseInput extends React.Component {
               });
           }}
         />
-        <Text>@</Text>
+        <Text style={cardStyle.buttonText}>@</Text>
         <TouchableOpacity
-         style={cardStyle.button}
+         style={cardStyle.picker}
          onPress={() => this.setState({ showDatepicker:true })}
          >
-          <Text>{this.formatDate(this.state.date)}</Text>
+          <Text style={cardStyle.buttonText}>{this.formatDate(this.state.date)}</Text>
         </TouchableOpacity>
         {this.state.showDatepicker && (
           <DateTimePicker
@@ -77,26 +77,28 @@ class ExerciseInput extends React.Component {
             }}
           />
         )}
-        <Button
-          title="Add"
-          onPress={() => {
-            if(this.state.weight == null || !this.state.reps) {
-              if(this.state.weight == null && !this.state.reps) {
-                Alert.alert('Not enough values', 'You cannot log a new entry if values are missing.');
-              } else if(this.state.weight == null && this.state.reps) {
-                Alert.alert('Not enough values', 'Please enter a weight value.');
-              } else {
-                Alert.alert('Not enough values', 'Please enter a repetition value.');
-              }
-            } else {
-              this.props.updateCallback(
-                parseInt(this.state.weight),
-                parseInt(this.state.reps),
-                this.state.date
-              );
-            }
-          }}
-        />
+        <TouchableOpacity
+         style={cardStyle.button}
+         onPress={() => {
+           if(this.state.weight == null || !this.state.reps) {
+             if(this.state.weight == null && !this.state.reps) {
+               Alert.alert('Not enough values', 'You cannot log a new entry if values are missing.');
+             } else if(this.state.weight == null && this.state.reps) {
+               Alert.alert('Not enough values', 'Please enter a weight value.');
+             } else {
+               Alert.alert('Not enough values', 'Please enter a repetition value.');
+             }
+           } else {
+             this.props.updateCallback(
+               parseInt(this.state.weight),
+               parseInt(this.state.reps),
+               this.state.date
+             );
+           }
+         }}
+         >
+          <Text style={cardStyle.buttonText}>Add</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -105,22 +107,47 @@ class ExerciseInput extends React.Component {
 const cardStyle = StyleSheet.create({
 
   inputContainer: {
-    borderWidth: 1,
-    flexDirection: 'row'
+    borderWidth: 0,
+    flexDirection: 'row',
+    paddingTop: 10
   },
 
   input: {
     height: 35,
     width: 70,
-    borderColor: 'green',
-    borderWidth: 1
+    borderColor: '#D79922',
+    backgroundColor: '#747474',
+    color: '#EDF5E1',
+    borderWidth: 1,
+    marginRight: 10,
+    marginLeft: 10
+  },
+
+  picker: {
+    alignItems: 'center',
+    backgroundColor: '#14A76C',
+    padding: 5,
+    marginLeft: 10
+  },
+
+  text: {
+    color: '#fdfffc',
+    fontWeight: 'bold',
+    padding: 5
   },
 
   button: {
     alignItems: 'center',
-    backgroundColor: '#8ee8ff',
-    padding: 5
+    backgroundColor: '#053868',
+    padding: 5,
+    marginLeft: 10
   },
+
+  buttonText: {
+    color: '#fdfffc',
+    fontWeight: 'bold',
+    padding: 5
+  }
 });
 
 export default ExerciseInput;

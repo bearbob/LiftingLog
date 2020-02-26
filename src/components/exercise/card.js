@@ -135,18 +135,18 @@ const cardStyle = StyleSheet.create({
     borderRadius: 0,
     padding: 10,
     borderWidth: 1,
-    borderColor: '#d6d7da',
-    backgroundColor: '#ffffff'
+    borderColor: '#747474',
+    backgroundColor: '#272727'
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
+    color: '#FDFDFD'
   },
   sectionDescription: {
     fontSize: 18,
     fontWeight: '400',
-    color: '#020202',
-    borderColor: '#d6d600' //testcolor to see container width
+    color: '#14A76C'
   }
 });
 
