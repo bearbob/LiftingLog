@@ -119,15 +119,14 @@ const cardStyle = StyleSheet.create({
     backgroundColor: '#747474',
     color: '#EDF5E1',
     borderWidth: 1,
-    marginRight: 10,
-    marginLeft: 10
+    marginRight: 5
   },
 
   picker: {
     alignItems: 'center',
     backgroundColor: '#14A76C',
     padding: 5,
-    marginLeft: 10
+    marginLeft: 5
   },
 
   text: {
@@ -138,7 +137,7 @@ const cardStyle = StyleSheet.create({
 
   button: {
     alignItems: 'center',
-    backgroundColor: '#053868',
+    backgroundColor: '#14A76C',
     padding: 5,
     marginLeft: 10
   },
