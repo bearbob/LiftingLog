@@ -30,7 +30,11 @@ class ExerciseCard extends React.Component {
 
   getBestLog = (logArray) => {
     return logArray.reduce((prev, current) => {
-      return (prev.weight > current.weight) ? prev : current;
+      console.log("Comparing prev"+JSON.stringify(prev) + " and current "+JSON.stringify(current));
+      if(prev.weight > current.weight || (prev.weight >= current.weight && prev.reps > current.reps)) {
+        return prev;
+      }
+      return current;
     });
   }
 
@@ -90,11 +94,14 @@ class ExerciseCard extends React.Component {
 
   updateStats (weight, reps, date) {
     if(!weight || !reps || !date) return;
-    this.setState({
-      lastWeight: weight,
-      lastReps: reps,
-      lastDate: date
-    });
+    if(this.state.date < date) {
+      //only update last if the date is later
+      this.setState({
+        lastWeight: weight,
+        lastReps: reps,
+        lastDate: date
+      });
+    }
     if((!this.state.bestWeight || !this.state.bestReps) || weight > this.state.bestWeight || (weight >= this.state.bestWeight && reps > this.state.bestReps)) {
       this.setState({
         bestWeight: weight,

@@ -89,7 +89,11 @@ class ExerciseInput extends React.Component {
                 Alert.alert('Not enough values', 'Please enter a repetition value.');
               }
             } else {
-              this.props.updateCallback(this.state.weight, this.state.reps, this.state.date);
+              this.props.updateCallback(
+                parseInt(this.state.weight),
+                parseInt(this.state.reps),
+                this.state.date
+              );
             }
           }}
         />
