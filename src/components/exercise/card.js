@@ -7,13 +7,13 @@
 
 import React from 'react';
 import {
-  AsyncStorage,
   StyleSheet,
   TextInput,
   View,
   Text,
   TouchableOpacity
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import ExerciseInput from './card-input.js';
 
 class ExerciseCard extends React.Component {
@@ -30,7 +30,6 @@ class ExerciseCard extends React.Component {
 
   getBestLog = (logArray) => {
     return logArray.reduce((prev, current) => {
-      console.log("Comparing prev"+JSON.stringify(prev) + " and current "+JSON.stringify(current));
       if(prev.weight > current.weight || (prev.weight >= current.weight && prev.reps > current.reps)) {
         return prev;
       }
@@ -47,13 +46,10 @@ class ExerciseCard extends React.Component {
       try {
           const value = await AsyncStorage.getItem(this.state.id);
           if (value !== null) {
-              console.log("retrieving value: "+value);
               let item = JSON.parse(value);
               // Our data is fetched successfully
               let best = this.getBestLog(item);
-              console.log("Best: "+JSON.stringify(best));
               let last = this.getLastLog(item);
-              console.log("Last: "+JSON.stringify(last));
               this.setState({
                 bestWeight: best.weight,
                 bestReps: best.reps,
