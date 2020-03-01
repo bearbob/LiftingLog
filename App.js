@@ -12,18 +12,24 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import ExerciseListScreen from './src/screens/exerciseList/ExerciseListScreen.js';
+import ExerciseListScreen from 'screens/ExerciseListScreen.js';
+import DevToolScreen from 'screens/DevToolScreen.js';
 
 const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="DevTools">
         <Stack.Screen
-          name="Home"
+          name="ExerciseList"
           component={ExerciseListScreen}
           options={{title: 'Exercise List'}}
+        />
+        <Stack.Screen
+          name="DevTools"
+          component={DevToolScreen}
+          options={{title: 'Developer Tools'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
