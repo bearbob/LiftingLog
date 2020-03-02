@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Defines the exercise cards with weight and rep tracks
  *
@@ -11,14 +12,56 @@ import {
   Button,
   StyleSheet,
   ScrollView,
-  View,
+  TouchableOpacity,
   Text,
   StatusBar,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 class DevToolScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fillWithTestData: true,
+      testDataButtonColor: '#14A76C'
+    };
+  }
+
+  async _storeMockData() {
+    try {
+      var array = [];
+      const value = await AsyncStorage.getItem("benchpress");
+      if (value !== null) {
+          array = JSON.parse(value);
+      }
+      array.push({ weight: 10, reps: 5, date: new Date('2020-01-05T03:00:00')});
+      array.push({ weight: 15, reps: 5, date: new Date('2020-01-06T03:00:00')});
+      array.push({ weight: 27.5, reps: 4, date: new Date('2020-01-08T03:00:00')});
+      array.push({ weight: 15, reps: 8, date: new Date('2020-01-18T03:00:00')});
+      array.push({ weight: 20, reps: 5, date: new Date('2020-01-20T03:00:00')});
+      await AsyncStorage.setItem("benchpress", JSON.stringify(array));
+      this.state.fillWithTestData = false;
+      this.setState({
+        fillWithTestData: false,
+        testDataButtonColor: '#0c6340'
+      });
+    } catch (error) {
+        // Error saving data
+        console.log(error.message);
+    }
+  }
+
+  getButtonStyle(color) {
+    return {
+      alignItems: 'center',
+      backgroundColor: this.state.testDataButtonColor,
+      padding: 20,
+      borderWidth: 2,
+      borderColor: '#747474',
+    };
+  }
 
   render() {
     return (
@@ -29,11 +72,28 @@ class DevToolScreen extends React.Component {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
 
-          <Text>Dev tools test text</Text>
-          <Button
-            title="Go to Exercises"
-            onPress={() => this.props.navigation.navigate('ExerciseList')}
-          />
+          <TouchableOpacity
+           style={this.getButtonStyle(this.state.testDataButtonColor)}
+           onPress={() => {
+             if(this.state.fillWithTestData) {
+               this._storeMockData();
+             }
+           }}
+           >
+            <Text style={styles.buttonText}>Fill with test data</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+           style={this.getButtonStyle('#14A76C')}
+           onPress={() => this.props.navigation.navigate('ExerciseList')}
+           >
+            <Text style={styles.buttonText}>Go to Exercises</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+           style={this.getButtonStyle('#14A76C')}
+           onPress={() => this.props.navigation.navigate('Graphs')}
+           >
+            <Text style={styles.buttonText}>Go to data visualization</Text>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
       </>
@@ -78,6 +138,11 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     textAlign: 'right',
   },
+
+  buttonText: {
+    color: '#fdfffc',
+    fontWeight: 'bold'
+  }
 });
 
 export default DevToolScreen;
