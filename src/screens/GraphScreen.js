@@ -53,14 +53,14 @@ class GraphScreen extends React.Component {
               ]
             }}
             width={Dimensions.get("window").width} // from react-native
-            height={220}
+            height={Dimensions.get("window").height/2}
             yAxisLabel="$"
             yAxisSuffix="k"
             yAxisInterval={1} // optional, defaults to 1
             chartConfig={{
-              backgroundColor: "#e26a00",
-              backgroundGradientFrom: "#fb8c00",
-              backgroundGradientTo: "#ffa726",
+              backgroundColor: "#0c6340",
+              backgroundGradientFrom: "#14A76C",
+              backgroundGradientTo: "#0c6340",
               decimalPlaces: 2, // optional, defaults to 2dp
               color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
               labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -68,15 +68,15 @@ class GraphScreen extends React.Component {
                 borderRadius: 16
               },
               propsForDots: {
-                r: "6",
+                r: "4",
                 strokeWidth: "2",
-                stroke: "#ffa726"
+                stroke: "#00a726"
               }
             }}
             bezier
             style={{
               marginVertical: 8,
-              borderRadius: 16
+              borderRadius: 0
             }}
           />
         </ScrollView>
