@@ -1,4 +1,3 @@
-'use strict';
 /**
  * Defines the exercise cards with weight and rep tracks
  *

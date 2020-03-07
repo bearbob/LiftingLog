@@ -14,7 +14,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import ExerciseInput from './card-input.js';
+import ExerciseInput from './card-input';
+import { getBestLog, getLastLog } from 'components/logger/utils';
 
 class ExerciseCard extends React.Component {
   constructor(props) {
@@ -26,19 +27,6 @@ class ExerciseCard extends React.Component {
     };
     this.updateStats = this.updateStats.bind(this);
     this._retrieveData();
-  }
-
-  getBestLog = (logArray) => {
-    return logArray.reduce((prev, current) => {
-      if(prev.weight > current.weight || (prev.weight >= current.weight && prev.reps > current.reps)) {
-        return prev;
-      }
-      return current;
-    });
-  }
-
-  getLastLog = (logArray) => {
-    return logArray.reduce((prev, current) => (prev.date > current.date) ? prev : current);
   }
 
   // fetch the data back asyncronously

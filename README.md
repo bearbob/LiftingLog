@@ -1,6 +1,6 @@
 # LiftingLog
- An android app written in React Native to log lifting progress
 
+An android app written in React Native to log lifting progress for power lifters.
 This projects serves as a training project to get used to React Native.
 
 ## Use Cases
