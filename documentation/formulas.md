@@ -8,7 +8,7 @@ Source: https://en.wikipedia.org/wiki/One-repetition_maximum#Epley_formula
 
 1RM = weight * (1 + (reps/30)) for r > 1
 
-# Calculating Wilks score
+# Calculating Wilks Score
 
 Source: https://en.wikipedia.org/wiki/Wilks_Coefficient
 
@@ -30,3 +30,5 @@ Values for women are:
 * d = −0.00930733913
 * e = 4.731582E−05
 * f = −9.054E−08
+
+# Calculating Strengt Score
