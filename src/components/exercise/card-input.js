@@ -16,6 +16,7 @@ import {
   Alert
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Color } from 'components/stylesheet.js';
 
 class ExerciseInput extends React.Component {
   constructor(props) {
@@ -111,15 +112,15 @@ const cardStyle = StyleSheet.create({
     height: 35,
     width: 70,
     borderColor: '#D79922',
-    backgroundColor: '#747474',
-    color: '#EDF5E1',
+    backgroundColor: Color.mainBackgroundColor,
+    color: Color.mainFontColor,
     borderWidth: 1,
     marginRight: 5
   },
 
   picker: {
     alignItems: 'center',
-    backgroundColor: '#14A76C',
+    backgroundColor: Color.buttonBackgroundColor,
     padding: 5,
     marginLeft: 5
   },

@@ -6,7 +6,7 @@ This document lists formulas that are used to determine strength values.
 
 Source: https://en.wikipedia.org/wiki/One-repetition_maximum#Epley_formula
 
-1RM = weight * (1 + (reps/30)) for r > 1
+oneRM = weight * (1 + (reps/30)) for r > 1
 
 # Calculating Wilks Score
 
@@ -31,4 +31,15 @@ Values for women are:
 * e = 4.731582E−05
 * f = −9.054E−08
 
-# Calculating Strengt Score
+# Calculating Overall Strengt Score
+
+Source: https://symmetricstrength.com/
+
+The overall strength score is the average of the individual strength scores of the five main lifts:
+* s = Squat
+* d = Floor Pull
+* b = Horizontal Press
+* m = Vertical Press
+* p = Pull-Up/Row
+
+avgStrengthScore = (score(s) + score(d) + score(b) + score(m) + score(p))/5

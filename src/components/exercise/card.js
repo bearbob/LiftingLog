@@ -16,6 +16,7 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import ExerciseInput from './card-input';
 import { getBestLog, getLastLog, formatDate } from 'components/logger/utils';
+import { Color } from 'components/stylesheet.js';
 
 class ExerciseCard extends React.Component {
   constructor(props) {
@@ -118,7 +119,7 @@ const cardStyle = StyleSheet.create({
     borderRadius: 0,
     padding: 10,
     borderWidth: 1,
-    borderColor: '#747474',
+    borderColor: Color.mainBackgroundColor,
     backgroundColor: '#272727'
   },
   title: {
@@ -129,7 +130,7 @@ const cardStyle = StyleSheet.create({
   sectionDescription: {
     fontSize: 18,
     fontWeight: '400',
-    color: '#14A76C'
+    color: Color.buttonBackgroundColor
   }
 });
 
