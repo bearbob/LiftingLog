@@ -1,5 +1,7 @@
 /**
  * Defines the exercise cards with weight and rep tracks
+ * This screen is used to give an overview over the exercises
+ * that can be tracked.
  *
  * @format
  * @flow

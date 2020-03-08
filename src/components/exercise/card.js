@@ -15,7 +15,8 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import ExerciseInput from './card-input';
-import { getBestLog, getLastLog, formatDate } from 'components/logger/utils';
+import { getBestLog, getLastLog, formatDate } from 'components/utils';
+import { storeObjectInArray, retrieveData } from 'components/storage';
 import { Color } from 'components/stylesheet.js';
 
 class ExerciseCard extends React.Component {
@@ -27,55 +28,22 @@ class ExerciseCard extends React.Component {
       showInput: false
     };
     this.updateStats = this.updateStats.bind(this);
-    this._retrieveData();
+    retrieveData(this.props.id);
   }
 
-  // fetch the data back asyncronously
-  async _retrieveData() {
-      try {
-          const value = await AsyncStorage.getItem(this.state.id);
-          if (value !== null) {
-              let item = JSON.parse(value);
-              // Our data is fetched successfully
-              let best = getBestLog(item);
-              let last = getLastLog(item);
-              this.setState({
-                bestWeight: best.weight,
-                bestReps: best.reps,
-                bestDate: new Date(best.date)
-              });
-              this.setState({
-                lastWeight: last.weight,
-                lastReps: last.reps,
-                lastDate: new Date(last.date)
-              });
-          }
-      } catch (error) {
-          // Error retrieving data
-          console.log(error.message);
-      }
-  }
-
-  // create a function that saves your data asyncronously
-  async _storeData(logItem) {
-      try {
-        var array = [];
-        const value = await AsyncStorage.getItem(this.state.id);
-        if (value !== null) {
-            array = JSON.parse(value);
-        }
-        array.push(logItem);
-        await AsyncStorage.setItem(this.state.id, JSON.stringify(array));
-      } catch (error) {
-          // Error saving data
-          console.log(error.message);
-      }
-  }
-
+  /**
+   * Update the current state with new values, if the date is newer
+   * or the weight is higher. In either case the data is stored to the
+   * database
+   * @private
+   * @param {double} weight - The weight lifted
+   * @param {integer} reps - The repitition the weight was lifted for
+   * @param {date} date - The date of the lift
+   */
   updateStats (weight, reps, date) {
     if(!weight || !reps || !date) return;
     if(this.state.date < date) {
-      //only update last if the date is later
+      //only update last if the date is more recent than the last date
       this.setState({
         lastWeight: weight,
         lastReps: reps,
@@ -89,15 +57,22 @@ class ExerciseCard extends React.Component {
         bestDate: date
       });
     }
-    this._storeData({ weight: weight, reps: reps, date: date});
+    storeObjectInArray(this.state.id, { weight: weight, reps: reps, date: date}, true);
   }
 
-
-  printLogLine (name, weight, reps, date) {
+  /**
+   * Converts the given data into a single line string
+   * @private
+   * @param {string} text - Text that is used as prefix for the string 
+   * @param {double} weight - The weight lifted
+   * @param {integer} reps - The repitition the weight was lifted for
+   * @param {date} date - The date of the lift
+   */
+  printLogLine (text, weight, reps, date) {
     if(!weight || !reps) {
-      return name+": No data available yet";
+      return text+": No data available yet";
     }
-    return name+": "+ weight + "kg x" +reps+ " @ " + formatDate(date);
+    return text+": "+ weight + "kg x" +reps+ " @ " + formatDate(date);
   }
 
   render() {

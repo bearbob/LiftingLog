@@ -10,61 +10,49 @@ import 'react-native-gesture-handler'; //make sure it's at the top and there's n
 import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import ExerciseListScreen from 'screens/ExerciseListScreen';
-import DevToolScreen from 'screens/DevToolScreen';
-import GraphScreen from 'screens/GraphScreen';
+import  {
+  ExerciseListScreen,
+  DevToolScreen,
+  GraphScreen
+  } from 'screens';
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+var getScreenProperties = ( title ) => {
+  return {
+    title: title,
+    headerTintColor: '#fff',
+    headerStyle: {
+      backgroundColor: '#14A76C',
+    },
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    }
+  };
+}
 
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="DevTools">
-        <Stack.Screen
+      <Tab.Navigator initialRouteName="DevTools">
+        <Tab.Screen
           name="ExerciseList"
           component={ExerciseListScreen}
-          options={{
-            title: 'Exercise List',
-            headerTintColor: '#fff',
-            headerStyle: {
-              backgroundColor: '#14A76C',
-            },
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            }
-          }}
+          options={this.getScreenProperties('Exercises')}
         />
-        <Stack.Screen
+        <Tab.Screen
           name="DevTools"
           component={DevToolScreen}
-          options={{
-            title: 'Developer Tools',
-            headerTintColor: '#fff',
-            headerStyle: {
-              backgroundColor: '#14A76C',
-            },
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            }
-          }}
+          options={this.getScreenProperties('DevTools')}
         />
-        <Stack.Screen
+        <Tab.Screen
           name="Graphs"
           component={GraphScreen}
-          options={{
-            title: 'Data visualization',
-            headerTintColor: '#fff',
-            headerStyle: {
-              backgroundColor: '#14A76C',
-            },
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            }
-          }}
+          options={this.getScreenProperties('Data visualization')}
         />
-      </Stack.Navigator>
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };

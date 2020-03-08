@@ -16,6 +16,7 @@ import {
   Alert
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { formatDate } from 'components/utils';
 import { Color } from 'components/stylesheet.js';
 
 class ExerciseInput extends React.Component {

@@ -1,5 +1,5 @@
 /**
- * Show developer tools
+ * Settings for the app
  *
  * @format
  * @flow
@@ -15,16 +15,17 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import { storeObjectInArray, retrieveData } from 'components/storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-class DevToolScreen extends React.Component {
+class SettingsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fillWithTestData: true,
-      testDataButtonColor: '#14A76C'
+      isMale: false,
+      birthday: null,
+      age: null
     };
   }
 
@@ -144,4 +145,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DevToolScreen;
+export default SettingsScreen;
