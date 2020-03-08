@@ -28,11 +28,6 @@ class ExerciseInput extends React.Component {
     };
   }
 
-  formatDate (date) {
-    if(!date) return "none";
-    return date.getDate() +"."+(date.getMonth()+1)+"."+date.getFullYear();
-  }
-
   render() {
     return (
       <View style={cardStyle.inputContainer}>
@@ -60,7 +55,7 @@ class ExerciseInput extends React.Component {
          style={cardStyle.picker}
          onPress={() => this.setState({ showDatepicker:true })}
          >
-          <Text style={cardStyle.buttonText}>{this.formatDate(this.state.date)}</Text>
+          <Text style={cardStyle.buttonText}>{formatDate(this.state.date)}</Text>
         </TouchableOpacity>
         {this.state.showDatepicker && (
           <DateTimePicker

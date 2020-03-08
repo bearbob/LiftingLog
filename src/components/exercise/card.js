@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import ExerciseInput from './card-input';
-import { getBestLog, getLastLog } from 'components/logger/utils';
+import { getBestLog, getLastLog, formatDate } from 'components/logger/utils';
 
 class ExerciseCard extends React.Component {
   constructor(props) {
@@ -36,8 +36,8 @@ class ExerciseCard extends React.Component {
           if (value !== null) {
               let item = JSON.parse(value);
               // Our data is fetched successfully
-              let best = this.getBestLog(item);
-              let last = this.getLastLog(item);
+              let best = getBestLog(item);
+              let last = getLastLog(item);
               this.setState({
                 bestWeight: best.weight,
                 bestReps: best.reps,
@@ -71,11 +71,6 @@ class ExerciseCard extends React.Component {
       }
   }
 
-  formatDate (date) {
-    if(!date) return "none";
-    return date.getDate() +"."+(date.getMonth()+1)+"."+date.getFullYear();
-  }
-
   updateStats (weight, reps, date) {
     if(!weight || !reps || !date) return;
     if(this.state.date < date) {
@@ -101,7 +96,7 @@ class ExerciseCard extends React.Component {
     if(!weight || !reps) {
       return name+": No data available yet";
     }
-    return name+": "+ weight + "kg x" +reps+ " @ " + this.formatDate(date);
+    return name+": "+ weight + "kg x" +reps+ " @ " + formatDate(date);
   }
 
   render() {
