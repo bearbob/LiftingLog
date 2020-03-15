@@ -29,30 +29,6 @@ class SettingsScreen extends React.Component {
     };
   }
 
-  async _storeMockData() {
-    try {
-      var array = [];
-      const value = await AsyncStorage.getItem("benchpress");
-      if (value !== null) {
-          array = JSON.parse(value);
-      }
-      array.push({ weight: 10, reps: 5, date: new Date('2020-01-05T03:00:00')});
-      array.push({ weight: 15, reps: 5, date: new Date('2020-01-06T03:00:00')});
-      array.push({ weight: 27.5, reps: 4, date: new Date('2020-01-08T03:00:00')});
-      array.push({ weight: 15, reps: 8, date: new Date('2020-01-18T03:00:00')});
-      array.push({ weight: 20, reps: 5, date: new Date('2020-01-20T03:00:00')});
-      await AsyncStorage.setItem("benchpress", JSON.stringify(array));
-      this.state.fillWithTestData = false;
-      this.setState({
-        fillWithTestData: false,
-        testDataButtonColor: '#0c6340'
-      });
-    } catch (error) {
-        // Error saving data
-        console.log(error.message);
-    }
-  }
-
   getButtonStyle(color) {
     return {
       alignItems: 'center',

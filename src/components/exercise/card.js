@@ -13,7 +13,6 @@ import {
   Text,
   TouchableOpacity
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import ExerciseInput from './card-input';
 import { getBestLog, getLastLog, formatDate } from 'components/utils';
 import { storeObjectInArray, retrieveData } from 'components/storage';
@@ -28,8 +27,24 @@ class ExerciseCard extends React.Component {
       showInput: false
     };
     this.updateStats = this.updateStats.bind(this);
-    retrieveData(this.props.id);
+    retrieveData(this.props.id, (value) => {
+      if (value !== null) {
+          let item = JSON.parse(value);
+          // Our data is fetched successfully
+          let best = getBestLog(item);
+          let last = getLastLog(item);
+          this.setState({
+            bestWeight: best.weight,
+            bestReps: best.reps,
+            bestDate: new Date(best.date),
+            lastWeight: last.weight,
+            lastReps: last.reps,
+            lastDate: new Date(last.date)
+          });
+      }
+    });
   }
+
 
   /**
    * Update the current state with new values, if the date is newer
@@ -63,7 +78,7 @@ class ExerciseCard extends React.Component {
   /**
    * Converts the given data into a single line string
    * @private
-   * @param {string} text - Text that is used as prefix for the string 
+   * @param {string} text - Text that is used as prefix for the string
    * @param {double} weight - The weight lifted
    * @param {integer} reps - The repitition the weight was lifted for
    * @param {date} date - The date of the lift

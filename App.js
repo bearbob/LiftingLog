@@ -36,7 +36,7 @@ var getScreenProperties = ( title ) => {
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="DevTools">
+      <Tab.Navigator initialRouteName="Exercises">
         <Tab.Screen
           name="ExerciseList"
           component={ExerciseListScreen}
@@ -50,7 +50,7 @@ const App: () => React$Node = () => {
         <Tab.Screen
           name="Graphs"
           component={GraphScreen}
-          options={this.getScreenProperties('Data visualization')}
+          options={this.getScreenProperties('Statistics')}
         />
       </Tab.Navigator>
     </NavigationContainer>

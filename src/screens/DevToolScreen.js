@@ -40,6 +40,10 @@ class DevToolScreen extends React.Component {
       array.push({ weight: 27.5, reps: 4, date: new Date('2020-01-08T03:00:00')});
       array.push({ weight: 15, reps: 8, date: new Date('2020-01-18T03:00:00')});
       array.push({ weight: 20, reps: 5, date: new Date('2020-01-20T03:00:00')});
+      array.push({ weight: 22.5, reps: 5, date: new Date('2020-01-22T03:00:00')});
+      array.push({ weight: 20, reps: 5, date: new Date('2020-01-25T03:00:00')});
+      array.push({ weight: 20, reps: 5, date: new Date('2020-01-26T03:00:00')});
+      array.push({ weight: 25, reps: 5, date: new Date('2020-01-29T03:00:00')});
       await AsyncStorage.setItem("benchpress", JSON.stringify(array));
       this.state.fillWithTestData = false;
       this.setState({
