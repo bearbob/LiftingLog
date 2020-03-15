@@ -26,8 +26,10 @@ class GraphScreen extends React.Component {
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic">
-          <Text>Sample line graph</Text>
+          <Text>Bench Press</Text>
           <PerformanceGraph id="benchpress" />
+          <Text>Pullup</Text>
+          <PerformanceGraph id="pullup" />
         </ScrollView>
       </SafeAreaView>
       </>

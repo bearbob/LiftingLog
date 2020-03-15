@@ -6,7 +6,10 @@
  */
 
 import React from 'react';
-import { Dimensions } from 'react-native';
+import {
+  Dimensions,
+  Text
+} from 'react-native';
 import { LineChart } from "react-native-chart-kit";
 import { retrieveData } from 'components/storage';
 import { getLastLogs, getWeekNumber } from 'components/utils';
@@ -16,8 +19,8 @@ class PerformanceGraph extends React.Component {
     super(props);
     this.state = {
       id: this.props.id,
-      labels: ["No data"], //if no data found, give an error message instead of the graph
-      data: [1] //if no data found, give an error message instead of the graph
+      labels: [], //if no data found, give an error message instead of the graph
+      data: [] //if no data found, give an error message instead of the graph
     };
     retrieveData(this.props.id, (value) => {
       if (value !== null) {
@@ -41,6 +44,9 @@ class PerformanceGraph extends React.Component {
   }
 
   render() {
+    if(this.state.labels.length < 1 || this.state.data.length < 1) {
+      return (<Text>No data to visualize</Text>);
+    }
     return (
       <LineChart
         data={{
