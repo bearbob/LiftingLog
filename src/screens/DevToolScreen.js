@@ -59,7 +59,7 @@ class DevToolScreen extends React.Component {
   getButtonStyle(color) {
     return {
       alignItems: 'center',
-      backgroundColor: this.state.testDataButtonColor,
+      backgroundColor: color,
       padding: 20,
       borderWidth: 2,
       borderColor: '#747474',

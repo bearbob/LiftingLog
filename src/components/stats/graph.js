@@ -6,31 +6,36 @@
  */
 
 import React from 'react';
+import { Dimensions } from 'react-native';
 import { LineChart } from "react-native-chart-kit";
+import { retrieveData } from 'components/storage';
+import { getLastLogs, getWeekNumber } from 'components/utils';
 
 class PerformanceGraph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       id: this.props.id,
-      dates: null, //if no data found, give an error message instead of the graph
-      weight: null //if no data found, give an error message instead of the graph
+      labels: ["No data"], //if no data found, give an error message instead of the graph
+      data: [1] //if no data found, give an error message instead of the graph
     };
     retrieveData(this.props.id, (value) => {
       if (value !== null) {
           let item = JSON.parse(value);
           // Our data is fetched successfully
-          let last = getLastLogs(item, 6);
+          let last = getLastLogs(item, 6).reverse();
           let dates = [];
           let weight = [];
           last.forEach(entry => {
-            dates.push(entry.date);
+            dates.push(getWeekNumber(entry.date));
             weight.push(entry.weight);
           });
+          console.log("Dates="+dates.length+"; weights="+weight.length);
           this.setState({
             labels: dates,
             data: weight
           });
+          console.log("Labels="+this.state.labels.length+"; data="+this.state.data.length);
       }
     });
   }

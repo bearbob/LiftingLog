@@ -20,19 +20,6 @@ import  {
 
 const Tab = createBottomTabNavigator();
 
-var getScreenProperties = ( title ) => {
-  return {
-    title: title,
-    headerTintColor: '#fff',
-    headerStyle: {
-      backgroundColor: '#14A76C',
-    },
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    }
-  };
-}
-
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
@@ -40,17 +27,44 @@ const App: () => React$Node = () => {
         <Tab.Screen
           name="ExerciseList"
           component={ExerciseListScreen}
-          options={this.getScreenProperties('Exercises')}
+          options={{
+            title: 'Exercises',
+            headerTintColor: '#fff',
+            headerStyle: {
+              backgroundColor: '#14A76C',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            }
+          }}
         />
         <Tab.Screen
           name="DevTools"
           component={DevToolScreen}
-          options={this.getScreenProperties('DevTools')}
+          options={{
+            title: 'DevTools',
+            headerTintColor: '#fff',
+            headerStyle: {
+              backgroundColor: '#14A76C',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            }
+          }}
         />
         <Tab.Screen
           name="Graphs"
           component={GraphScreen}
-          options={this.getScreenProperties('Statistics')}
+          options={{
+            title: 'Statistics',
+            headerTintColor: '#fff',
+            headerStyle: {
+              backgroundColor: '#14A76C',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            }
+          }}
         />
       </Tab.Navigator>
     </NavigationContainer>

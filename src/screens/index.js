@@ -3,7 +3,4 @@ import DevToolScreen from './DevToolScreen';
 import GraphScreen from './GraphScreen';
 import SettingsScreen from './SettingsScreen';
 
-export default ExerciseListScreen;
-export default DevToolScreen;
-export default GraphScreen;
-export default SettingsScreen;
+export { ExerciseListScreen, DevToolScreen, GraphScreen, SettingsScreen };

@@ -93,12 +93,13 @@ export const formatDate = (date) => {
  *      2012/1/1   is Sunday in week 52 of 2011
  * @public
  * @static
- * @param {object} date - A javascript date object
- * @returns {integer} The number of the calender week of the date
+ * @param {string} date - String representation of a date object
+ * @returns {array} Array with the year as first element and the number of the calender week of the date as second element
  */
 export const getWeekNumber = (date) => {
+    console.log("getWeekNumber input: "+typeof date);
     // Copy date so don't modify original
-    var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    var d = new Date(date);
     // Set to nearest Thursday: current date + 4 - current day number
     // Make Sunday's day number 7
     d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));

@@ -7,19 +7,16 @@
 
 import React from 'react';
 import {
-  Dimensions,
   Text,
   SafeAreaView,
   ScrollView,
-  StatusBar,
+  StatusBar
 } from 'react-native';
-import { PerformanceGraph } from "components/stats";
+import PerformanceGraph from "components/stats";
 
 class GraphScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
   }
 
   render() {
@@ -30,9 +27,7 @@ class GraphScreen extends React.Component {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic">
           <Text>Sample line graph</Text>
-          <PerformanceGraph
-            id="benchpress"
-          />
+          <PerformanceGraph id="benchpress" />
         </ScrollView>
       </SafeAreaView>
       </>

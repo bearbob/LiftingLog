@@ -14,10 +14,10 @@ import {
   ScrollView,
   View,
   Text,
-  StatusBar,
+  StatusBar
 } from 'react-native';
 
-import ExerciseCard from 'components/exercise/card.js';
+import ExerciseCard from 'components/exercise';
 
 class ExerciseListScreen extends React.Component {
 
@@ -59,7 +59,7 @@ class ExerciseListScreen extends React.Component {
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: '#14A00C',
-  }
+  },
   body: {
     backgroundColor: '#000000',
   },

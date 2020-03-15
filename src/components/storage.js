@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-community/async-storage';
+
 /**
  * Fetch the given object with the given key from the database.
  * @public
