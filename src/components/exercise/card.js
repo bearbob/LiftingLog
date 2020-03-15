@@ -17,6 +17,7 @@ import ExerciseInput from './card-input';
 import { getBestLog, getLastLog, formatDate } from 'components/utils';
 import { storeObjectInArray, retrieveData } from 'components/storage';
 import { Color } from 'components/stylesheet.js';
+import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
 
 class ExerciseCard extends React.Component {
   constructor(props) {
@@ -98,7 +99,19 @@ class ExerciseCard extends React.Component {
           <Text style={cardStyle.sectionDescription}>{this.printLogLine("Last", this.state.lastWeight, this.state.lastReps, this.state.lastDate) }</Text>
           <Text style={cardStyle.sectionDescription}>{this.printLogLine("Best", this.state.bestWeight, this.state.bestReps, this.state.bestDate) }</Text>
         </TouchableOpacity>
-        {this.state.showInput && (<ExerciseInput updateCallback={this.updateStats}/>)}
+        {this.state.showInput &&
+          (<ExerciseInput updateCallback={this.updateStats}/>)
+        }
+        {this.state.showInput && this.state.lastWeight &&
+          (<Text style={cardStyle.sectionDescription}>Last 1RM:
+            {getOneRepMaximum(this.state.lastWeight, this.state.lastReps, 2.5)} kg
+          </Text>)
+        }
+        {this.state.showInput && this.state.lastWeight &&
+          (<Text style={cardStyle.sectionDescription}>Last strength score:
+            {getSingleExerciseStrengthScore(false, 20, 100, "benchPress", getOneRepMaximum(this.state.lastWeight, this.state.lastReps, 2.5))}
+          </Text>)
+        }
       </View>
     );
   }

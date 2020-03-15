@@ -46,21 +46,21 @@ var wilksCoefficient = function(isMale, bodyweight) {
  */
 var percentOfPLTotal = function(isMale, bodyweight, exerciseName, oneRep) {
   "use strict";
-
+  exerciseName = exerciseName.toLowerCase();
   var deadliftMale = 0.396825,
       deadliftFemale = 0.414938;
   switch(exerciseName){
-    case "sumoDeadlift":
+    case "sumodeadlift":
     case "deadlift": return isMale? deadliftMale : deadliftFemale;
-    case "backSquat": return isMale? 0.87*deadliftMale : 0.84*deadliftFemale;
-    case "benchPress": return isMale? 0.65*deadliftMale : 0.57*deadliftFemale;
-    case "powerClean": return isMale? 0.56*deadliftMale : 0.56*deadliftFemale;
-    case "frontSquat": return isMale? 0.8*0.87*deadliftMale : 0.8*0.84*deadliftFemale;
-    case "inclineBenchPress": return isMale? 0.82*0.65*deadliftMale : 0.82*0.57*deadliftFemale;
-    case "overheadPress": return isMale? 0.65*0.65*deadliftMale : 0.65*0.57*deadliftFemale;
-    case "pushPress": return isMale? 1.33*0.65*0.65*deadliftMale : 1.33*0.65*0.57*deadliftFemale;
-    case "snatchPress": return isMale? 0.8*0.65*0.65*deadliftMale : 0.8*0.65*0.57*deadliftFemale;
-    case "pendlayRow": return isMale? 0.53*deadliftMale : 0.53*deadliftFemale;
+    case "backsquat": return isMale? 0.87*deadliftMale : 0.84*deadliftFemale;
+    case "benchpress": return isMale? 0.65*deadliftMale : 0.57*deadliftFemale;
+    case "powerclean": return isMale? 0.56*deadliftMale : 0.56*deadliftFemale;
+    case "frontsquat": return isMale? 0.8*0.87*deadliftMale : 0.8*0.84*deadliftFemale;
+    case "inclinebenchpress": return isMale? 0.82*0.65*deadliftMale : 0.82*0.57*deadliftFemale;
+    case "overheadpress": return isMale? 0.65*0.65*deadliftMale : 0.65*0.57*deadliftFemale;
+    case "pushpress": return isMale? 1.33*0.65*0.65*deadliftMale : 1.33*0.65*0.57*deadliftFemale;
+    case "snatchpress": return isMale? 0.8*0.65*0.65*deadliftMale : 0.8*0.65*0.57*deadliftFemale;
+    case "pendlayrow": return isMale? 0.53*deadliftMale : 0.53*deadliftFemale;
   }
 
   let l = 2.20462*(oneRep-bodyweight);
@@ -116,4 +116,18 @@ var singleLiftStrengthScore = function(isMale, age, bodyweight, exerciseName, on
 export const getSingleExerciseStrengthScore = (isMale, age, bodyweight, exerciseName, oneRM) => {
   "use strict";
   return Math.round(singleLiftStrengthScore(isMale, age, bodyweight, exerciseName, oneRM) * 10) / 10;
+};
+
+/**
+ * @public
+ * Calculates the one repitition maximum for a single exercise
+ * @param {double} weight - The weight lifted
+ * @param {integer} reps - The number of times the weight was lifted
+ * @param {double} [roundTo] - The final value will be rounded down to the nearest multiple of this number
+ * @return {double}
+ */
+export const getOneRepMaximum = (weight, reps, roundTo) => {
+  roundTo = roundTo || 1;
+  let orm = weight * (1 + reps/30);
+  return Math.floor(orm/roundTo)*roundTo;
 };

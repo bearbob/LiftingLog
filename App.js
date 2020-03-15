@@ -15,7 +15,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import  {
   ExerciseListScreen,
   DevToolScreen,
-  GraphScreen
+  GraphScreen,
+  SettingsScreen
   } from 'screens';
 
 const Tab = createBottomTabNavigator();
@@ -39,10 +40,10 @@ const App: () => React$Node = () => {
           }}
         />
         <Tab.Screen
-          name="DevTools"
-          component={DevToolScreen}
+          name="Graphs"
+          component={GraphScreen}
           options={{
-            title: 'DevTools',
+            title: 'Statistics',
             headerTintColor: '#fff',
             headerStyle: {
               backgroundColor: '#14A76C',
@@ -53,10 +54,24 @@ const App: () => React$Node = () => {
           }}
         />
         <Tab.Screen
-          name="Graphs"
-          component={GraphScreen}
+          name="Settings"
+          component={SettingsScreen}
           options={{
-            title: 'Statistics',
+            title: 'Settings',
+            headerTintColor: '#fff',
+            headerStyle: {
+              backgroundColor: '#14A76C',
+            },
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            }
+          }}
+        />
+        <Tab.Screen
+          name="DevTools"
+          component={DevToolScreen}
+          options={{
+            title: 'DevTools',
             headerTintColor: '#fff',
             headerStyle: {
               backgroundColor: '#14A76C',
