@@ -97,7 +97,6 @@ export const formatDate = (date) => {
  * @returns {array} Array with the year as first element and the number of the calender week of the date as second element
  */
 export const getWeekNumber = (date) => {
-    console.log("getWeekNumber input: "+typeof date);
     // Copy date so don't modify original
     var d = new Date(date);
     // Set to nearest Thursday: current date + 4 - current day number

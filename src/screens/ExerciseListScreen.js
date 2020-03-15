@@ -17,37 +17,30 @@ import {
   StatusBar
 } from 'react-native';
 
+import { Exercises } from 'components/content';
+import { Color } from 'components/stylesheet';
 import ExerciseCard from 'components/exercise';
 
 class ExerciseListScreen extends React.Component {
+
+  renderExercises() {
+    var items = [];
+    for (const [index, value] of Exercises.entries()) {
+      items.push(<ExerciseCard key={index} text={value.name} id={value.id} />);
+    }
+    return items;
+  }
 
   render() {
     return (
       <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
+      <SafeAreaView style={styles.safeArea}>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <View style={styles.body}>
-            <ExerciseCard text="Bench Press"
-              id="benchpress"
-            />
-            <ExerciseCard text="Pullup"
-              id="pullup"
-            />
-            <ExerciseCard text="Bent Over Row"
-              id="bentoverrow"
-            />
-            <ExerciseCard text="Military Press"
-              id="military"
-            />
-            <ExerciseCard text="Squat"
-              id="squat"
-            />
-            <ExerciseCard text="Deadlift"
-              id="deadlift"
-            />
+            {this.renderExercises()}
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -57,11 +50,12 @@ class ExerciseListScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: '#14A00C',
+  safeArea: {
+    flex: 1,
+    backgroundColor: Color.backgroundColor,
   },
-  body: {
-    backgroundColor: '#000000',
+  scrollView: {
+    backgroundColor: Color.backgroundColor,
   },
   sectionContainer: {
     marginTop: 32,

@@ -122,13 +122,13 @@ const cardStyle = StyleSheet.create({
     borderRadius: 0,
     padding: 10,
     borderWidth: 1,
-    borderColor: Color.mainBackgroundColor,
-    backgroundColor: '#272727'
+    borderColor: Color.backgroundColor,
+    backgroundColor: Color.mainBackgroundColor
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#FDFDFD'
+    color: Color.headerColor
   },
   sectionDescription: {
     fontSize: 18,

@@ -57,10 +57,12 @@ var percentOfPLTotal = function(isMale, bodyweight, exerciseName, oneRep) {
     case "powerclean": return isMale? 0.56*deadliftMale : 0.56*deadliftFemale;
     case "frontsquat": return isMale? 0.8*0.87*deadliftMale : 0.8*0.84*deadliftFemale;
     case "inclinebenchpress": return isMale? 0.82*0.65*deadliftMale : 0.82*0.57*deadliftFemale;
+    case "militarypress":
     case "overheadpress": return isMale? 0.65*0.65*deadliftMale : 0.65*0.57*deadliftFemale;
     case "pushpress": return isMale? 1.33*0.65*0.65*deadliftMale : 1.33*0.65*0.57*deadliftFemale;
     case "snatchpress": return isMale? 0.8*0.65*0.65*deadliftMale : 0.8*0.65*0.57*deadliftFemale;
     case "pendlayrow": return isMale? 0.53*deadliftMale : 0.53*deadliftFemale;
+    case "bentoverrow": return isMale? 0.48*deadliftMale : 0.48*deadliftFemale;
   }
 
   let l = 2.20462*(oneRep-bodyweight);

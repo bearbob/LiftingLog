@@ -12,11 +12,23 @@ import {
   ScrollView,
   StatusBar
 } from 'react-native';
+import { Exercises } from 'components/content';
 import PerformanceGraph from "components/stats";
 
 class GraphScreen extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  renderExercises() {
+    var items = [];
+    for (const [index, value] of Exercises.entries()) {
+      let indexOne = index+"-"+1;
+      let indexTwo = index+"-"+2;
+      items.push(<Text key={indexOne}>{value.name}</Text>);
+      items.push(<PerformanceGraph key={indexTwo} id={value.id} />);
+    }
+    return items;
   }
 
   render() {
@@ -26,10 +38,7 @@ class GraphScreen extends React.Component {
       <SafeAreaView>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic">
-          <Text>Bench Press</Text>
-          <PerformanceGraph id="benchpress" />
-          <Text>Pullup</Text>
-          <PerformanceGraph id="pullup" />
+          {this.renderExercises()}
         </ScrollView>
       </SafeAreaView>
       </>

@@ -11,7 +11,7 @@ import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
+import { Color } from 'components/stylesheet'
 import  {
   ExerciseListScreen,
   DevToolScreen,
@@ -20,65 +20,49 @@ import  {
   } from 'screens';
 
 const Tab = createBottomTabNavigator();
+const test = "Exercises";
 
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="Exercises">
+      <Tab.Navigator
+        initialRouteName="Exercises"
+        tabBarOptions={{
+          activeTintColor: Color.active,
+          inactiveTintColor: Color.inactive,
+          activeBackgroundColor: Color.activeBackgroundColor,
+          style: {
+            backgroundColor: Color.backgroundColor,
+            fontWeight: 'bold'
+          }
+        }}
+      >
         <Tab.Screen
           name="ExerciseList"
           component={ExerciseListScreen}
           options={{
-            title: 'Exercises',
-            headerTintColor: '#fff',
-            headerStyle: {
-              backgroundColor: '#14A76C',
-            },
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            }
+            title: 'Exercises'
           }}
         />
         <Tab.Screen
           name="Graphs"
           component={GraphScreen}
           options={{
-            title: 'Statistics',
-            headerTintColor: '#fff',
-            headerStyle: {
-              backgroundColor: '#14A76C',
-            },
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            }
+            title: 'Statistics'
           }}
         />
         <Tab.Screen
           name="Settings"
           component={SettingsScreen}
           options={{
-            title: 'Settings',
-            headerTintColor: '#fff',
-            headerStyle: {
-              backgroundColor: '#14A76C',
-            },
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            }
+            title: 'Settings'
           }}
         />
         <Tab.Screen
           name="DevTools"
           component={DevToolScreen}
           options={{
-            title: 'DevTools',
-            headerTintColor: '#fff',
-            headerStyle: {
-              backgroundColor: '#14A76C',
-            },
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            }
+            title: 'DevTools'
           }}
         />
       </Tab.Navigator>
