@@ -98,16 +98,18 @@ class DevToolScreen extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity
            style={this.getButtonStyle('#14A76C')}
-           onPress={() => this.props.navigation.navigate('ExerciseList')}
+           onPress={async () => {
+               try {
+                 await AsyncStorage.clear()
+               } catch(e) {
+                 // clear error
+               }
+               console.log('Cleared data.')
+           }}
            >
-            <Text style={styles.buttonText}>Go to Exercises</Text>
+            <Text style={styles.buttonText}>Clear all data</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-           style={this.getButtonStyle('#14A76C')}
-           onPress={() => this.props.navigation.navigate('Graphs')}
-           >
-            <Text style={styles.buttonText}>Go to data visualization</Text>
-          </TouchableOpacity>
+
         </ScrollView>
       </SafeAreaView>
       </>
