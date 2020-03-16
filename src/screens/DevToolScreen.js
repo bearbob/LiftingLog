@@ -15,6 +15,7 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
+import { Exercises } from 'components/content';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -28,24 +29,28 @@ class DevToolScreen extends React.Component {
     };
   }
 
-  async _storeMockData() {
+  async _storeMockData(sExerciseID) {
     try {
       var array = [];
-      const value = await AsyncStorage.getItem("benchpress");
+      const value = await AsyncStorage.getItem(sExerciseID);
       if (value !== null) {
           array = JSON.parse(value);
       }
-      array.push({ weight: 10, reps: 5, date: new Date('2020-01-05T03:00:00')});
-      array.push({ weight: 15, reps: 5, date: new Date('2020-01-06T03:00:00')});
-      array.push({ weight: 27.5, reps: 4, date: new Date('2020-01-08T03:00:00')});
-      array.push({ weight: 15, reps: 8, date: new Date('2020-01-18T03:00:00')});
-      array.push({ weight: 20, reps: 5, date: new Date('2020-01-20T03:00:00')});
-      array.push({ weight: 22.5, reps: 5, date: new Date('2020-01-22T03:00:00')});
-      array.push({ weight: 20, reps: 5, date: new Date('2020-01-25T03:00:00')});
-      array.push({ weight: 20, reps: 5, date: new Date('2020-01-26T03:00:00')});
-      array.push({ weight: 25, reps: 5, date: new Date('2020-01-29T03:00:00')});
-      await AsyncStorage.setItem("benchpress", JSON.stringify(array));
-      this.state.fillWithTestData = false;
+      let amount = Math.floor(Math.random() * (40+15)) + 15;
+      console.log("Adding "+amount+" new entries to "+sExerciseID);
+      for(let i=0; i<amount; i++){
+        let randWeight = Math.floor(Math.random() * (40+i)) + i;
+        randWeight = Math.floor(randWeight/2.5)*2.5;
+        let randreps = Math.floor(Math.random() * 10) + 1;
+        let randDate = new Date(new Date(2020, 0, 1).getTime() + Math.random() * (new Date().getTime() - new Date(2020, 0, 1).getTime()));
+        console.log("Adding to "+sExerciseID+": "+randWeight+"kg x "+randreps+" @ "+randDate);
+        array.push({
+          weight: randWeight,
+          reps: randreps,
+          date: randDate
+        });
+      }
+      await AsyncStorage.setItem(sExerciseID, JSON.stringify(array));
       this.setState({
         fillWithTestData: false,
         testDataButtonColor: '#0c6340'
@@ -79,7 +84,13 @@ class DevToolScreen extends React.Component {
            style={this.getButtonStyle(this.state.testDataButtonColor)}
            onPress={() => {
              if(this.state.fillWithTestData) {
-               this._storeMockData();
+              Exercises.forEach( entry => {
+                //don't always fill all fields
+                if(Math.random() > 0.15) {
+                  this._storeMockData(entry.id);
+                }
+              });
+
              }
            }}
            >
