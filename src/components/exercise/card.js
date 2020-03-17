@@ -131,13 +131,19 @@ class ExerciseCard extends React.Component {
           (<ExerciseInput updateCallback={this.updateStats}/>)
         }
         {this.state.showInput && this.state.lastWeight &&
-          (<Text style={cardStyle.sectionDescription}>Last 1RM:
-            {getOneRepMaximum(this.state.lastWeight, this.state.lastReps, 2.5)} kg
+          (<Text style={cardStyle.sectionDescription}>Last one rep max: {getOneRepMaximum(this.state.lastWeight, this.state.lastReps, 2.5)} kg
           </Text>)
         }
         {this.state.showInput && this.state.lastWeight &&
-          (<Text style={cardStyle.sectionDescription}>Last strength score:
-            {getSingleExerciseStrengthScore(false, 20, 100, "benchPress", getOneRepMaximum(this.state.lastWeight, this.state.lastReps, 2.5))}
+          (<Text style={cardStyle.sectionDescription}>Last strength score: {getSingleExerciseStrengthScore(false, 20, 100, this.state.id, getOneRepMaximum(this.state.lastWeight, this.state.lastReps, 2.5))}
+          </Text>)
+        }
+        {this.state.showInput && this.state.bestWeight &&
+          (<Text style={cardStyle.sectionDescription}>Best one rep max: {getOneRepMaximum(this.state.bestWeight, this.state.bestReps, 2.5)} kg
+          </Text>)
+        }
+        {this.state.showInput && this.state.bestWeight &&
+          (<Text style={cardStyle.sectionDescription}>Last strength score: {getSingleExerciseStrengthScore(false, 20, 100, this.state.id, getOneRepMaximum(this.state.bestWeight, this.state.bestReps, 2.5))}
           </Text>)
         }
       </View>
