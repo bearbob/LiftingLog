@@ -22,25 +22,46 @@ class PerformanceGraph extends React.Component {
       labels: [], //if no data found, give an error message instead of the graph
       data: [] //if no data found, give an error message instead of the graph
     };
-    retrieveData(this.props.id, (value) => {
-      if (value !== null) {
-          let item = JSON.parse(value);
-          // Our data is fetched successfully
-          let last = getLastLogs(item, 6).reverse();
-          let dates = [];
-          let weight = [];
-          last.forEach(entry => {
-            dates.push(getWeekNumber(entry.date));
-            weight.push(entry.weight);
-          });
-          console.log("Dates="+dates.length+"; weights="+weight.length);
-          this.setState({
-            labels: dates,
-            data: weight
-          });
-          console.log("Labels="+this.state.labels.length+"; data="+this.state.data.length);
-      }
-    });
+    this.refresh = this.refresh.bind(this);
+    retrieveData(this.props.id, this.refresh);
+  }
+
+  componentDidMount() {
+    this.updaterID = setInterval(
+      () => {
+        retrieveData(this.state.id, this.refresh);
+      },
+      15000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.updaterID);
+  }
+
+  refresh (value) {
+    if (value !== null) {
+        let item = JSON.parse(value);
+        // Our data is fetched successfully
+        let last = getLastLogs(item, 6).reverse();
+        let dates = [];
+        let weight = [];
+        last.forEach(entry => {
+          dates.push(getWeekNumber(entry.date));
+          weight.push(entry.weight);
+        });
+        console.log("Dates="+dates.length+"; weights="+weight.length);
+        this.setState({
+          labels: dates,
+          data: weight
+        });
+        console.log("Labels="+this.state.labels.length+"; data="+this.state.data.length);
+    } else {
+      this.setState({
+        labels: [],
+        data:  []
+      });
+    }
   }
 
   render() {

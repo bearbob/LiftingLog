@@ -28,22 +28,50 @@ class ExerciseCard extends React.Component {
       showInput: false
     };
     this.updateStats = this.updateStats.bind(this);
-    retrieveData(this.props.id, (value) => {
-      if (value !== null) {
-          let item = JSON.parse(value);
-          // Our data is fetched successfully
-          let best = getBestLog(item);
-          let last = getLastLog(item);
-          this.setState({
-            bestWeight: best.weight,
-            bestReps: best.reps,
-            bestDate: new Date(best.date),
-            lastWeight: last.weight,
-            lastReps: last.reps,
-            lastDate: new Date(last.date)
-          });
-      }
-    });
+    this.refresh = this.refresh.bind(this);
+    retrieveData(this.props.id, this.refresh);
+  }
+
+  componentDidMount() {
+    this.updaterID = setInterval(
+      () => {
+        retrieveData(this.state.id, this.refresh);
+      },
+      15000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.updaterID);
+  }
+
+  /**
+   * After the data has been loaded from the storage, update the state
+   */
+  refresh(value) {
+    if (value !== null) {
+        let item = JSON.parse(value);
+        let best = getBestLog(item);
+        let last = getLastLog(item);
+        this.setState({
+          bestWeight: best.weight,
+          bestReps: best.reps,
+          bestDate: new Date(best.date),
+          lastWeight: last.weight,
+          lastReps: last.reps,
+          lastDate: new Date(last.date)
+        });
+    } else {
+      //no data available
+      this.setState({
+        bestWeight: null,
+        bestReps: null,
+        bestDate: null,
+        lastWeight: null,
+        lastReps: null,
+        lastDate: null
+      });
+    }
   }
 
 

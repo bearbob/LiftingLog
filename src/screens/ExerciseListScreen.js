@@ -13,7 +13,6 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  RefreshControl,
   Text,
   StatusBar
 } from 'react-native';
@@ -31,13 +30,6 @@ class ExerciseListScreen extends React.Component {
     };
   }
 
-  _onRefresh () {
-    let newVal = (this.state.keyPrefix == 'a')? 'b' : 'a';
-    this.setState({
-      keyPrefix: newVal
-    });
-  }
-
   renderExercises() {
     var items = [];
     for (const [index, value] of Exercises.entries()) {
@@ -52,12 +44,6 @@ class ExerciseListScreen extends React.Component {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.safeArea}>
         <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this._onRefresh}
-            />
-          }
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <View style={styles.body}>
