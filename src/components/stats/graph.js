@@ -81,24 +81,23 @@ class PerformanceGraph extends React.Component {
           ]
         }}
         width={Dimensions.get("window").width} // from react-native
-        height={Dimensions.get("window").height/2}
-        yAxisLabel="kg"
-        yAxisSuffix="k"
+        height={Dimensions.get("window").height/3}
+        yAxisSuffix="kg"
         yAxisInterval={1} // optional, defaults to 1
         chartConfig={{
-          backgroundColor: "#0c6340",
-          backgroundGradientFrom: "#14A76C",
-          backgroundGradientTo: "#0c6340",
+          backgroundGradientFrom: Color.mainBackgroundColor,
+          fillShadowGradient: Color.graphShadowColor,
+          fillShadowGradientOpacity: 0.4,
           decimalPlaces: 2, // optional, defaults to 2dp
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+          color: (opacity = 1) => `rgba(77, 188, 94, ${opacity})`,
+          labelColor: (opacity = 1) => `rgba(77, 188, 94, ${opacity})`,
           style: {
-            borderRadius: 16
+            borderRadius: 2
           },
           propsForDots: {
             r: "4",
-            strokeWidth: "2",
-            stroke: "#00a726"
+            strokeWidth: "4",
+            stroke: Color.textColor
           }
         }}
         bezier

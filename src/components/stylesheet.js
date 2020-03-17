@@ -18,4 +18,5 @@ export const Color = {
   buttonBackgroundColor: ColorScheme.third,
   inactiveButtonBackgroundColor: ColorScheme.second,
   buttonBorderColor: ColorScheme.second,
+  graphShadowColor: ColorScheme.second,
 };
