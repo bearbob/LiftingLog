@@ -43,9 +43,7 @@ class ExerciseListScreen extends React.Component {
       <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.safeArea}>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+        <ScrollView contentInsetAdjustmentBehavior="automatic" >
           <View style={styles.body}>
             {this.renderExercises()}
           </View>
@@ -60,35 +58,6 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Color.backgroundColor,
-  },
-  scrollView: {
-    backgroundColor: Color.backgroundColor,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#000000',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: '#e0e0e0'
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: '#e0e0e0',
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
   },
 });
 

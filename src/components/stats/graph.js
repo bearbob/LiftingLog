@@ -8,10 +8,12 @@
 import React from 'react';
 import {
   Dimensions,
+  StyleSheet,
   Text
 } from 'react-native';
 import { LineChart } from "react-native-chart-kit";
 import { retrieveData } from 'components/storage';
+import { Color } from 'components/stylesheet.js';
 import { getLastLogs, getWeekNumber } from 'components/utils';
 
 class PerformanceGraph extends React.Component {
@@ -66,7 +68,7 @@ class PerformanceGraph extends React.Component {
 
   render() {
     if(this.state.labels.length < 1 || this.state.data.length < 1) {
-      return (<Text>No data to visualize</Text>);
+      return (<Text style={style.sectionDescription}>No data to visualize</Text>);
     }
     return (
       <LineChart
@@ -108,5 +110,13 @@ class PerformanceGraph extends React.Component {
     );
   }
 }
+
+const style = StyleSheet.create({
+  sectionDescription: {
+    fontSize: 18,
+    fontWeight: '400',
+    color: Color.buttonBackgroundColor
+  }
+});
 
 export default PerformanceGraph;

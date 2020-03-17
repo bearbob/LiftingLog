@@ -10,9 +10,11 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
+  StyleSheet,
   StatusBar
 } from 'react-native';
 import { Exercises } from 'components/content';
+import { Color } from 'components/stylesheet';
 import PerformanceGraph from "components/stats";
 
 class GraphScreen extends React.Component {
@@ -25,7 +27,7 @@ class GraphScreen extends React.Component {
     for (const [index, value] of Exercises.entries()) {
       let indexOne = index+"-"+1;
       let indexTwo = index+"-"+2;
-      items.push(<Text key={indexOne}>{value.name}</Text>);
+      items.push(<Text style={styles.title} key={indexOne}>{value.name}</Text>);
       items.push(<PerformanceGraph key={indexTwo} id={value.id} />);
     }
     return items;
@@ -35,7 +37,7 @@ class GraphScreen extends React.Component {
     return (
       <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
+      <SafeAreaView style={styles.safeArea}>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic">
           {this.renderExercises()}
@@ -45,5 +47,17 @@ class GraphScreen extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: Color.backgroundColor,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: Color.headerColor
+  },
+});
 
 export default GraphScreen;

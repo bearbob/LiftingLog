@@ -112,7 +112,7 @@ const cardStyle = StyleSheet.create({
   input: {
     height: 35,
     width: 70,
-    borderColor: '#D79922',
+    borderColor: Color.buttonBorderColor,
     backgroundColor: Color.mainBackgroundColor,
     color: Color.mainFontColor,
     borderWidth: 1,
@@ -127,20 +127,20 @@ const cardStyle = StyleSheet.create({
   },
 
   text: {
-    color: '#fdfffc',
+    color: Color.mainFontColor,
     fontWeight: 'bold',
     padding: 5
   },
 
   button: {
     alignItems: 'center',
-    backgroundColor: '#14A76C',
+    backgroundColor: Color.buttonBackgroundColor,
     padding: 5,
     marginLeft: 10
   },
 
   buttonText: {
-    color: '#fdfffc',
+    color: Color.mainFontColor,
     fontWeight: 'bold',
     padding: 5
   }

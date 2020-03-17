@@ -15,5 +15,7 @@ export const Color = {
   activeBackgroundColor: ColorScheme.fourth,
   mainBackgroundColor: ColorScheme.fourth,
   mainFontColor: ColorScheme.fith,
-  buttonBackgroundColor: ColorScheme.third
+  buttonBackgroundColor: ColorScheme.third,
+  inactiveButtonBackgroundColor: ColorScheme.second,
+  buttonBorderColor: ColorScheme.second,
 };

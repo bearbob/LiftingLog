@@ -16,6 +16,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { Exercises } from 'components/content';
+import { Color } from 'components/stylesheet';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -61,13 +62,17 @@ class DevToolScreen extends React.Component {
     }
   }
 
-  getButtonStyle(color) {
+  getButtonStyle(isActive) {
+    var color = Color.buttonBackgroundColor;
+    if(!isActive) {
+      color = Color.inactiveButtonBackgroundColor;
+    }
     return {
       alignItems: 'center',
       backgroundColor: color,
       padding: 20,
       borderWidth: 2,
-      borderColor: '#747474',
+      borderColor: Color.buttonBorderColor,
     };
   }
 
@@ -75,13 +80,13 @@ class DevToolScreen extends React.Component {
     return (
       <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
+      <SafeAreaView style={styles.safeArea}>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
 
           <TouchableOpacity
-           style={this.getButtonStyle(this.state.testDataButtonColor)}
+           style={this.getButtonStyle(this.state.fillWithTestData)}
            onPress={() => {
              if(this.state.fillWithTestData) {
               Exercises.forEach( entry => {
@@ -97,7 +102,7 @@ class DevToolScreen extends React.Component {
             <Text style={styles.buttonText}>Fill with test data</Text>
           </TouchableOpacity>
           <TouchableOpacity
-           style={this.getButtonStyle('#14A76C')}
+           style={this.getButtonStyle(true)}
            onPress={async () => {
                try {
                  await AsyncStorage.clear()
@@ -118,45 +123,12 @@ class DevToolScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: '#14A00C',
+  safeArea: {
+    flex: 1,
+    backgroundColor: Color.backgroundColor,
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: '#000000',
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#000000',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: '#e0e0e0'
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: '#e0e0e0',
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-
   buttonText: {
-    color: '#fdfffc',
+    color: Color.mainFontColor,
     fontWeight: 'bold'
   }
 });
