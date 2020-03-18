@@ -17,6 +17,7 @@ export const Color = {
   mainFontColor: ColorScheme.fith,
   buttonBackgroundColor: ColorScheme.third,
   inactiveButtonBackgroundColor: ColorScheme.second,
+  borderColor: ColorScheme.second,
   buttonBorderColor: ColorScheme.second,
   graphShadowColor: ColorScheme.second,
 };

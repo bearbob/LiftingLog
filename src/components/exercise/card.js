@@ -153,7 +153,8 @@ class ExerciseCard extends React.Component {
 
 const cardStyle = StyleSheet.create({
   maincontainer: {
-    borderRadius: 0,
+    borderRadius: 20,
+    marginTop: 5,
     padding: 10,
     borderWidth: 1,
     borderColor: Color.backgroundColor,

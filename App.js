@@ -22,9 +22,20 @@ import  {
 const Tab = createBottomTabNavigator();
 const test = "Exercises";
 
+const MyTheme = {
+  dark: true,
+  colors: {
+    primary: Color.active,
+    background: Color.backgroundColor,
+    card: Color.mainBackgroundColor,
+    text: Color.mainFontColor,
+    border: Color.borderColor
+  }
+};
+
 const App: () => React$Node = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={MyTheme}>
       <Tab.Navigator
         initialRouteName="Exercises"
         tabBarOptions={{
@@ -33,7 +44,7 @@ const App: () => React$Node = () => {
           activeBackgroundColor: Color.activeBackgroundColor,
           style: {
             backgroundColor: Color.backgroundColor,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
           }
         }}
       >

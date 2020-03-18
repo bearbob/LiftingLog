@@ -52,12 +52,10 @@ class PerformanceGraph extends React.Component {
           dates.push(getWeekNumber(entry.date));
           weight.push(entry.weight);
         });
-        console.log("Dates="+dates.length+"; weights="+weight.length);
         this.setState({
           labels: dates,
           data: weight
         });
-        console.log("Labels="+this.state.labels.length+"; data="+this.state.data.length);
     } else {
       this.setState({
         labels: [],
@@ -105,12 +103,20 @@ class PerformanceGraph extends React.Component {
           marginVertical: 8,
           borderRadius: 0
         }}
+        style={style.container}
       />
     );
   }
 }
 
 const style = StyleSheet.create({
+  container: {
+    borderRadius: 10,
+    marginTop: 5,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: Color.backgroundColor
+  },
   sectionDescription: {
     fontSize: 18,
     fontWeight: '400',

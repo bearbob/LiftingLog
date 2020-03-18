@@ -123,6 +123,7 @@ const cardStyle = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Color.buttonBackgroundColor,
     padding: 5,
+    borderRadius: 10,
     marginLeft: 5
   },
 
@@ -136,6 +137,7 @@ const cardStyle = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Color.buttonBackgroundColor,
     padding: 5,
+    borderRadius: 10,
     marginLeft: 10
   },
 
