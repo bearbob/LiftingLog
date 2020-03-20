@@ -28,6 +28,8 @@ class SettingsScreen extends React.Component {
       birthday: null,
       age: null
     };
+    this.parseSettings = this.parseSettings.bind(this);
+    retrieveData("settings", this.parseSettings);
   }
 
   getButtonStyle(color) {
@@ -40,6 +42,20 @@ class SettingsScreen extends React.Component {
     };
   }
 
+  parseSettings(settingsObject) {
+    if (value !== null) {
+        let item = JSON.parse(value);
+        this.setState({
+          isMale: item.isMale,
+          birthday: item.birthday
+        });
+    }
+  }
+
+  flipGender() {
+
+  }
+
   render() {
     return (
       <>
@@ -49,9 +65,9 @@ class SettingsScreen extends React.Component {
 
           <TouchableOpacity
            style={this.getButtonStyle('#14A76C')}
-           onPress={() => this.props.navigation.navigate('ExerciseList')}
+           onPress={this.flipGender}
            >
-            <Text style={styles.buttonText}>Go to Exercises</Text>
+            <Text style={styles.buttonText}>Gender: {this.state.isMale?"Male":"Female"}</Text>
           </TouchableOpacity>
           <TouchableOpacity
            style={this.getButtonStyle('#14A76C')}
