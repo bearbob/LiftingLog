@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Color.backgroundColor,
+    padding: 10,
   },
   title: {
     fontSize: 22,

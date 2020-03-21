@@ -111,12 +111,11 @@ const cardStyle = StyleSheet.create({
 
   input: {
     height: 35,
-    width: 70,
+    width: 60,
     borderColor: Color.buttonBorderColor,
     backgroundColor: Color.mainBackgroundColor,
     color: Color.mainFontColor,
     borderWidth: 1,
-    marginRight: 5
   },
 
   picker: {
@@ -124,7 +123,6 @@ const cardStyle = StyleSheet.create({
     backgroundColor: Color.buttonBackgroundColor,
     padding: 5,
     borderRadius: 10,
-    marginLeft: 5
   },
 
   text: {

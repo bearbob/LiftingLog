@@ -13,6 +13,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Text,
+  TextInput,
   StatusBar,
 } from 'react-native';
 import { storeData, retrieveData } from 'components/storage';
@@ -28,7 +29,9 @@ class SettingsScreen extends React.Component {
       isMale: false,
       birthday: new Date(),
       showDatepicker: false,
-      age: -1
+      showWeightInput: false,
+      age: 0,
+      bodyweight: 0,
     };
     this.flipGender = this.flipGender.bind(this);
     retrieveData("isMale", (value) => {
@@ -41,28 +44,27 @@ class SettingsScreen extends React.Component {
     retrieveData("birthday", (value) => {
       if (value !== null) {
         var birthday = JSON.parse(value);
-        var years = moment(birthday).fromNow();
+        var years = moment().diff(moment(birthday), 'years');
         this.setState({
-          birthday: birthday,
+          birthday: new Date(birthday),
           age: years
+        });
+      }
+    });
+    retrieveData("bodyweight", (value) => {
+      if (value !== null) {
+        this.setState({
+          bodyweight: JSON.parse(value)
+        });
+      }else{
+        this.setState({
+          bodyweight: "Undefined"
         });
       }
     });
   }
 
-  getButtonStyle(color) {
-    return {
-      alignItems: 'center',
-      backgroundColor: color,
-      padding: 20,
-      borderWidth: 2,
-      borderColor: '#747474',
-    };
-  }
-
   flipGender() {
-    console.log("Called flipGender()");
-    console.log(this.state.isMale);
     this.setState({
         isMale: !this.state.isMale
     });
@@ -75,18 +77,20 @@ class SettingsScreen extends React.Component {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView style={styles.safeArea}>
         <ScrollView contentInsetAdjustmentBehavior="automatic">
-
+          <Text style={styles.title}>Settings</Text>
+          <Text style={styles.buttonText}>Here you can change your personal data.</Text>
+          <Text style={styles.buttonText}>This information is used to calculate your Wilks and strength scores.</Text>
           <TouchableOpacity
-           style={this.getButtonStyle('#14A76C')}
+           style={styles.button}
            onPress={this.flipGender}
            >
             <Text style={styles.buttonText}>Sex: {this.state.isMale?"Male":"Female"}</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.picker}
+            style={styles.button}
             onPress={() => this.setState({ showDatepicker:true })}
            >
-            <Text style={styles.buttonText}>{formatDate(this.state.birthday)}</Text>
+            <Text style={styles.buttonText}>Birthday: {formatDate(this.state.birthday)} (age: {this.state.age})</Text>
           </TouchableOpacity>
           {this.state.showDatepicker && (
             <DateTimePicker
@@ -96,7 +100,7 @@ class SettingsScreen extends React.Component {
               display="default"
               onChange={(event, selectedDate) => {
                   const currentDate = selectedDate || this.state.birthday;
-                  var years = moment(currentDate).fromNow();
+                  var years = moment().diff(moment(currentDate), 'years');
                   this.setState({
                     birthday:currentDate,
                     age: years,
@@ -106,7 +110,26 @@ class SettingsScreen extends React.Component {
               }}
             />
           )}
-          <Text style={styles.buttonText}>Age: {this.state.age}</Text>
+          <TouchableOpacity
+           style={styles.button}
+           onPress={() => { this.setState({ showWeightInput: !this.state.showWeightInput})}}
+           >
+            <Text style={styles.buttonText}>Bodyweight: {this.state.bodyweight} kg</Text>
+            {this.state.showWeightInput && (
+              <TextInput
+                style={styles.input}
+                keyboardType="numeric"
+                defaultValue={this.state.bodyweight && this.state.bodyweight!="Undefined"?this.state.bodyweight:60}
+                onChangeText={(input, eventCount, target) => {
+                    this.setState({
+                      bodyweight: parseInt(input)
+                    });
+                    storeData("bodyweight", parseInt(input));
+                }}
+              />
+            )}
+          </TouchableOpacity>
+
         </ScrollView>
       </SafeAreaView>
       </>
@@ -118,18 +141,38 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Color.backgroundColor,
+    padding: 10,
   },
 
-  picker: {
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: Color.headerColor,
+    marginBottom: 5,
+  },
+
+  button: {
     alignItems: 'center',
     backgroundColor: Color.buttonBackgroundColor,
-    padding: 5,
+    padding: 20,
+    borderWidth: 2,
+    borderColor: Color.borderColor,
     borderRadius: 10,
-    marginLeft: 5
+    marginTop: 7,
+  },
+
+  input: {
+    height: 35,
+    width: 75,
+    marginTop: 5,
+    borderColor: Color.buttonBorderColor,
+    backgroundColor: Color.mainBackgroundColor,
+    color: Color.mainFontColor,
+    borderWidth: 1,
   },
 
   buttonText: {
-    color: '#fdfffc',
+    color: Color.mainFontColor,
     fontWeight: 'bold'
   }
 });

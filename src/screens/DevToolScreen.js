@@ -73,6 +73,7 @@ class DevToolScreen extends React.Component {
       padding: 20,
       borderWidth: 2,
       borderColor: Color.buttonBorderColor,
+      marginTop: 7,
     };
   }
 
@@ -84,7 +85,8 @@ class DevToolScreen extends React.Component {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-
+          <Text style={styles.title}>Developer Tools</Text>
+          <Text style={styles.buttonText}>Some quick tools that help developing the app.</Text>
           <TouchableOpacity
            style={this.getButtonStyle(this.state.fillWithTestData)}
            onPress={() => {
@@ -126,7 +128,16 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Color.backgroundColor,
+    padding: 10,
   },
+
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: Color.headerColor,
+    marginBottom: 5,
+  },
+
   buttonText: {
     color: Color.mainFontColor,
     fontWeight: 'bold'
