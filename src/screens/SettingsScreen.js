@@ -15,21 +15,39 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import { storeObjectInArray, retrieveData } from 'components/storage';
+import { storeData, retrieveData } from 'components/storage';
+import { formatDate } from 'components/utils';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { Color } from 'components/stylesheet';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import moment from 'moment';
 
 class SettingsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isMale: false,
-      birthday: null,
-      age: null
+      birthday: new Date(),
+      showDatepicker: false,
+      age: -1
     };
-    this.parseSettings = this.parseSettings.bind(this);
-    retrieveData("settings", this.parseSettings);
+    this.flipGender = this.flipGender.bind(this);
+    retrieveData("isMale", (value) => {
+      if (value !== null) {
+          this.setState({
+            isMale: JSON.parse(value)
+          });
+        }
+    });
+    retrieveData("birthday", (value) => {
+      if (value !== null) {
+        var birthday = JSON.parse(value);
+        var years = moment(birthday).fromNow();
+        this.setState({
+          birthday: birthday,
+          age: years
+        });
+      }
+    });
   }
 
   getButtonStyle(color) {
@@ -42,18 +60,13 @@ class SettingsScreen extends React.Component {
     };
   }
 
-  parseSettings(settingsObject) {
-    if (value !== null) {
-        let item = JSON.parse(value);
-        this.setState({
-          isMale: item.isMale,
-          birthday: item.birthday
-        });
-    }
-  }
-
   flipGender() {
-
+    console.log("Called flipGender()");
+    console.log(this.state.isMale);
+    this.setState({
+        isMale: !this.state.isMale
+    });
+    storeData("isMale", this.state.isMale);
   }
 
   render() {
@@ -67,14 +80,33 @@ class SettingsScreen extends React.Component {
            style={this.getButtonStyle('#14A76C')}
            onPress={this.flipGender}
            >
-            <Text style={styles.buttonText}>Gender: {this.state.isMale?"Male":"Female"}</Text>
+            <Text style={styles.buttonText}>Sex: {this.state.isMale?"Male":"Female"}</Text>
           </TouchableOpacity>
           <TouchableOpacity
-           style={this.getButtonStyle('#14A76C')}
-           onPress={() => this.props.navigation.navigate('Graphs')}
+            style={styles.picker}
+            onPress={() => this.setState({ showDatepicker:true })}
            >
-            <Text style={styles.buttonText}>Go to data visualization</Text>
+            <Text style={styles.buttonText}>{formatDate(this.state.birthday)}</Text>
           </TouchableOpacity>
+          {this.state.showDatepicker && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={this.state.birthday}
+              mode='date'
+              display="default"
+              onChange={(event, selectedDate) => {
+                  const currentDate = selectedDate || this.state.birthday;
+                  var years = moment(currentDate).fromNow();
+                  this.setState({
+                    birthday:currentDate,
+                    age: years,
+                    showDatepicker:false
+                  });
+                  storeData("birthday", currentDate);
+              }}
+            />
+          )}
+          <Text style={styles.buttonText}>Age: {this.state.age}</Text>
         </ScrollView>
       </SafeAreaView>
       </>
@@ -86,6 +118,14 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: Color.backgroundColor,
+  },
+
+  picker: {
+    alignItems: 'center',
+    backgroundColor: Color.buttonBackgroundColor,
+    padding: 5,
+    borderRadius: 10,
+    marginLeft: 5
   },
 
   buttonText: {
