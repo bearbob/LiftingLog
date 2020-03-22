@@ -119,7 +119,6 @@ class SettingsScreen extends React.Component {
               <TextInput
                 style={styles.input}
                 keyboardType="numeric"
-                defaultValue={this.state.bodyweight && this.state.bodyweight!="Undefined"?this.state.bodyweight:60}
                 onChangeText={(input, eventCount, target) => {
                     this.setState({
                       bodyweight: parseInt(input)

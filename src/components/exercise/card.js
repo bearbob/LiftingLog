@@ -18,6 +18,8 @@ import { getBestLog, getLastLog, formatDate } from 'components/utils';
 import { storeObjectInArray, retrieveData } from 'components/storage';
 import { Color } from 'components/stylesheet.js';
 import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
+import moment from 'moment';
+
 
 class ExerciseCard extends React.Component {
   constructor(props) {
@@ -28,6 +30,7 @@ class ExerciseCard extends React.Component {
       showInput: false
     };
     this.updateStats = this.updateStats.bind(this);
+    this.storeData = this.storeData.bind(this);
     this.refresh = this.refresh.bind(this);
     retrieveData(this.props.id, this.refresh);
   }
@@ -53,13 +56,19 @@ class ExerciseCard extends React.Component {
         let item = JSON.parse(value);
         let best = getBestLog(item);
         let last = getLastLog(item);
+        
         this.setState({
           bestWeight: best.weight,
           bestReps: best.reps,
           bestDate: new Date(best.date),
+          bestOneRM: (best.oneRM?best.oneRM:null),
+          bestStrengthScore: (best.score?best.score:null),
+          //---------------
           lastWeight: last.weight,
           lastReps: last.reps,
-          lastDate: new Date(last.date)
+          lastDate: new Date(last.date),
+          lastOneRM: (last.oneRM?last.oneRM:null),
+          lastStrengthScore: (last.score?last.score:null),
         });
     } else {
       //no data available
@@ -67,9 +76,13 @@ class ExerciseCard extends React.Component {
         bestWeight: null,
         bestReps: null,
         bestDate: null,
+        bestOneRM: null,
+        bestStrengthScore: null,
         lastWeight: null,
         lastReps: null,
-        lastDate: null
+        lastDate: null,
+        lastOneRM: null,
+        lastStrengthScore: null
       });
     }
   }
@@ -101,7 +114,34 @@ class ExerciseCard extends React.Component {
         bestDate: date
       });
     }
-    storeObjectInArray(this.state.id, { weight: weight, reps: reps, date: date}, true);
+    this.storeData(weight, reps, date);
+  }
+
+  storeData(weight, reps, date) {
+    retrieveData("bodyweight", "birthday", "isMale", (values) => {
+      var defaultBirthday = moment().subtract(20, 'years');
+      if(!values) {
+        values = { bodyweight: 75, birthday: defaultBirthday, isMale: false};
+      } else {
+        values.bodyweight = values.bodyweight?values.bodyweight:75;
+        values.birthday = values.birthday?values.birthday:defaultBirthday;
+        values.isMale = values.isMale?values.isMale:false;
+      }
+      var age = moment().diff(moment(values.birthday), 'years');
+      var oneRm = getOneRepMaximum(weight, reps, 2.5);
+      var strengthScore = getSingleExerciseStrengthScore(
+        values.isMale,
+        age,
+        values.bodyweight,
+        this.state.id,
+        oneRm
+      );
+      storeObjectInArray(
+        this.state.id,
+        { weight: weight, reps: reps, date: date, oneRM: oneRM, score: strengthScore},
+        true
+      );
+    });
   }
 
   /**
@@ -131,19 +171,19 @@ class ExerciseCard extends React.Component {
           (<ExerciseInput updateCallback={this.updateStats}/>)
         }
         {this.state.showInput && this.state.lastWeight &&
-          (<Text style={cardStyle.sectionDescription}>Last one rep max: {getOneRepMaximum(this.state.lastWeight, this.state.lastReps, 2.5)} kg
+          (<Text style={cardStyle.sectionDescription}>Last one rep max: {this.state.lastOneRM?this.state.lastOneRM+" kg": "No data available"}
           </Text>)
         }
         {this.state.showInput && this.state.lastWeight &&
-          (<Text style={cardStyle.sectionDescription}>Last strength score: {getSingleExerciseStrengthScore(false, 20, 100, this.state.id, getOneRepMaximum(this.state.lastWeight, this.state.lastReps, 2.5))}
+          (<Text style={cardStyle.sectionDescription}>Last strength score: {this.state.lastStrengthScore?this.state.lastStrengthScore: "No data available"}
           </Text>)
         }
         {this.state.showInput && this.state.bestWeight &&
-          (<Text style={cardStyle.sectionDescription}>Best one rep max: {getOneRepMaximum(this.state.bestWeight, this.state.bestReps, 2.5)} kg
+          (<Text style={cardStyle.sectionDescription}>Best one rep max: {this.state.bestOneRM?this.state.bestOneRM+" kg": "No data available"}
           </Text>)
         }
         {this.state.showInput && this.state.bestWeight &&
-          (<Text style={cardStyle.sectionDescription}>Last strength score: {getSingleExerciseStrengthScore(false, 20, 100, this.state.id, getOneRepMaximum(this.state.bestWeight, this.state.bestReps, 2.5))}
+          (<Text style={cardStyle.sectionDescription}>Last strength score: {this.state.bestStrengthScore?this.state.bestStrengthScore: "No data available"}
           </Text>)
         }
       </View>

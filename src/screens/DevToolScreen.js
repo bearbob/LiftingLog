@@ -18,8 +18,11 @@ import {
 import { Exercises } from 'components/content';
 import { Color } from 'components/stylesheet';
 import AsyncStorage from '@react-native-community/async-storage';
+import { storeObjectInArray, retrieveData } from 'components/storage';
+import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import moment from 'moment';
 
 class DevToolScreen extends React.Component {
   constructor(props) {
@@ -39,19 +42,45 @@ class DevToolScreen extends React.Component {
       }
       let amount = Math.floor(Math.random() * (40+15)) + 15;
       console.log("Adding "+amount+" new entries to "+sExerciseID);
+      var dataContainer = [];
       for(let i=0; i<amount; i++){
         let randWeight = Math.floor(Math.random() * (40+i)) + i;
         randWeight = Math.floor(randWeight/2.5)*2.5;
         let randreps = Math.floor(Math.random() * 10) + 1;
         let randDate = new Date(new Date(2020, 0, 1).getTime() + Math.random() * (new Date().getTime() - new Date(2020, 0, 1).getTime()));
-        console.log("Adding to "+sExerciseID+": "+randWeight+"kg x "+randreps+" @ "+randDate);
-        array.push({
-          weight: randWeight,
-          reps: randreps,
-          date: randDate
+        await retrieveData(["bodyweight", "birthday", "isMale"], (values) => {
+          var defaultBirthday = moment().subtract(20, 'years');
+          if(!values) {
+            values = { bodyweight: 75, birthday: defaultBirthday, isMale: false};
+          }
+          values.bodyweight = values.bodyweight?values.bodyweight:75;
+          values.birthday = new Date(values.birthday?values.birthday:defaultBirthday);
+          values.isMale = values.isMale?values.isMale:false;
+
+          var age = moment(randDate).diff(moment(values.birthday), 'years');
+          var oneRm = getOneRepMaximum(randWeight, randreps, 2.5);
+          var strengthScore = getSingleExerciseStrengthScore(
+            values.isMale,
+            age,
+            values.bodyweight,
+            sExerciseID,
+            oneRm
+          );
+          console.log(
+            "Adding to "+sExerciseID+": "+randWeight+"kg x "+randreps+" @ "+randDate+
+            " (oneRM: "+oneRm+"kg, strengthScore: "+strengthScore+")"
+          );
+          dataContainer.push({
+              weight: randWeight,
+              reps: randreps,
+              date: randDate,
+              oneRM: oneRm,
+              score: strengthScore
+            }
+          );
         });
       }
-      await AsyncStorage.setItem(sExerciseID, JSON.stringify(array));
+      await AsyncStorage.setItem(sExerciseID, JSON.stringify(dataContainer));
       this.setState({
         fillWithTestData: false,
         testDataButtonColor: '#0c6340'
@@ -95,6 +124,8 @@ class DevToolScreen extends React.Component {
                 //don't always fill all fields
                 if(Math.random() > 0.15) {
                   this._storeMockData(entry.id);
+                }else {
+                  console.log("Adding no entries to "+entry.id);
                 }
               });
 
@@ -108,6 +139,10 @@ class DevToolScreen extends React.Component {
            onPress={async () => {
                try {
                  await AsyncStorage.clear()
+                 this.setState({
+                   fillWithTestData: true,
+                   testDataButtonColor: '#14A76C'
+                 });
                } catch(e) {
                  // clear error
                }

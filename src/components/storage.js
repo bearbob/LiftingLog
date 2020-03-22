@@ -4,13 +4,21 @@ import AsyncStorage from '@react-native-community/async-storage';
  * Fetch the given object with the given key from the database.
  * @public
  * @static
- * @param {string} key - The key to fetch the data for
+ * @param {string/array} key - The key to fetch the data for or an array of strings
  * @param {function} callback - The function that will be executed when the data has been loaded. Has the input parameter "value".
- * @return {object}
+ * @return {object} The object that was saved. If you request multiple keys, the object will have one property for each key with the stored object as value for that property.
  */
 export const retrieveData = async (key, callback) => {
     try {
-        const value = await AsyncStorage.getItem(key);
+        var value;
+        if(Array.isArray(key)) {
+          value = {};
+          for(let i=0; i<key.length; i++){
+            value[key[i]] = await AsyncStorage.getItem(key[i]);
+          }
+        } else {
+          value = await AsyncStorage.getItem(key);
+        }
         callback(value);
     } catch (error) {
         // Error retrieving data
@@ -53,7 +61,7 @@ export const storeObjectInArray = async (key, object, append) => {
       if(append) {
         const value = await AsyncStorage.getItem(key);
         if (value !== null) {
-            array = JSON.parse(value);
+          array = JSON.parse(value);
         }
       }
       array.push(object);

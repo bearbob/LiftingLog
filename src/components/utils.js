@@ -28,11 +28,11 @@ export const getBestLogs = (logArray, amount) => {
  * @returns {object}
  */
 export const getBestLog = (logArray) => {
-  return logArray.reduce((prev, current) => {
-    if(prev.weight > current.weight || (prev.weight >= current.weight && prev.reps > current.reps)) {
-      return prev;
+  return logArray.reduce((a, b) => {
+    if(a.weight > b.weight || (a.weight >= b.weight && a.reps > b.reps)) {
+      return a;
     }
-    return current;
+    return b;
   });
 };
 
