@@ -43,12 +43,34 @@ export const getBestLog = (logArray) => {
  * @static
  * @param {array} logArray - The array to get the logs from
  * @param {integer} amount - The maximum number of elements in the returned array
+ * @param {boolean} [groupByWeek] - Group results by calendar week
  * @returns {array}
  */
-export const getLastLogs = (logArray, amount) => {
-  return logArray
-          .sort((prev, current) => (prev.date > current.date) ? -1 : 1)
-          .slice(0, amount);
+export const getLastLogs = (logArray, amount, groupByWeek) => {
+  if(logArray.length < 1) return [];
+  var sortedArray = logArray.sort((a, b) => (a.date > b.date) ? -1 : 1);
+  if(!groupByWeek) {
+    return sortedArray.slice(0, amount);
+  }
+  //group the entries by calendar week
+  var groupedArray = [sortedArray[0]];
+  for(let i=0; i<sortedArray.length; i++) {
+    let current = sortedArray[i];
+    let last = groupedArray[groupedArray.length-1];
+
+    if(getWeekNumber(current.date)[0] === getWeekNumber(last.date)[0] &&
+      getWeekNumber(current.date)[1] === getWeekNumber(last.date)[1]
+    ) {
+      //same calendar week, replace last element
+      groupedArray[groupedArray.length-1] = (current.weight > last.weight)?current:last;
+    } else {
+      groupedArray.push(current);
+    }
+    if(groupedArray.length >= amount) {
+      return groupedArray;
+    }
+  }
+  return groupedArray;
 };
 
 

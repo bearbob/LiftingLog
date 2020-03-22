@@ -45,7 +45,7 @@ class PerformanceGraph extends React.Component {
     if (value !== null) {
         let item = JSON.parse(value);
         // Our data is fetched successfully
-        let last = getLastLogs(item, 6).reverse();
+        let last = getLastLogs(item, 6, true).reverse();
         let dates = [];
         let weight = [];
         last.forEach(entry => {
