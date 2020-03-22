@@ -7,13 +7,14 @@
 
 import React from 'react';
 import {
-  SafeAreaView,
   Button,
-  StyleSheet,
+  Clipboard,
+  SafeAreaView,
   ScrollView,
-  TouchableOpacity,
-  Text,
   StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
 } from 'react-native';
 import { Exercises } from 'components/content';
 import { Color } from 'components/stylesheet';
@@ -106,6 +107,31 @@ class DevToolScreen extends React.Component {
     };
   }
 
+  renderClipboardButtons() {
+    var items = [];
+    for (const [index, value] of Exercises.entries()) {
+      items.push(
+        <TouchableOpacity
+         style={this.getButtonStyle(true)}
+         key={value.id}
+         onPress={async () => {
+            retrieveData(value.id, async (data) => {
+              if(data) {
+                await Clipboard.setString(data);
+                alert("Copied to Clipboard");
+              } else {
+                alert("No data found");
+              }
+            });
+         }}
+         >
+          <Text style={styles.buttonText}>Copy to Clipboard: {value.name}</Text>
+        </TouchableOpacity>
+      );
+    }
+    return items;
+  }
+
   render() {
     return (
       <>
@@ -151,7 +177,7 @@ class DevToolScreen extends React.Component {
            >
             <Text style={styles.buttonText}>Clear all data</Text>
           </TouchableOpacity>
-
+          {this.renderClipboardButtons()}
         </ScrollView>
       </SafeAreaView>
       </>
