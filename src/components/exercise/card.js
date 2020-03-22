@@ -56,7 +56,7 @@ class ExerciseCard extends React.Component {
         let item = JSON.parse(value);
         let best = getBestLog(item);
         let last = getLastLog(item);
-        
+
         this.setState({
           bestWeight: best.weight,
           bestReps: best.reps,
@@ -118,15 +118,14 @@ class ExerciseCard extends React.Component {
   }
 
   storeData(weight, reps, date) {
-    retrieveData("bodyweight", "birthday", "isMale", (values) => {
+    retrieveData(["bodyweight", "birthday", "isMale"], (values) => {
       var defaultBirthday = moment().subtract(20, 'years');
       if(!values) {
         values = { bodyweight: 75, birthday: defaultBirthday, isMale: false};
-      } else {
-        values.bodyweight = values.bodyweight?values.bodyweight:75;
-        values.birthday = values.birthday?values.birthday:defaultBirthday;
-        values.isMale = values.isMale?values.isMale:false;
       }
+      values.bodyweight = values.bodyweight?values.bodyweight:75;
+      values.birthday = new Date(values.birthday?values.birthday:defaultBirthday);
+      values.isMale = values.isMale?values.isMale:false;
       var age = moment().diff(moment(values.birthday), 'years');
       var oneRm = getOneRepMaximum(weight, reps, 2.5);
       var strengthScore = getSingleExerciseStrengthScore(
@@ -138,7 +137,7 @@ class ExerciseCard extends React.Component {
       );
       storeObjectInArray(
         this.state.id,
-        { weight: weight, reps: reps, date: date, oneRM: oneRM, score: strengthScore},
+        { weight: weight, reps: reps, date: date, oneRM: oneRm, score: strengthScore},
         true
       );
     });
