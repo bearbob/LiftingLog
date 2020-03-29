@@ -11,7 +11,7 @@
  */
 export const getBestLogs = (logArray, amount) => {
   return logArray.sort((a, b) => {
-    if(a.weight > b.weight || (a.weight >= b.weight && a.reps > b.reps)) {
+    if(isSecondLiftBetter(a.weight, a.reps, b.weight, b.reps)) {
       return -1;
     }
     return 1;
@@ -29,7 +29,7 @@ export const getBestLogs = (logArray, amount) => {
  */
 export const getBestLog = (logArray) => {
   return logArray.reduce((a, b) => {
-    if(a.weight > b.weight || (a.weight >= b.weight && a.reps > b.reps)) {
+    if(isSecondLiftBetter(a.weight, a.reps, b.weight, b.reps)) {
       return a;
     }
     return b;
@@ -130,4 +130,21 @@ export const getWeekNumber = (date) => {
     var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
     // Return array of year and week number
     return [d.getUTCFullYear(), weekNo];
+};
+
+/**
+ * @public
+ * Given two lifts, returns true if the second lift is better
+ * @param {double} aWeight The weight of the first lift
+ * @param {integer} aReps The number of repititions of the first lift
+ * @param {double} bWeight The weight of the second lift
+ * @param {integer} bReps The number of repititions of the second lift
+ * @returns {boolean} True, if the second lift is better
+ */
+export const isSecondLiftBetter = (aWeight, aReps, bWeight, bReps) => {
+  return (
+    (!aWeight || !aReps) ||
+    bWeight > aWeight ||
+    (bWeight >= aWeight && bReps > aReps)
+  );
 };

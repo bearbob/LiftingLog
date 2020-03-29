@@ -14,7 +14,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import ExerciseInput from './card-input';
-import { getBestLog, getLastLog, formatDate } from 'components/utils';
+import { getBestLog, getLastLog, formatDate, isSecondLiftBetter } from 'components/utils';
 import { storeObjectInArray, retrieveData } from 'components/storage';
 import { Color } from 'components/stylesheet.js';
 import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
@@ -52,39 +52,25 @@ class ExerciseCard extends React.Component {
    * After the data has been loaded from the storage, update the state
    */
   refresh(value) {
+    let best = null;
+    let last = null;
     if (value !== null) {
         let item = JSON.parse(value);
-        let best = getBestLog(item);
-        let last = getLastLog(item);
-
-        this.setState({
-          bestWeight: best.weight,
-          bestReps: best.reps,
-          bestDate: new Date(best.date),
-          bestOneRM: (best.oneRM?best.oneRM:null),
-          bestStrengthScore: (best.score?best.score:null),
-          //---------------
-          lastWeight: last.weight,
-          lastReps: last.reps,
-          lastDate: new Date(last.date),
-          lastOneRM: (last.oneRM?last.oneRM:null),
-          lastStrengthScore: (last.score?last.score:null),
-        });
-    } else {
-      //no data available
-      this.setState({
-        bestWeight: null,
-        bestReps: null,
-        bestDate: null,
-        bestOneRM: null,
-        bestStrengthScore: null,
-        lastWeight: null,
-        lastReps: null,
-        lastDate: null,
-        lastOneRM: null,
-        lastStrengthScore: null
-      });
+        best = getBestLog(item);
+        last = getLastLog(item);
     }
+    this.setState({
+      bestWeight: best? best.weight:null,
+      bestReps: best? best.reps:null,
+      bestDate: best? new Date(best.date):null,
+      bestOneRM: (best && best.oneRM)? best.oneRM:null,
+      bestStrengthScore: (best && best.score)? best.score:null,
+      //---------------
+      lastWeight: last? last.weight:null,
+      lastReps: last? last.reps:null,
+      lastDate: last? new Date(last.date):null,
+      lastOneRM: (last && last.oneRM)?last.oneRM:null,
+      lastStrengthScore: (last && last.score)?last.score:null,
   }
 
 
@@ -107,7 +93,7 @@ class ExerciseCard extends React.Component {
         lastDate: date
       });
     }
-    if((!this.state.bestWeight || !this.state.bestReps) || weight > this.state.bestWeight || (weight >= this.state.bestWeight && reps > this.state.bestReps)) {
+    if(isSecondLiftBetter(this.state.bestWeight, this.state.bestReps, weight, reps)) {
       this.setState({
         bestWeight: weight,
         bestReps: reps,
