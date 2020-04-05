@@ -81,3 +81,11 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
+# node.js
+#
+node_modules/
+package-lock.json # include if you are using yarn - don't use botn yarn and npm
+npm-debug.log
+yarn-error.log
+# yarn.lock # include if you are using npm - don't use both npm and yarn

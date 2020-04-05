@@ -49,6 +49,7 @@ class ExerciseCard extends React.Component {
   }
 
   /**
+   * @private
    * After the data has been loaded from the storage, update the state
    */
   refresh(value) {
@@ -103,7 +104,14 @@ class ExerciseCard extends React.Component {
     this.storeData(weight, reps, date);
   }
 
-  storeData(weight, reps, date) {
+  /**
+   * @private
+   * Save the new lift data to the database
+   * @param {double} weight - The weight lifted
+   * @param {integer} reps - The repitition the weight was lifted for
+   * @param {date} date - The date of the lift
+   */
+  storeData (weight, reps, date) {
     retrieveData(["bodyweight", "birthday", "isMale"], (values) => {
       var defaultBirthday = moment().subtract(20, 'years');
       if(!values) {
