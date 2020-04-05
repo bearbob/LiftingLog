@@ -11,13 +11,14 @@ import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { Color } from 'components/stylesheet'
+import { Color } from 'components/stylesheet';
 import  {
   ExerciseListScreen,
   DevToolScreen,
   GraphScreen,
   SettingsScreen
   } from 'screens';
+  import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 const test = "Exercises";
@@ -37,7 +38,23 @@ const App: () => React$Node = () => {
   return (
     <NavigationContainer theme={MyTheme}>
       <Tab.Navigator
-        initialRouteName="Exercises"
+        initialRouteName="ExerciseList"
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName = focused ? 'ios-list-box' : 'ios-list';
+
+            if (route.name === 'ExerciseList') {
+              iconName = focused ? 'ios-add-circle' : 'ios-add-circle-outline';
+            } else if (route.name === 'Graphs') {
+              iconName = 'ios-trending-up';
+            } else if (route.name === 'Settings') {
+              iconName = 'ios-options';
+            } else if (route.name === 'DevTools') {
+              iconName = 'ios-bug';
+            }
+            return <Icon name={iconName} size={size} color={color} />;
+          },
+        })}
         tabBarOptions={{
           activeTintColor: Color.active,
           inactiveTintColor: Color.inactive,

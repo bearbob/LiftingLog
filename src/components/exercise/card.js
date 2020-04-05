@@ -72,6 +72,7 @@ class ExerciseCard extends React.Component {
       lastDate: last? new Date(last.date):null,
       lastOneRM: (last && last.oneRM)?last.oneRM:null,
       lastStrengthScore: (last && last.score)?last.score:null,
+    });
   }
 
 
