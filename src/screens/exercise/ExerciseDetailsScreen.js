@@ -19,7 +19,8 @@ import {
 
 import { Exercises } from 'components/content';
 import { Color } from 'components/stylesheet';
-import ExerciseCard from 'components/exercise';
+import { ExerciseDetailsCard } from 'components/exercise';
+import PerformanceGraph from "components/stats";
 
 class ExerciseDetailsScreen extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class ExerciseDetailsScreen extends React.Component {
       id: this.props.route.params.value.id,
       name: this.props.route.params.value.name,
     };
+    this.props.navigation.setOptions({ title: this.state.name })
   }
 
   render() {
@@ -37,7 +39,9 @@ class ExerciseDetailsScreen extends React.Component {
       <SafeAreaView style={styles.safeArea}>
         <ScrollView contentInsetAdjustmentBehavior="automatic" >
           <View style={styles.body}>
-            <ExerciseCard text={this.state.name} id={this.state.id} />
+            <ExerciseDetailsCard text={this.state.name} id={this.state.id} />
+            <Text style={styles.title}>Weight progress last weeks</Text>
+            <PerformanceGraph id={this.state.id} />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -51,6 +55,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Color.backgroundColor,
     padding: 10,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: Color.headerColor
   },
 });
 

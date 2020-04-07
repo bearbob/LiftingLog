@@ -19,7 +19,7 @@ import {
 
 import { Exercises } from 'components/content';
 import { Color } from 'components/stylesheet';
-import ExerciseCard from 'components/exercise';
+import { ExerciseCard } from 'components/exercise';
 
 
 class ExerciseListHomeScreen extends React.Component {

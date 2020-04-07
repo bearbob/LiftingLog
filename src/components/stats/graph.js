@@ -111,7 +111,7 @@ class PerformanceGraph extends React.Component {
 
 const style = StyleSheet.create({
   container: {
-    borderRadius: 10,
+    borderRadius: 0,
     marginTop: 5,
     marginBottom: 15,
     borderWidth: 1,

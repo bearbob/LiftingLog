@@ -1,3 +1,4 @@
 import ExerciseCard from './card';
+import ExerciseDetailsCard from './detailsCard';
 
-export default ExerciseCard;
+export { ExerciseCard, ExerciseDetailsCard};
