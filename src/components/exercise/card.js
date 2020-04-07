@@ -13,6 +13,7 @@ import {
   Text,
   TouchableOpacity
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import ExerciseInput from './card-input';
 import { getBestLog, getLastLog, formatDate, isSecondLiftBetter } from 'components/utils';
 import { storeObjectInArray, retrieveData } from 'components/storage';
@@ -32,6 +33,7 @@ class ExerciseCard extends React.Component {
     this.updateStats = this.updateStats.bind(this);
     this.storeData = this.storeData.bind(this);
     this.refresh = this.refresh.bind(this);
+    this.onTouch = this.props.onTouch;
     retrieveData(this.props.id, this.refresh);
   }
 
@@ -156,30 +158,11 @@ class ExerciseCard extends React.Component {
   render() {
     return (
       <View style={cardStyle.maincontainer}>
-        <TouchableOpacity onPress={() => this.setState({ showInput:!this.state.showInput })}>
+        <TouchableOpacity onPress={this.onTouch}>
           <Text style={cardStyle.title}>{ this.state.name }</Text>
           <Text style={cardStyle.sectionDescription}>{this.printLogLine("Last", this.state.lastWeight, this.state.lastReps, this.state.lastDate) }</Text>
           <Text style={cardStyle.sectionDescription}>{this.printLogLine("Best", this.state.bestWeight, this.state.bestReps, this.state.bestDate) }</Text>
         </TouchableOpacity>
-        {this.state.showInput &&
-          (<ExerciseInput updateCallback={this.updateStats}/>)
-        }
-        {this.state.showInput && this.state.lastWeight &&
-          (<Text style={cardStyle.sectionDescription}>Last one rep max: {this.state.lastOneRM?this.state.lastOneRM+" kg": "No data available"}
-          </Text>)
-        }
-        {this.state.showInput && this.state.lastWeight &&
-          (<Text style={cardStyle.sectionDescription}>Last strength score: {this.state.lastStrengthScore?this.state.lastStrengthScore: "No data available"}
-          </Text>)
-        }
-        {this.state.showInput && this.state.bestWeight &&
-          (<Text style={cardStyle.sectionDescription}>Best one rep max: {this.state.bestOneRM?this.state.bestOneRM+" kg": "No data available"}
-          </Text>)
-        }
-        {this.state.showInput && this.state.bestWeight &&
-          (<Text style={cardStyle.sectionDescription}>Last strength score: {this.state.bestStrengthScore?this.state.bestStrengthScore: "No data available"}
-          </Text>)
-        }
       </View>
     );
   }

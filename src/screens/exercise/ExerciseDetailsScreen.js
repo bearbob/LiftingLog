@@ -21,21 +21,13 @@ import { Exercises } from 'components/content';
 import { Color } from 'components/stylesheet';
 import ExerciseCard from 'components/exercise';
 
-class ExerciseListScreen extends React.Component {
+class ExerciseDetailsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      refreshing: false,
-      keyPrefix: 'a'
+      id: this.props.route.params.value.id,
+      name: this.props.route.params.value.name,
     };
-  }
-
-  renderExercises() {
-    var items = [];
-    for (const [index, value] of Exercises.entries()) {
-      items.push(<ExerciseCard key={this.state.keyPrefix+index} text={value.name} id={value.id} />);
-    }
-    return items;
   }
 
   render() {
@@ -45,7 +37,7 @@ class ExerciseListScreen extends React.Component {
       <SafeAreaView style={styles.safeArea}>
         <ScrollView contentInsetAdjustmentBehavior="automatic" >
           <View style={styles.body}>
-            {this.renderExercises()}
+            <ExerciseCard text={this.state.name} id={this.state.id} />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -62,4 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExerciseListScreen;
+export default ExerciseDetailsScreen;

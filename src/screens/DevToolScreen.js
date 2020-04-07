@@ -141,7 +141,7 @@ class DevToolScreen extends React.Component {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <Text style={styles.title}>Developer Tools</Text>
-          <Text style={styles.buttonText}>Some quick tools that help developing the app.</Text>
+          <Text style={styles.buttonText}>Some tools that help managing and developing the app.</Text>
           <TouchableOpacity
            style={this.getButtonStyle(this.state.fillWithTestData)}
            onPress={() => {

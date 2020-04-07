@@ -11,6 +11,11 @@ import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  ExerciseListHomeScreen,
+  ExerciseDetailsScreen
+} from 'screens/exercise';
+import { createStackNavigator } from '@react-navigation/stack';
 import { Color } from 'components/stylesheet';
 import  {
   ExerciseListScreen,
@@ -21,7 +26,6 @@ import  {
   import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
-const test = "Exercises";
 
 const MyTheme = {
   dark: true,
@@ -33,6 +37,18 @@ const MyTheme = {
     border: Color.borderColor
   }
 };
+
+const ExerciseStack = createStackNavigator();
+
+function ExerciseStackScreen() {
+  return (
+    <ExerciseStack.Navigator
+      initialRouteName="Exercises">
+      <ExerciseStack.Screen name="Exercises" component={ExerciseListHomeScreen} />
+      <ExerciseStack.Screen name="Details" component={ExerciseDetailsScreen} />
+    </ExerciseStack.Navigator>
+  );
+}
 
 const App: () => React$Node = () => {
   return (
@@ -67,7 +83,7 @@ const App: () => React$Node = () => {
       >
         <Tab.Screen
           name="ExerciseList"
-          component={ExerciseListScreen}
+          component={ExerciseStackScreen}
           options={{
             title: 'Exercises'
           }}
