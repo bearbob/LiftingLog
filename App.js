@@ -44,7 +44,11 @@ function ExerciseStackScreen() {
   return (
     <ExerciseStack.Navigator
       initialRouteName="Exercises">
-      <ExerciseStack.Screen name="Exercises" component={ExerciseListHomeScreen} />
+      <ExerciseStack.Screen
+        name="Exercises"
+        component={ExerciseListHomeScreen}
+        options={{ title: 'Weight Based Exercises' }}
+      />
       <ExerciseStack.Screen name="Details" component={ExerciseDetailsScreen} />
     </ExerciseStack.Navigator>
   );

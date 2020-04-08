@@ -12,9 +12,9 @@
 export const getBestLogs = (logArray, amount) => {
   return logArray.sort((a, b) => {
     if(isSecondLiftBetter(a.weight, a.reps, b.weight, b.reps)) {
-      return -1;
+      return 1;
     }
-    return 1;
+    return -1;
   }).slice(0, amount);
 };
 
@@ -30,9 +30,9 @@ export const getBestLogs = (logArray, amount) => {
 export const getBestLog = (logArray) => {
   return logArray.reduce((a, b) => {
     if(isSecondLiftBetter(a.weight, a.reps, b.weight, b.reps)) {
-      return a;
+      return b;
     }
-    return b;
+    return a;
   });
 };
 
@@ -90,11 +90,17 @@ export const getLastLog = (logArray) => {
  * Converts the given date object to a string with the format dd.MM.YYYY
  * @static
  * @param {date} date - A date object
+ * @param {boolean} [reverse] - If true, the output format will be YYYY.MM.dd
  * @returns {string}
  */
-export const formatDate = (date) => {
+export const formatDate = (date, reverse) => {
   if(!date) return "none";
-  return date.getDate() +"."+(date.getMonth()+1)+"."+date.getFullYear();
+  let days = date.getDate().toString().padStart(2, '0');
+  let months = (date.getMonth()+1).toString().padStart(2, '0');
+  if(!reverse) {
+    return days +"."+months+"."+date.getFullYear();
+  }
+  return date.getFullYear()+"."+months+"."+days;
 };
 
 /**
@@ -142,9 +148,32 @@ export const getWeekNumber = (date) => {
  * @returns {boolean} True, if the second lift is better
  */
 export const isSecondLiftBetter = (aWeight, aReps, bWeight, bReps) => {
+  var result = (
+    (!aWeight || !aReps) ||
+    bWeight > aWeight ||
+    (bWeight >= aWeight && bReps > aReps)
+  );
   return (
     (!aWeight || !aReps) ||
     bWeight > aWeight ||
     (bWeight >= aWeight && bReps > aReps)
   );
+};
+
+/**
+ * Converts the given data into a single line string
+ * @public
+ * @param {string} text - Text that is used as prefix for the string
+ * @param {double} weight - The weight lifted
+ * @param {integer} reps - The repitition the weight was lifted for
+ * @param {object} date - The date of the lift
+ */
+export const printLogLine = (text, weight, reps, date) => {
+  if(!weight || !reps) {
+    return text+": No data available yet";
+  }
+  if(Object.prototype.toString.call(date) !== '[object Date]') {
+    date = new Date(date);
+  }
+  return text+": "+ weight + "kg x" +reps+ " @ " + formatDate(date);
 };

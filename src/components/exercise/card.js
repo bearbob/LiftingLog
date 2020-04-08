@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ExerciseInput from './card-input';
-import { getBestLog, getLastLog, formatDate, isSecondLiftBetter } from 'components/utils';
+import { getBestLog, getLastLog, formatDate, isSecondLiftBetter, printLogLine } from 'components/utils';
 import { storeObjectInArray, retrieveData } from 'components/storage';
 import { Color } from 'components/stylesheet.js';
 import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
@@ -140,28 +140,13 @@ class ExerciseCard extends React.Component {
     });
   }
 
-  /**
-   * Converts the given data into a single line string
-   * @private
-   * @param {string} text - Text that is used as prefix for the string
-   * @param {double} weight - The weight lifted
-   * @param {integer} reps - The repitition the weight was lifted for
-   * @param {date} date - The date of the lift
-   */
-  printLogLine (text, weight, reps, date) {
-    if(!weight || !reps) {
-      return text+": No data available yet";
-    }
-    return text+": "+ weight + "kg x" +reps+ " @ " + formatDate(date);
-  }
-
   render() {
     return (
       <View style={cardStyle.maincontainer}>
         <TouchableOpacity onPress={this.onTouch}>
           <Text style={cardStyle.title}>{ this.state.name }</Text>
-          <Text style={cardStyle.sectionDescription}>{this.printLogLine("Last", this.state.lastWeight, this.state.lastReps, this.state.lastDate) }</Text>
-          <Text style={cardStyle.sectionDescription}>{this.printLogLine("Best", this.state.bestWeight, this.state.bestReps, this.state.bestDate) }</Text>
+          <Text style={cardStyle.sectionDescription}>{ printLogLine("Last", this.state.lastWeight, this.state.lastReps, this.state.lastDate) }</Text>
+          <Text style={cardStyle.sectionDescription}>{ printLogLine("Best", this.state.bestWeight, this.state.bestReps, this.state.bestDate) }</Text>
         </TouchableOpacity>
       </View>
     );
