@@ -17,7 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 import ExerciseInput from './card-input';
 import { getBestLog, getLastLog, formatDate, isSecondLiftBetter, printLogLine } from 'components/utils';
 import { storeObjectInArray, retrieveData } from 'components/storage';
-import { Color } from 'components/stylesheet.js';
+import { Theme } from 'components/stylesheet.js';
 import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
 import moment from 'moment';
 
@@ -142,36 +142,15 @@ class ExerciseCard extends React.Component {
 
   render() {
     return (
-      <View style={cardStyle.maincontainer}>
+      <View style={Theme.maincontainer}>
         <TouchableOpacity onPress={this.onTouch}>
-          <Text style={cardStyle.title}>{ this.state.name }</Text>
-          <Text style={cardStyle.sectionDescription}>{ printLogLine("Last", this.state.lastWeight, this.state.lastReps, this.state.lastDate) }</Text>
-          <Text style={cardStyle.sectionDescription}>{ printLogLine("Best", this.state.bestWeight, this.state.bestReps, this.state.bestDate) }</Text>
+          <Text style={Theme.title}>{ this.state.name }</Text>
+          <Text style={Theme.sectionDescription}>{ printLogLine("Last", this.state.lastWeight, this.state.lastReps, this.state.lastDate) }</Text>
+          <Text style={Theme.sectionDescription}>{ printLogLine("Best", this.state.bestWeight, this.state.bestReps, this.state.bestDate) }</Text>
         </TouchableOpacity>
       </View>
     );
   }
 }
-
-const cardStyle = StyleSheet.create({
-  maincontainer: {
-    borderRadius: 20,
-    marginTop: 5,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: Color.backgroundColor,
-    backgroundColor: Color.mainBackgroundColor
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: Color.headerColor
-  },
-  sectionDescription: {
-    fontSize: 18,
-    fontWeight: '400',
-    color: Color.buttonBackgroundColor
-  }
-});
 
 export default ExerciseCard;

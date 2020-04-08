@@ -7,7 +7,6 @@
 
 import React from 'react';
 import {
-  StyleSheet,
   TextInput,
   View,
   Text,
@@ -17,7 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import ExerciseInput from './card-input';
 import { getBestLog, getLastLog, formatDate, isSecondLiftBetter, printLogLine } from 'components/utils';
 import { storeObjectInArray, retrieveData } from 'components/storage';
-import { Color } from 'components/stylesheet.js';
+import { Theme } from 'components/stylesheet';
 import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
 import moment from 'moment';
 
@@ -76,43 +75,22 @@ class ExerciseDetailsCard extends React.Component {
 
   render() {
     return (
-      <View style={cardStyle.maincontainer}>
-        <Text style={cardStyle.title}>Last values - {formatDate(this.state.lastDate)}</Text>
-          <Text style={cardStyle.sectionDescription}>{printLogLine("Last", this.state.lastWeight, this.state.lastReps, this.state.lastDate) }</Text>
-          <Text style={cardStyle.sectionDescription}>Last one rep max: {this.state.lastOneRM?this.state.lastOneRM+" kg": "No data available"}
+      <View style={Theme.maincontainer}>
+        <Text style={Theme.title}>Last values - {formatDate(this.state.lastDate)}</Text>
+          <Text style={Theme.sectionDescription}>{printLogLine("Last", this.state.lastWeight, this.state.lastReps, this.state.lastDate) }</Text>
+          <Text style={Theme.sectionDescription}>Last one rep max: {this.state.lastOneRM?this.state.lastOneRM+" kg": "No data available"}
           </Text>
-          <Text style={cardStyle.sectionDescription}>Last strength score: {this.state.lastStrengthScore?this.state.lastStrengthScore: "No data available"}
+          <Text style={Theme.sectionDescription}>Last strength score: {this.state.lastStrengthScore?this.state.lastStrengthScore: "No data available"}
           </Text>
-        <Text style={cardStyle.title}>Best results - {formatDate(this.state.bestDate)}</Text>
-          <Text style={cardStyle.sectionDescription}>{printLogLine("Best", this.state.bestWeight, this.state.bestReps, this.state.bestDate) }</Text>
-          <Text style={cardStyle.sectionDescription}>Best one rep max: {this.state.bestOneRM?this.state.bestOneRM+" kg": "No data available"}
+        <Text style={Theme.title}>Best results - {formatDate(this.state.bestDate)}</Text>
+          <Text style={Theme.sectionDescription}>{printLogLine("Best", this.state.bestWeight, this.state.bestReps, this.state.bestDate) }</Text>
+          <Text style={Theme.sectionDescription}>Best one rep max: {this.state.bestOneRM?this.state.bestOneRM+" kg": "No data available"}
           </Text>
-          <Text style={cardStyle.sectionDescription}>Best strength score: {this.state.bestStrengthScore?this.state.bestStrengthScore: "No data available"}
+          <Text style={Theme.sectionDescription}>Best strength score: {this.state.bestStrengthScore?this.state.bestStrengthScore: "No data available"}
           </Text>
       </View>
     );
   }
 }
-
-const cardStyle = StyleSheet.create({
-  maincontainer: {
-    borderRadius: 20,
-    marginTop: 5,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: Color.backgroundColor,
-    backgroundColor: Color.mainBackgroundColor
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: Color.headerColor
-  },
-  sectionDescription: {
-    fontSize: 18,
-    fontWeight: '400',
-    color: Color.buttonBackgroundColor,
-  }
-});
 
 export default ExerciseDetailsCard;

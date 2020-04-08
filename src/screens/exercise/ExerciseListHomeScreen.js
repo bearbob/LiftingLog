@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 
 import { Exercises } from 'components/content';
-import { Color } from 'components/stylesheet';
+import { Theme } from 'components/stylesheet';
 import { ExerciseCard } from 'components/exercise';
 
 
@@ -43,9 +43,9 @@ class ExerciseListHomeScreen extends React.Component {
     return (
       <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={Theme.safeArea}>
         <ScrollView contentInsetAdjustmentBehavior="automatic" >
-          <View style={styles.body}>
+          <View>
             {this.renderExercises()}
           </View>
         </ScrollView>
@@ -54,13 +54,5 @@ class ExerciseListHomeScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: Color.backgroundColor,
-    padding: 10,
-  },
-});
 
 export default ExerciseListHomeScreen;

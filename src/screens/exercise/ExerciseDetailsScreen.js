@@ -10,15 +10,15 @@
 import React from 'react';
 import {
   SafeAreaView,
-  StyleSheet,
   ScrollView,
   View,
   Text,
+  TouchableOpacity,
   StatusBar
 } from 'react-native';
 
 import { Exercises } from 'components/content';
-import { Color } from 'components/stylesheet';
+import { Theme } from 'components/stylesheet';
 import { ExerciseDetailsCard } from 'components/exercise';
 import PerformanceGraph from "components/stats";
 import { getLastLogs, formatDate, printLogLine } from 'components/utils';
@@ -57,30 +57,35 @@ class ExerciseDetailsScreen extends React.Component {
       for (let i=0; i < this.state.lastLogs.length; i++) {
         let value = this.state.lastLogs[i];
         items.push(
-          <Text style={styles.sectionDescription} key={"lastLogs"+i}>
+          <Text style={Theme.sectionDescription} key={"lastLogs"+i}>
             {formatDate(new Date(value.date), true)+": "+value.weight + "kg x" +value.reps}
           </Text>
         );
       }
       return items;
     }
-    return (<Text style={styles.sectionDescription}>No recent logs available</Text>);
+    return (<Text style={Theme.sectionDescription}>No recent logs available</Text>);
   }
 
   render() {
     return (
       <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={Theme.safeArea}>
         <ScrollView contentInsetAdjustmentBehavior="automatic" >
           <View>
             <ExerciseDetailsCard text={this.state.name} id={this.state.id} />
-            <Text style={styles.title}>Weight progress last weeks</Text>
+            <Text style={Theme.title}>Weight progress last weeks</Text>
             <PerformanceGraph id={this.state.id} />
-            <View style={styles.maincontainer}>
-              <Text style={styles.title}>Last logs</Text>
+            <View style={Theme.maincontainer}>
+              <Text style={Theme.title}>Last logs</Text>
               {this.renderLastLogs()}
             </View>
+            <TouchableOpacity style={Theme.button}
+             onPress={() => {}}
+             >
+              <Text style={Theme.buttonText}>Show Graphs</Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -88,31 +93,5 @@ class ExerciseDetailsScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: Color.backgroundColor,
-    padding: 10,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: Color.headerColor
-  },
-  maincontainer: {
-    borderRadius: 20,
-    marginTop: 5,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: Color.backgroundColor,
-    backgroundColor: Color.mainBackgroundColor
-  },
-  sectionDescription: {
-    fontSize: 18,
-    fontWeight: '400',
-    color: Color.buttonBackgroundColor,
-  },
-});
 
 export default ExerciseDetailsScreen;
