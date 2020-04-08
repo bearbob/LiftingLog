@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 
 import { Theme } from 'components/stylesheet';
-import { ExerciseDetailsCard } from 'components/exercise';
+import { ExerciseDetailsCard, ExerciseInput } from 'components/exercise';
 import PerformanceGraph from "components/stats";
 import { getLastLogs, formatDate, printLogLine } from 'components/utils';
 import { retrieveData } from 'components/storage';
@@ -74,6 +74,10 @@ class ExerciseDetailsScreen extends React.Component {
         <ScrollView contentInsetAdjustmentBehavior="automatic" >
           <View>
             <ExerciseDetailsCard text={this.state.name} id={this.state.id} />
+            <View style={Theme.maincontainer}>
+              <Text style={Theme.title}>Add new entry</Text>
+              <ExerciseInput />
+            </View>
             <View style={Theme.maincontainer}>
               <Text style={Theme.title}>Last logs</Text>
               {this.renderLastLogs()}

@@ -64,11 +64,23 @@ export const Theme = StyleSheet.create({
   },
   input: {
     height: 35,
-    width: 75,
+    width: 80,
     marginTop: 5,
     borderColor: Color.buttonBorderColor,
     backgroundColor: Color.mainBackgroundColor,
     color: Color.mainFontColor,
     borderWidth: 1,
+  },
+  inputContainer: {
+    alignItems: 'center',
+    borderWidth: 0,
+    flexDirection: 'row',
+    paddingTop: 10
+  },
+  picker: {
+    alignItems: 'center',
+    backgroundColor: Color.buttonBackgroundColor,
+    padding: 5,
+    borderRadius: 10,
   },
 });
