@@ -17,12 +17,11 @@ import {
   StatusBar
 } from 'react-native';
 
-import { Exercises } from 'components/content';
 import { Theme } from 'components/stylesheet';
 import { ExerciseDetailsCard } from 'components/exercise';
 import PerformanceGraph from "components/stats";
 import { getLastLogs, formatDate, printLogLine } from 'components/utils';
-import { storeObjectInArray, retrieveData } from 'components/storage';
+import { retrieveData } from 'components/storage';
 
 class ExerciseDetailsScreen extends React.Component {
   constructor(props) {
@@ -75,14 +74,12 @@ class ExerciseDetailsScreen extends React.Component {
         <ScrollView contentInsetAdjustmentBehavior="automatic" >
           <View>
             <ExerciseDetailsCard text={this.state.name} id={this.state.id} />
-            <Text style={Theme.title}>Weight progress last weeks</Text>
-            <PerformanceGraph id={this.state.id} />
             <View style={Theme.maincontainer}>
               <Text style={Theme.title}>Last logs</Text>
               {this.renderLastLogs()}
             </View>
             <TouchableOpacity style={Theme.button}
-             onPress={() => {}}
+             onPress={() => { this.props.navigation.navigate('Graphs', {id: this.state.id, name: this.state.name}) }}
              >
               <Text style={Theme.buttonText}>Show Graphs</Text>
             </TouchableOpacity>

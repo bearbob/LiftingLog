@@ -13,14 +13,14 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   ExerciseListHomeScreen,
-  ExerciseDetailsScreen
+  ExerciseDetailsScreen,
+  ExerciseGraphsScreen
 } from 'screens/exercise';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Color } from 'components/stylesheet';
 import  {
   ExerciseListScreen,
   DevToolScreen,
-  GraphScreen,
   SettingsScreen
   } from 'screens';
   import Icon from 'react-native-vector-icons/Ionicons';
@@ -50,6 +50,7 @@ function ExerciseStackScreen() {
         options={{ title: 'Weight Based Exercises' }}
       />
       <ExerciseStack.Screen name="Details" component={ExerciseDetailsScreen} />
+      <ExerciseStack.Screen name="Graphs" component={ExerciseGraphsScreen} />
     </ExerciseStack.Navigator>
   );
 }
@@ -90,13 +91,6 @@ const App: () => React$Node = () => {
           component={ExerciseStackScreen}
           options={{
             title: 'Exercises'
-          }}
-        />
-        <Tab.Screen
-          name="Graphs"
-          component={GraphScreen}
-          options={{
-            title: 'Statistics'
           }}
         />
         <Tab.Screen
