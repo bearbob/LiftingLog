@@ -65,10 +65,10 @@ class SettingsScreen extends React.Component {
   }
 
   flipGender() {
+    storeData("isMale", !this.state.isMale);
     this.setState({
         isMale: !this.state.isMale
     });
-    storeData("isMale", this.state.isMale);
   }
 
   render() {
