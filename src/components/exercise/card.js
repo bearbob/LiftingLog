@@ -14,7 +14,6 @@ import {
 import { getBestLog, getLastLog, printLogLine } from 'components/utils';
 import { retrieveData } from 'components/storage';
 import { Theme } from 'components/stylesheet.js';
-import moment from 'moment';
 
 
 class ExerciseCard extends React.Component {

@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 
 import { Theme } from 'components/stylesheet';
-import { ExerciseDetailsCard, ExerciseInput } from 'components/exercise';
+import { ExerciseDetailsCard, ExerciseInput, ExerciseHistoryCard } from 'components/exercise';
 import PerformanceGraph from "components/stats";
 import { getLastLogs, formatDate, printLogLine } from 'components/utils';
 import { retrieveData } from 'components/storage';
@@ -31,39 +31,6 @@ class ExerciseDetailsScreen extends React.Component {
       name: this.props.route.params.value.name,
     };
     this.props.navigation.setOptions({ title: this.state.name });
-    this.refresh = this.refresh.bind(this);
-    retrieveData(this.state.id, this.refresh);
-  }
-
-  /**
-   * @private
-   * After the data has been loaded from the storage, update the state
-   */
-  refresh(value) {
-    let last = null;
-    if (value !== null) {
-        let item = JSON.parse(value);
-        last = getLastLogs(item, 8);
-    }
-    this.setState({
-      lastLogs: last
-    });
-  }
-
-  renderLastLogs() {
-    if(this.state.lastLogs) {
-      var items = [];
-      for (let i=0; i < this.state.lastLogs.length; i++) {
-        let value = this.state.lastLogs[i];
-        items.push(
-          <Text style={Theme.sectionDescription} key={"lastLogs"+i}>
-            {formatDate(new Date(value.date), true)+": "+value.weight + "kg x" +value.reps}
-          </Text>
-        );
-      }
-      return items;
-    }
-    return (<Text style={Theme.sectionDescription}>No recent logs available</Text>);
   }
 
   render() {
@@ -78,10 +45,7 @@ class ExerciseDetailsScreen extends React.Component {
               <Text style={Theme.title}>Add new entry</Text>
               <ExerciseInput id={this.state.id}/>
             </View>
-            <View style={Theme.maincontainer}>
-              <Text style={Theme.title}>Last logs</Text>
-              {this.renderLastLogs()}
-            </View>
+            <ExerciseHistoryCard id={this.state.id} />
             <TouchableOpacity style={Theme.button}
              onPress={() => { this.props.navigation.navigate('Graphs', {id: this.state.id, name: this.state.name}) }}
              >

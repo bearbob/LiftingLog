@@ -12,13 +12,9 @@ import {
   Text,
   TouchableOpacity
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import ExerciseInput from './card-input';
-import { getBestLog, getLastLog, formatDate, isSecondLiftBetter, printLogLine } from 'components/utils';
+import { getBestLog, getLastLog, formatDate, printLogLine } from 'components/utils';
 import { retrieveData } from 'components/storage';
 import { Theme } from 'components/stylesheet';
-import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
-import moment from 'moment';
 
 
 class ExerciseDetailsCard extends React.Component {
