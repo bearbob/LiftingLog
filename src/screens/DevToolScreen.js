@@ -92,20 +92,12 @@ class DevToolScreen extends React.Component {
     }
   }
 
-  getButtonStyle(isActive) {
-    var style = Theme.button;
-    if(!isActive) {
-      style.backgroundColor = Color.inactiveButtonBackgroundColor;
-    }
-    return style;
-  }
-
   renderClipboardButtons() {
     var items = [];
     for (const [index, value] of Exercises.entries()) {
       items.push(
         <TouchableOpacity
-         style={this.getButtonStyle(true)}
+         style={Theme.button}
          key={value.id}
          onPress={async () => {
             retrieveData(value.id, async (data) => {
@@ -136,7 +128,7 @@ class DevToolScreen extends React.Component {
           <Text style={Theme.title}>Developer Tools</Text>
           <Text style={Theme.buttonText}>Some tools that help managing and developing the app.</Text>
           <TouchableOpacity
-           style={this.getButtonStyle(this.state.fillWithTestData)}
+           style={this.state.fillWithTestData?Theme.button:Theme.buttonInactive}
            onPress={() => {
              if(this.state.fillWithTestData) {
               Exercises.forEach( entry => {
@@ -154,7 +146,7 @@ class DevToolScreen extends React.Component {
             <Text style={Theme.buttonText}>Fill with test data</Text>
           </TouchableOpacity>
           <TouchableOpacity
-           style={this.getButtonStyle(true)}
+           style={Theme.button}
            onPress={async () => {
                try {
                  await AsyncStorage.clear()

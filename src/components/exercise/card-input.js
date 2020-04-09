@@ -27,6 +27,7 @@ class ExerciseInput extends React.Component {
     super(props);
     this.state = {
       id: this.props.id,
+      submitButtonActive: false,
       weight: null,
       reps: null,
       showDatepicker: false,
@@ -67,6 +68,18 @@ class ExerciseInput extends React.Component {
     });
   }
 
+  /**
+   * @private
+   * @returns true if both input arguments are not null and not empty strings
+   */
+  isButtonActive(conditions) {
+    for(let i=0; i<conditions.length; i++) {
+      let c = conditions[i];
+      if(c === null || c === undefined || c === '') return false;
+    }
+    return true;
+  }
+
   render() {
     return (
       <View>
@@ -76,9 +89,11 @@ class ExerciseInput extends React.Component {
           keyboardType="numeric"
           onChangeText={(text, eventCount, target) => {
               this.setState({
-                weight: text
+                weight: text,
+                submitButtonActive: this.isButtonActive([text, this.state.reps])
               });
           }}
+          value={this.state.weight}
         />
         <Text style={Theme.buttonText}> x </Text>
         <TextInput
@@ -86,9 +101,11 @@ class ExerciseInput extends React.Component {
           keyboardType="numeric"
           onChangeText={(text, eventCount, target) => {
               this.setState({
-                reps: text
+                reps: text,
+                submitButtonActive: this.isButtonActive([this.state.weight, text])
               });
           }}
+          value={this.state.reps}
         />
         <Text style={Theme.buttonText}> @ </Text>
         <TouchableOpacity
@@ -114,18 +131,15 @@ class ExerciseInput extends React.Component {
         )}
         </View>
         <TouchableOpacity
-         style={Theme.button}
+         style={this.state.submitButtonActive?Theme.button:Theme.buttonInactive}
          onPress={() => {
-           if(this.state.weight == null || !this.state.reps) {
-             if(this.state.weight == null && !this.state.reps) {
-               Alert.alert('Not enough values', 'You cannot log a new entry if values are missing.');
-             } else if(this.state.weight == null && this.state.reps) {
-               Alert.alert('Not enough values', 'Please enter a weight value.');
-             } else {
-               Alert.alert('Not enough values', 'Please enter a repetition value.');
-             }
-           } else {
+           if(this.isButtonActive([this.state.weight, this.state.reps])){
              this.storeData(parseInt(this.state.weight), parseInt(this.state.reps), this.state.date);
+             this.setState({
+               submitButtonActive: false,
+               reps: null,
+               weight: null
+             });
            }
          }}
          >

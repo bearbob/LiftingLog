@@ -58,6 +58,15 @@ export const Theme = StyleSheet.create({
     borderColor: Color.buttonBorderColor,
     marginTop: 7,
   },
+  buttonInactive: {
+    alignItems: 'center',
+    borderRadius: 20,
+    backgroundColor: Color.inactiveButtonBackgroundColor,
+    padding: 20,
+    borderWidth: 2,
+    borderColor: Color.buttonBorderColor,
+    marginTop: 7,
+  },
   buttonText: {
     color: Color.mainFontColor,
     fontWeight: 'bold'
