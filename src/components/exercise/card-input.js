@@ -18,16 +18,53 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { formatDate } from 'components/utils';
 import { Theme } from 'components/stylesheet.js';
+import { storeObjectInArray, retrieveData } from 'components/storage';
+import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
+import moment from 'moment';
 
 class ExerciseInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.id,
       weight: null,
       reps: null,
       showDatepicker: false,
       date: new Date() //default date is today
     };
+  }
+
+  /**
+   * @private
+   * Save the new lift data to the database
+   * @param {double} weight - The weight lifted
+   * @param {integer} reps - The repitition the weight was lifted for
+   * @param {date} date - The date of the lift
+   */
+  storeData (weight, reps, date) {
+    retrieveData(["bodyweight", "birthday", "isMale"], (values) => {
+      var defaultBirthday = moment().subtract(20, 'years');
+      if(!values) {
+        values = { bodyweight: 75, birthday: defaultBirthday, isMale: false};
+      }
+      values.bodyweight = values.bodyweight?values.bodyweight:75;
+      values.birthday = new Date(values.birthday?values.birthday:defaultBirthday);
+      values.isMale = values.isMale?values.isMale:false;
+      var age = moment().diff(moment(values.birthday), 'years');
+      var oneRm = getOneRepMaximum(weight, reps, 2.5);
+      var strengthScore = getSingleExerciseStrengthScore(
+        values.isMale,
+        age,
+        values.bodyweight,
+        this.state.id,
+        oneRm
+      );
+      storeObjectInArray(
+        this.state.id,
+        { weight: weight, reps: reps, date: date, oneRM: oneRm, score: strengthScore},
+        true
+      );
+    });
   }
 
   render() {
@@ -88,11 +125,7 @@ class ExerciseInput extends React.Component {
                Alert.alert('Not enough values', 'Please enter a repetition value.');
              }
            } else {
-             this.props.updateCallback(
-               parseInt(this.state.weight),
-               parseInt(this.state.reps),
-               this.state.date
-             );
+             this.storeData(parseInt(this.state.weight), parseInt(this.state.reps), this.state.date);
            }
          }}
          >

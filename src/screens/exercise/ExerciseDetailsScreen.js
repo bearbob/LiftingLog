@@ -76,7 +76,7 @@ class ExerciseDetailsScreen extends React.Component {
             <ExerciseDetailsCard text={this.state.name} id={this.state.id} />
             <View style={Theme.maincontainer}>
               <Text style={Theme.title}>Add new entry</Text>
-              <ExerciseInput />
+              <ExerciseInput id={this.state.id}/>
             </View>
             <View style={Theme.maincontainer}>
               <Text style={Theme.title}>Last logs</Text>
