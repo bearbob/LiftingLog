@@ -6,7 +6,6 @@
  * @flow
  */
 
-import 'react-native-gesture-handler'; //make sure it's at the top and there's nothing else before it
 import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';

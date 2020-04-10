@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 
 import { Theme } from 'components/stylesheet';
-import PerformanceGraph from "components/stats";
+import { PerformanceGraph, ScoreGraph } from "components/stats";
 
 class ExerciseGraphsScreen extends React.Component {
   constructor(props) {
@@ -39,6 +39,8 @@ class ExerciseGraphsScreen extends React.Component {
           <View>
             <Text style={Theme.title}>Weight progress last weeks</Text>
             <PerformanceGraph id={this.state.id} />
+            <Text style={Theme.title}>Strength score progress last weeks</Text>
+            <ScoreGraph id={this.state.id} includeInactiveWeeks={true} />
           </View>
         </ScrollView>
       </SafeAreaView>

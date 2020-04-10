@@ -177,3 +177,36 @@ export const printLogLine = (text, weight, reps, date) => {
   }
   return text+": "+ weight + "kg x" +reps+ " @ " + formatDate(date);
 };
+
+/**
+ * @public
+ * TODO Write description
+ * @param {array} weekOne
+ * @param {array} weekTwo
+ * @returns {integer}
+ */
+export const weeksBetween = (weekOne, weekTwo) => {
+  if(!weekOne || !weekTwo) return 0;
+  let yearDiff = weekTwo[0] - weekOne[0];
+  let weekDiff = (yearDiff*52 + weekTwo[1]) - weekOne[1];
+
+  return weekDiff;
+};
+
+/**
+ * @public
+ * TODO Write description
+ * TODO write unit tests
+ * @param {array} week
+ * @returns {array}
+ */
+export const getNextWeek = (week) => {
+  if(!week) return null;
+  let nextWeek = [week[0], week[1]];
+  if(week[1]+1 > 52) {
+    nextWeek[0]++;
+    nextWeek[1] = 1;
+  }
+
+  return nextWeek;
+};

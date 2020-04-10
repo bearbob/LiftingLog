@@ -1,3 +1,4 @@
-import PerformanceGraph from './graph';
+import PerformanceGraph from './weightGraph';
+import ScoreGraph from './scoreGraph';
 
-export default PerformanceGraph;
+export { PerformanceGraph, ScoreGraph };
