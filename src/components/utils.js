@@ -10,8 +10,10 @@
  * @returns {array}
  */
 export const getBestLogs = (logArray, amount) => {
+  if(!logArray) return [];
+  if(!amount) return [];
   return logArray.sort((a, b) => {
-    if(isSecondLiftBetter(a.weight, a.reps, b.weight, b.reps)) {
+    if(isSecondLiftBetter(a, b)) {
       return 1;
     }
     return -1;
@@ -29,7 +31,7 @@ export const getBestLogs = (logArray, amount) => {
  */
 export const getBestLog = (logArray) => {
   return logArray.reduce((a, b) => {
-    if(isSecondLiftBetter(a.weight, a.reps, b.weight, b.reps)) {
+    if(isSecondLiftBetter(a, b)) {
       return b;
     }
     return a;
@@ -147,17 +149,12 @@ export const getWeekNumber = (date) => {
  * @param {integer} bReps The number of repititions of the second lift
  * @returns {boolean} True, if the second lift is better
  */
-export const isSecondLiftBetter = (aWeight, aReps, bWeight, bReps) => {
-  var result = (
-    (!aWeight || !aReps) ||
-    bWeight > aWeight ||
-    (bWeight >= aWeight && bReps > aReps)
-  );
-  return (
-    (!aWeight || !aReps) ||
-    bWeight > aWeight ||
-    (bWeight >= aWeight && bReps > aReps)
-  );
+export const isSecondLiftBetter = (a, b) => {
+  if(!b || !b.weight || !b.reps) return false;
+  if(!a || !a.weight || !a.reps) return true;
+  if(a.weight < b.weight) return true;
+  if(a.weight === b.weight && a.reps < b.reps) return true;
+  return false;
 };
 
 /**
@@ -180,10 +177,10 @@ export const printLogLine = (text, weight, reps, date) => {
 
 /**
  * @public
- * TODO Write description
- * @param {array} weekOne
- * @param {array} weekTwo
- * @returns {integer}
+ * Calculates the number of weeks between two weeks
+ * @param {array} weekOne Array constiting of two integers, the first on being the year and the second the week of that year
+ * @param {array} weekTwo Array constiting of two integers, the first on being the year and the second the week of that year
+ * @returns {integer} The number of weeks between the two weeks
  */
 export const weeksBetween = (weekOne, weekTwo) => {
   if(!weekOne || !weekTwo) return 0;
@@ -195,10 +192,10 @@ export const weeksBetween = (weekOne, weekTwo) => {
 
 /**
  * @public
- * TODO Write description
+ * Given a week calculates the sucessing week number
  * TODO write unit tests
- * @param {array} week
- * @returns {array}
+ * @param {array} week Array constiting of two integers, the first on being the year and the second the week of that year
+ * @returns {array} Array constiting of two integers, the first on being the year and the second the week of that year
  */
 export const getNextWeek = (week) => {
   if(!week) return null;
