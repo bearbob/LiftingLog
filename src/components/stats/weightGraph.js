@@ -81,12 +81,11 @@ class PerformanceGraph extends React.Component {
         width={Dimensions.get("window").width} // from react-native
         height={Dimensions.get("window").height/3}
         yAxisSuffix="kg"
-        yAxisInterval={1} // optional, defaults to 1
         chartConfig={{
           backgroundGradientFrom: Color.mainBackgroundColor,
           fillShadowGradient: Color.graphShadowColor,
           fillShadowGradientOpacity: 0.4,
-          decimalPlaces: 2, // optional, defaults to 2dp
+          decimalPlaces: 1,
           color: (opacity = 1) => `rgba(77, 188, 94, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(77, 188, 94, ${opacity})`,
           style: {
@@ -111,7 +110,7 @@ class PerformanceGraph extends React.Component {
 
 const style = StyleSheet.create({
   container: {
-    borderRadius: 10,
+    borderRadius: 0,
     marginTop: 5,
     marginBottom: 15,
     borderWidth: 1,

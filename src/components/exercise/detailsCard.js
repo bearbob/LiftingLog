@@ -7,16 +7,17 @@
 
 import React from 'react';
 import {
+  TextInput,
   View,
   Text,
   TouchableOpacity
 } from 'react-native';
-import { getBestLog, getLastLog, printLogLine } from 'components/utils';
+import { getBestLog, getLastLog, formatDate, printLogLine } from 'components/utils';
 import { retrieveData } from 'components/storage';
-import { Theme } from 'components/stylesheet.js';
+import { Theme } from 'components/stylesheet';
 
 
-class ExerciseCard extends React.Component {
+class ExerciseDetailsCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +26,6 @@ class ExerciseCard extends React.Component {
       showInput: false
     };
     this.refresh = this.refresh.bind(this);
-    this.onTouch = this.props.onTouch;
     retrieveData(this.props.id, this.refresh);
   }
 
@@ -34,7 +34,7 @@ class ExerciseCard extends React.Component {
       () => {
         retrieveData(this.state.id, this.refresh);
       },
-      15000
+      5000
     );
   }
 
@@ -72,14 +72,21 @@ class ExerciseCard extends React.Component {
   render() {
     return (
       <View style={Theme.maincontainer}>
-        <TouchableOpacity onPress={this.onTouch}>
-          <Text style={Theme.title}>{ this.state.name }</Text>
-          <Text style={Theme.sectionDescription}>{ printLogLine("Last", this.state.lastWeight, this.state.lastReps, this.state.lastDate) }</Text>
-          <Text style={Theme.sectionDescription}>{ printLogLine("Best", this.state.bestWeight, this.state.bestReps, this.state.bestDate) }</Text>
-        </TouchableOpacity>
+        <Text style={Theme.title}>Last values - {formatDate(this.state.lastDate)}</Text>
+          <Text style={Theme.sectionDescription}>{printLogLine("Last", this.state.lastWeight, this.state.lastReps, this.state.lastDate) }</Text>
+          <Text style={Theme.sectionDescription}>Last one rep max: {this.state.lastOneRM?this.state.lastOneRM+" kg": "No data available"}
+          </Text>
+          <Text style={Theme.sectionDescription}>Last strength score: {this.state.lastStrengthScore?this.state.lastStrengthScore: "No data available"}
+          </Text>
+        <Text style={Theme.title}>Best results - {formatDate(this.state.bestDate)}</Text>
+          <Text style={Theme.sectionDescription}>{printLogLine("Best", this.state.bestWeight, this.state.bestReps, this.state.bestDate) }</Text>
+          <Text style={Theme.sectionDescription}>Best one rep max: {this.state.bestOneRM?this.state.bestOneRM+" kg": "No data available"}
+          </Text>
+          <Text style={Theme.sectionDescription}>Best strength score: {this.state.bestStrengthScore?this.state.bestStrengthScore: "No data available"}
+          </Text>
       </View>
     );
   }
 }
 
-export default ExerciseCard;
+export default ExerciseDetailsCard;

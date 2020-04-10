@@ -18,10 +18,11 @@ import {
 } from 'react-native';
 
 import { Exercises } from 'components/content';
-import { Color } from 'components/stylesheet';
-import ExerciseCard from 'components/exercise';
+import { Theme } from 'components/stylesheet';
+import { ExerciseCard } from 'components/exercise';
 
-class ExerciseListScreen extends React.Component {
+
+class ExerciseListHomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +34,7 @@ class ExerciseListScreen extends React.Component {
   renderExercises() {
     var items = [];
     for (const [index, value] of Exercises.entries()) {
-      items.push(<ExerciseCard key={this.state.keyPrefix+index} text={value.name} id={value.id} />);
+      items.push(<ExerciseCard key={this.state.keyPrefix+index} text={value.name} id={value.id} onTouch={() => { this.props.navigation.navigate('Details', {value: value}) }}/>);
     }
     return items;
   }
@@ -42,9 +43,9 @@ class ExerciseListScreen extends React.Component {
     return (
       <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={Theme.safeArea}>
         <ScrollView contentInsetAdjustmentBehavior="automatic" >
-          <View style={styles.body}>
+          <View>
             {this.renderExercises()}
           </View>
         </ScrollView>
@@ -54,12 +55,4 @@ class ExerciseListScreen extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: Color.backgroundColor,
-    padding: 10,
-  },
-});
-
-export default ExerciseListScreen;
+export default ExerciseListHomeScreen;

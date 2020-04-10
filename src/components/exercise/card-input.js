@@ -17,12 +17,17 @@ import {
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { formatDate } from 'components/utils';
-import { Color } from 'components/stylesheet.js';
+import { Theme } from 'components/stylesheet.js';
+import { storeObjectInArray, retrieveData } from 'components/storage';
+import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
+import moment from 'moment';
 
 class ExerciseInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.id,
+      submitButtonActive: false,
       weight: null,
       reps: null,
       showDatepicker: false,
@@ -30,34 +35,84 @@ class ExerciseInput extends React.Component {
     };
   }
 
+  /**
+   * @private
+   * Save the new lift data to the database
+   * @param {double} weight - The weight lifted
+   * @param {integer} reps - The repitition the weight was lifted for
+   * @param {date} date - The date of the lift
+   */
+  storeData (weight, reps, date) {
+    retrieveData(["bodyweight", "birthday", "isMale"], (values) => {
+      var defaultBirthday = moment().subtract(20, 'years');
+      if(!values) {
+        values = { bodyweight: 75, birthday: defaultBirthday, isMale: false};
+      }
+      values.bodyweight = values.bodyweight?values.bodyweight:75;
+      values.birthday = new Date(values.birthday?values.birthday:defaultBirthday);
+      values.isMale = values.isMale?values.isMale:false;
+      var age = moment().diff(moment(values.birthday), 'years');
+      var oneRm = getOneRepMaximum(weight, reps, 2.5);
+      var strengthScore = getSingleExerciseStrengthScore(
+        values.isMale,
+        age,
+        values.bodyweight,
+        this.state.id,
+        oneRm
+      );
+      storeObjectInArray(
+        this.state.id,
+        { weight: weight, reps: reps, date: date, oneRM: oneRm, score: strengthScore},
+        true
+      );
+    });
+  }
+
+  /**
+   * @private
+   * @returns true if both input arguments are not null and not empty strings
+   */
+  isButtonActive(conditions) {
+    for(let i=0; i<conditions.length; i++) {
+      let c = conditions[i];
+      if(c === null || c === undefined || c === '') return false;
+    }
+    return true;
+  }
+
   render() {
     return (
-      <View style={cardStyle.inputContainer}>
+      <View>
+        <View style={Theme.inputContainer}>
         <TextInput
-          style={cardStyle.input}
+          style={Theme.input}
           keyboardType="numeric"
           onChangeText={(text, eventCount, target) => {
               this.setState({
-                weight: text
+                weight: text,
+                submitButtonActive: this.isButtonActive([text, this.state.reps])
               });
           }}
+          value={this.state.weight}
         />
-        <Text style={cardStyle.buttonText}>x</Text>
+        <Text style={Theme.buttonText}> x </Text>
         <TextInput
-          style={cardStyle.input}
+          style={Theme.input}
           keyboardType="numeric"
           onChangeText={(text, eventCount, target) => {
               this.setState({
-                reps: text
+                reps: text,
+                submitButtonActive: this.isButtonActive([this.state.weight, text])
               });
           }}
+          value={this.state.reps}
         />
-        <Text style={cardStyle.buttonText}>@</Text>
+        <Text style={Theme.buttonText}> @ </Text>
         <TouchableOpacity
-         style={cardStyle.picker}
+         style={Theme.picker}
          onPress={() => this.setState({ showDatepicker:true })}
          >
-          <Text style={cardStyle.buttonText}>{formatDate(this.state.date)}</Text>
+          <Text style={Theme.buttonText}>{formatDate(this.state.date)}</Text>
         </TouchableOpacity>
         {this.state.showDatepicker && (
           <DateTimePicker
@@ -74,76 +129,25 @@ class ExerciseInput extends React.Component {
             }}
           />
         )}
+        </View>
         <TouchableOpacity
-         style={cardStyle.button}
+         style={this.state.submitButtonActive?Theme.button:Theme.buttonInactive}
          onPress={() => {
-           if(this.state.weight == null || !this.state.reps) {
-             if(this.state.weight == null && !this.state.reps) {
-               Alert.alert('Not enough values', 'You cannot log a new entry if values are missing.');
-             } else if(this.state.weight == null && this.state.reps) {
-               Alert.alert('Not enough values', 'Please enter a weight value.');
-             } else {
-               Alert.alert('Not enough values', 'Please enter a repetition value.');
-             }
-           } else {
-             this.props.updateCallback(
-               parseInt(this.state.weight),
-               parseInt(this.state.reps),
-               this.state.date
-             );
+           if(this.isButtonActive([this.state.weight, this.state.reps])){
+             this.storeData(parseInt(this.state.weight), parseInt(this.state.reps), this.state.date);
+             this.setState({
+               submitButtonActive: false,
+               reps: null,
+               weight: null
+             });
            }
          }}
          >
-          <Text style={cardStyle.buttonText}>Add</Text>
+          <Text style={Theme.buttonText}>Add</Text>
         </TouchableOpacity>
       </View>
     );
   }
 }
-
-const cardStyle = StyleSheet.create({
-
-  inputContainer: {
-    borderWidth: 0,
-    flexDirection: 'row',
-    paddingTop: 10
-  },
-
-  input: {
-    height: 35,
-    width: 60,
-    borderColor: Color.buttonBorderColor,
-    backgroundColor: Color.mainBackgroundColor,
-    color: Color.mainFontColor,
-    borderWidth: 1,
-  },
-
-  picker: {
-    alignItems: 'center',
-    backgroundColor: Color.buttonBackgroundColor,
-    padding: 5,
-    borderRadius: 10,
-  },
-
-  text: {
-    color: Color.mainFontColor,
-    fontWeight: 'bold',
-    padding: 5
-  },
-
-  button: {
-    alignItems: 'center',
-    backgroundColor: Color.buttonBackgroundColor,
-    padding: 5,
-    borderRadius: 10,
-    marginLeft: 10
-  },
-
-  buttonText: {
-    color: Color.mainFontColor,
-    fontWeight: 'bold',
-    padding: 5
-  }
-});
 
 export default ExerciseInput;

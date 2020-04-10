@@ -17,7 +17,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Exercises } from 'components/content';
-import { Color } from 'components/stylesheet';
+import { Color, Theme } from 'components/stylesheet';
 import AsyncStorage from '@react-native-community/async-storage';
 import { storeObjectInArray, retrieveData } from 'components/storage';
 import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
@@ -92,27 +92,12 @@ class DevToolScreen extends React.Component {
     }
   }
 
-  getButtonStyle(isActive) {
-    var color = Color.buttonBackgroundColor;
-    if(!isActive) {
-      color = Color.inactiveButtonBackgroundColor;
-    }
-    return {
-      alignItems: 'center',
-      backgroundColor: color,
-      padding: 20,
-      borderWidth: 2,
-      borderColor: Color.buttonBorderColor,
-      marginTop: 7,
-    };
-  }
-
   renderClipboardButtons() {
     var items = [];
     for (const [index, value] of Exercises.entries()) {
       items.push(
         <TouchableOpacity
-         style={this.getButtonStyle(true)}
+         style={Theme.button}
          key={value.id}
          onPress={async () => {
             retrieveData(value.id, async (data) => {
@@ -125,7 +110,7 @@ class DevToolScreen extends React.Component {
             });
          }}
          >
-          <Text style={styles.buttonText}>Copy to Clipboard: {value.name}</Text>
+          <Text style={Theme.buttonText}>Copy to Clipboard: {value.name}</Text>
         </TouchableOpacity>
       );
     }
@@ -136,14 +121,14 @@ class DevToolScreen extends React.Component {
     return (
       <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={Theme.safeArea}>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Text style={styles.title}>Developer Tools</Text>
-          <Text style={styles.buttonText}>Some quick tools that help developing the app.</Text>
+          style={Theme.scrollView}>
+          <Text style={Theme.title}>Developer Tools</Text>
+          <Text style={Theme.buttonText}>Some tools that help managing and developing the app.</Text>
           <TouchableOpacity
-           style={this.getButtonStyle(this.state.fillWithTestData)}
+           style={this.state.fillWithTestData?Theme.button:Theme.buttonInactive}
            onPress={() => {
              if(this.state.fillWithTestData) {
               Exercises.forEach( entry => {
@@ -158,10 +143,10 @@ class DevToolScreen extends React.Component {
              }
            }}
            >
-            <Text style={styles.buttonText}>Fill with test data</Text>
+            <Text style={Theme.buttonText}>Fill with test data</Text>
           </TouchableOpacity>
           <TouchableOpacity
-           style={this.getButtonStyle(true)}
+           style={Theme.button}
            onPress={async () => {
                try {
                  await AsyncStorage.clear()
@@ -175,7 +160,7 @@ class DevToolScreen extends React.Component {
                console.log('Cleared data.')
            }}
            >
-            <Text style={styles.buttonText}>Clear all data</Text>
+            <Text style={Theme.buttonText}>Clear all data</Text>
           </TouchableOpacity>
           {this.renderClipboardButtons()}
         </ScrollView>
@@ -184,25 +169,5 @@ class DevToolScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: Color.backgroundColor,
-    padding: 10,
-  },
-
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: Color.headerColor,
-    marginBottom: 5,
-  },
-
-  buttonText: {
-    color: Color.mainFontColor,
-    fontWeight: 'bold'
-  }
-});
 
 export default DevToolScreen;

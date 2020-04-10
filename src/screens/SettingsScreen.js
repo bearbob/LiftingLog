@@ -19,7 +19,7 @@ import {
 import { storeData, retrieveData } from 'components/storage';
 import { formatDate } from 'components/utils';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Color } from 'components/stylesheet';
+import { Theme } from 'components/stylesheet';
 import moment from 'moment';
 
 class SettingsScreen extends React.Component {
@@ -65,32 +65,32 @@ class SettingsScreen extends React.Component {
   }
 
   flipGender() {
+    storeData("isMale", !this.state.isMale);
     this.setState({
         isMale: !this.state.isMale
     });
-    storeData("isMale", this.state.isMale);
   }
 
   render() {
     return (
       <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={Theme.safeArea}>
         <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <Text style={styles.title}>Settings</Text>
-          <Text style={styles.buttonText}>Here you can change your personal data.</Text>
-          <Text style={styles.buttonText}>This information is used to calculate your Wilks and strength scores.</Text>
+          <Text style={Theme.title}>Settings</Text>
+          <Text style={Theme.buttonText}>Here you can change your personal data.</Text>
+          <Text style={Theme.buttonText}>This information is used to calculate your Wilks and strength scores.</Text>
           <TouchableOpacity
-           style={styles.button}
+           style={Theme.button}
            onPress={this.flipGender}
            >
-            <Text style={styles.buttonText}>Sex: {this.state.isMale?"Male":"Female"}</Text>
+            <Text style={Theme.buttonText}>Sex: {this.state.isMale?"Male":"Female"}</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.button}
+            style={Theme.button}
             onPress={() => this.setState({ showDatepicker:true })}
            >
-            <Text style={styles.buttonText}>Birthday: {formatDate(this.state.birthday)} (age: {this.state.age})</Text>
+            <Text style={Theme.buttonText}>Birthday: {formatDate(this.state.birthday)} (age: {this.state.age})</Text>
           </TouchableOpacity>
           {this.state.showDatepicker && (
             <DateTimePicker
@@ -111,13 +111,13 @@ class SettingsScreen extends React.Component {
             />
           )}
           <TouchableOpacity
-           style={styles.button}
+           style={Theme.button}
            onPress={() => { this.setState({ showWeightInput: !this.state.showWeightInput})}}
            >
-            <Text style={styles.buttonText}>Bodyweight: {this.state.bodyweight} kg</Text>
+            <Text style={Theme.buttonText}>Bodyweight: {this.state.bodyweight} kg</Text>
             {this.state.showWeightInput && (
               <TextInput
-                style={styles.input}
+                style={Theme.input}
                 keyboardType="numeric"
                 onChangeText={(input, eventCount, target) => {
                     this.setState({
@@ -135,45 +135,5 @@ class SettingsScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: Color.backgroundColor,
-    padding: 10,
-  },
-
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: Color.headerColor,
-    marginBottom: 5,
-  },
-
-  button: {
-    alignItems: 'center',
-    backgroundColor: Color.buttonBackgroundColor,
-    padding: 20,
-    borderWidth: 2,
-    borderColor: Color.borderColor,
-    borderRadius: 10,
-    marginTop: 7,
-  },
-
-  input: {
-    height: 35,
-    width: 75,
-    marginTop: 5,
-    borderColor: Color.buttonBorderColor,
-    backgroundColor: Color.mainBackgroundColor,
-    color: Color.mainFontColor,
-    borderWidth: 1,
-  },
-
-  buttonText: {
-    color: Color.mainFontColor,
-    fontWeight: 'bold'
-  }
-});
 
 export default SettingsScreen;

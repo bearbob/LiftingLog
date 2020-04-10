@@ -10,11 +10,13 @@
  * @returns {array}
  */
 export const getBestLogs = (logArray, amount) => {
+  if(!logArray) return [];
+  if(!amount) return [];
   return logArray.sort((a, b) => {
-    if(isSecondLiftBetter(a.weight, a.reps, b.weight, b.reps)) {
-      return -1;
+    if(isSecondLiftBetter(a, b)) {
+      return 1;
     }
-    return 1;
+    return -1;
   }).slice(0, amount);
 };
 
@@ -29,10 +31,10 @@ export const getBestLogs = (logArray, amount) => {
  */
 export const getBestLog = (logArray) => {
   return logArray.reduce((a, b) => {
-    if(isSecondLiftBetter(a.weight, a.reps, b.weight, b.reps)) {
-      return a;
+    if(isSecondLiftBetter(a, b)) {
+      return b;
     }
-    return b;
+    return a;
   });
 };
 
@@ -90,11 +92,17 @@ export const getLastLog = (logArray) => {
  * Converts the given date object to a string with the format dd.MM.YYYY
  * @static
  * @param {date} date - A date object
+ * @param {boolean} [reverse] - If true, the output format will be YYYY.MM.dd
  * @returns {string}
  */
-export const formatDate = (date) => {
+export const formatDate = (date, reverse) => {
   if(!date) return "none";
-  return date.getDate() +"."+(date.getMonth()+1)+"."+date.getFullYear();
+  let days = date.getDate().toString().padStart(2, '0');
+  let months = (date.getMonth()+1).toString().padStart(2, '0');
+  if(!reverse) {
+    return days +"."+months+"."+date.getFullYear();
+  }
+  return date.getFullYear()+"."+months+"."+days;
 };
 
 /**
@@ -141,10 +149,61 @@ export const getWeekNumber = (date) => {
  * @param {integer} bReps The number of repititions of the second lift
  * @returns {boolean} True, if the second lift is better
  */
-export const isSecondLiftBetter = (aWeight, aReps, bWeight, bReps) => {
-  return (
-    (!aWeight || !aReps) ||
-    bWeight > aWeight ||
-    (bWeight >= aWeight && bReps > aReps)
-  );
+export const isSecondLiftBetter = (a, b) => {
+  if(!b || !b.weight || !b.reps) return false;
+  if(!a || !a.weight || !a.reps) return true;
+  if(a.weight < b.weight) return true;
+  if(a.weight === b.weight && a.reps < b.reps) return true;
+  return false;
+};
+
+/**
+ * Converts the given data into a single line string
+ * @public
+ * @param {string} text - Text that is used as prefix for the string
+ * @param {double} weight - The weight lifted
+ * @param {integer} reps - The repitition the weight was lifted for
+ * @param {object} date - The date of the lift
+ */
+export const printLogLine = (text, weight, reps, date) => {
+  if(!weight || !reps) {
+    return text+": No data available yet";
+  }
+  if(Object.prototype.toString.call(date) !== '[object Date]') {
+    date = new Date(date);
+  }
+  return text+": "+ weight + "kg x" +reps+ " @ " + formatDate(date);
+};
+
+/**
+ * @public
+ * Calculates the number of weeks between two weeks
+ * @param {array} weekOne Array constiting of two integers, the first on being the year and the second the week of that year
+ * @param {array} weekTwo Array constiting of two integers, the first on being the year and the second the week of that year
+ * @returns {integer} The number of weeks between the two weeks
+ */
+export const weeksBetween = (weekOne, weekTwo) => {
+  if(!weekOne || !weekTwo) return 0;
+  let yearDiff = weekTwo[0] - weekOne[0];
+  let weekDiff = (yearDiff*52 + weekTwo[1]) - weekOne[1];
+
+  return weekDiff;
+};
+
+/**
+ * @public
+ * Given a week calculates the sucessing week number
+ * TODO write unit tests
+ * @param {array} week Array constiting of two integers, the first on being the year and the second the week of that year
+ * @returns {array} Array constiting of two integers, the first on being the year and the second the week of that year
+ */
+export const getNextWeek = (week) => {
+  if(!week) return null;
+  let nextWeek = [week[0], week[1]];
+  if(week[1]+1 > 52) {
+    nextWeek[0]++;
+    nextWeek[1] = 1;
+  }
+
+  return nextWeek;
 };

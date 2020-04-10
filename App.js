@@ -6,22 +6,25 @@
  * @flow
  */
 
-import 'react-native-gesture-handler'; //make sure it's at the top and there's nothing else before it
 import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  ExerciseListHomeScreen,
+  ExerciseDetailsScreen,
+  ExerciseGraphsScreen
+} from 'screens/exercise';
+import { createStackNavigator } from '@react-navigation/stack';
 import { Color } from 'components/stylesheet';
 import  {
   ExerciseListScreen,
   DevToolScreen,
-  GraphScreen,
   SettingsScreen
   } from 'screens';
   import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
-const test = "Exercises";
 
 const MyTheme = {
   dark: true,
@@ -33,6 +36,23 @@ const MyTheme = {
     border: Color.borderColor
   }
 };
+
+const ExerciseStack = createStackNavigator();
+
+function ExerciseStackScreen() {
+  return (
+    <ExerciseStack.Navigator
+      initialRouteName="Exercises">
+      <ExerciseStack.Screen
+        name="Exercises"
+        component={ExerciseListHomeScreen}
+        options={{ title: 'Weight Based Exercises' }}
+      />
+      <ExerciseStack.Screen name="Details" component={ExerciseDetailsScreen} />
+      <ExerciseStack.Screen name="Graphs" component={ExerciseGraphsScreen} />
+    </ExerciseStack.Navigator>
+  );
+}
 
 const App: () => React$Node = () => {
   return (
@@ -67,16 +87,9 @@ const App: () => React$Node = () => {
       >
         <Tab.Screen
           name="ExerciseList"
-          component={ExerciseListScreen}
+          component={ExerciseStackScreen}
           options={{
             title: 'Exercises'
-          }}
-        />
-        <Tab.Screen
-          name="Graphs"
-          component={GraphScreen}
-          options={{
-            title: 'Statistics'
           }}
         />
         <Tab.Screen
