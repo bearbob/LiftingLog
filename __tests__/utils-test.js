@@ -5,14 +5,16 @@
 import 'react-native';
 import React from 'react';
 import {
+  getBestLog,
   getBestLogs,
   isSecondLiftBetter,
-  weeksBetween
+  weeksBetween,
+  getNextWeek
 } from '../src/components/utils';
 
 //################################# Test getBestLogs() //#################################
 
-test('find best log', () => {
+test('find best logs (n=1)', () => {
   var a = {
    "weight": 72.5,
    "reps": 8,
@@ -38,7 +40,7 @@ test('find best log', () => {
   expect(getBestLogs(logs, 1)[0].weight).toBe(72.5);
 });
 
-test('find best logs', () => {
+test('find best logs (n=2)', () => {
   var a = {
    "weight": 72.5,
    "reps": 8,
@@ -65,7 +67,7 @@ test('find best logs', () => {
   expect(getBestLogs(logs, 2)[1].weight).toBe(62.5);
 });
 
-test('best logs size zero', () => {
+test('find best logs (n=0)', () => {
   var a = {
    "weight": 72.5,
    "reps": 8,
@@ -91,7 +93,7 @@ test('best logs size zero', () => {
   expect(getBestLogs(logs, 0).length).toBe(0);
 });
 
-test('best logs exact size', () => {
+test('find best logs, check size', () => {
   var a = {
    "weight": 72.5,
    "reps": 8,
@@ -208,6 +210,83 @@ test('best logs from null/undefined amount', () => {
   expect(getBestLogs(logs, undefined).length).toBe(0);
 });
 
+//################################# Test getBestLogs() & getBestLog() //#################################
+
+test('compare getBestLog and getBestLogs (n=1)', () => {
+  var a = {
+   "weight": 72.5,
+   "reps": 8,
+   "date": "2020-02-12T15:35:46.614Z",
+   "oneRM": 90,
+   "score": 93.9
+  };
+  var b = {
+   "weight": 62.5,
+   "reps": 2,
+   "date": "2020-02-19T08:44:42.042Z",
+   "oneRM": 65,
+   "score": 67.8
+  };
+  var c = {
+   "weight": 55,
+   "reps": 10,
+   "date": "2020-02-10T19:42:08.036Z",
+   "oneRM": 72.5,
+   "score": 75.6
+  };
+  var logs = [a, b, c];
+  expect(getBestLogs(logs, 1)[0].weight).toBe(getBestLog(logs).weight);
+});
+
+//################################# Test getBestLog() //#################################
+
+test('find best log', () => {
+  var a = {
+   "weight": 72.5,
+   "reps": 8,
+   "date": "2020-02-12T15:35:46.614Z",
+   "oneRM": 90,
+   "score": 93.9
+  };
+  var b = {
+   "weight": 62.5,
+   "reps": 2,
+   "date": "2020-02-19T08:44:42.042Z",
+   "oneRM": 65,
+   "score": 67.8
+  };
+  var c = {
+   "weight": 55,
+   "reps": 10,
+   "date": "2020-02-10T19:42:08.036Z",
+   "oneRM": 72.5,
+   "score": 75.6
+  };
+  var logs = [a, b, c];
+  expect(getBestLog(logs).weight).toBe(72.5);
+});
+
+test('find best log from single element list', () => {
+  var a = {
+   "weight": 72.5,
+   "reps": 8,
+   "date": "2020-02-12T15:35:46.614Z",
+   "oneRM": 90,
+   "score": 93.9
+  };
+  var logs = [a];
+  expect(getBestLog(logs).weight).toBe(72.5);
+});
+
+test('find best log from empty', () => {
+  expect(getBestLog([])).toBe(null);
+});
+
+test('find best log from null/undefined', () => {
+  expect(getBestLog(null)).toBe(null);
+  expect(getBestLog(undefined)).toBe(null);
+});
+
 //################################# Test isSecondLiftBetter() //#################################
 
 test('same lift', () => {
@@ -304,4 +383,49 @@ test('undefined input', () => {
   expect(weeksBetween(undefined, b)).toBe(0);
   expect(weeksBetween(a, undefined)).toBe(0);
   expect(weeksBetween(undefined, undefined)).toBe(0);
+});
+
+//################################# Test getNextWeek() //#################################
+
+test('getNextWeek normal increase', () => {
+  var a = [2019, 5];
+  var nextWeek = getNextWeek(a);
+  expect(nextWeek[0]).toBe(2019);
+  expect(nextWeek[1]).toBe(6);
+});
+
+test('getNextWeek doubled increase', () => {
+  var a = [2019, 5];
+  var nextWeek = getNextWeek(getNextWeek(a));
+  expect(nextWeek[0]).toBe(2019);
+  expect(nextWeek[1]).toBe(7);
+});
+
+test('getNextWeek to first week', () => {
+  var a = [2019, 1];
+  var nextWeek = getNextWeek(a);
+  expect(nextWeek[0]).toBe(2019);
+  expect(nextWeek[1]).toBe(2);
+});
+
+test('getNextWeek is last week', () => {
+  var a = [2019, 51];
+  var nextWeek = getNextWeek(a);
+  expect(nextWeek[0]).toBe(2019);
+  expect(nextWeek[1]).toBe(52);
+});
+
+test('getNextWeek year change', () => {
+  var a = [2019, 52];
+  var nextWeek = getNextWeek(a);
+  expect(nextWeek[0]).toBe(2020);
+  expect(nextWeek[1]).toBe(1);
+});
+
+test('getNextWeek with error input', () => {
+  expect(getNextWeek([2019])).toBe(null);
+  expect(getNextWeek(["NaN", "NaN"])).toBe(null);
+  expect(getNextWeek([])).toBe(null);
+  expect(getNextWeek(null)).toBe(null);
+  expect(getNextWeek(undefined)).toBe(null);
 });

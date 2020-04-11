@@ -30,6 +30,7 @@ export const getBestLogs = (logArray, amount) => {
  * @returns {object}
  */
 export const getBestLog = (logArray) => {
+  if(!logArray || logArray.length < 1) return null;
   return logArray.reduce((a, b) => {
     if(isSecondLiftBetter(a, b)) {
       return b;
@@ -193,14 +194,15 @@ export const weeksBetween = (weekOne, weekTwo) => {
 /**
  * @public
  * Given a week calculates the sucessing week number
- * TODO write unit tests
  * @param {array} week Array constiting of two integers, the first on being the year and the second the week of that year
  * @returns {array} Array constiting of two integers, the first on being the year and the second the week of that year
  */
 export const getNextWeek = (week) => {
-  if(!week) return null;
-  let nextWeek = [week[0], week[1]];
-  if(week[1]+1 > 52) {
+  if(!week || week.length != 2) return null;
+  let nextWeek = [parseInt(week[0]), parseInt(week[1])];
+  if(isNaN(nextWeek[0]) || isNaN(nextWeek[1])) return null;
+  nextWeek[1]++;
+  if(nextWeek[1] > 52) {
     nextWeek[0]++;
     nextWeek[1] = 1;
   }
