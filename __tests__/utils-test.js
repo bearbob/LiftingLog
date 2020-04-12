@@ -353,11 +353,21 @@ test('get week number from string', () => {
   expect(getWeekNumber(strDate)[1]).toBe(7);
 });
 
-test('get week number from string (year change)', () => {
-  expect(getWeekNumber('2014/12/29')[0]).toBe(2015);
-  expect(getWeekNumber('2014/12/29')[1]).toBe(1);
+test('get week number from string (counts to previous year)', () => {
   expect(getWeekNumber('2012/1/1')[0]).toBe(2011);
   expect(getWeekNumber('2012/1/1')[1]).toBe(52);
+});
+
+test('get week number from string (counts to next year)', () => {
+  expect(getWeekNumber('2019/12/31')[0]).toBe(2020);
+  expect(getWeekNumber('2019/12/31')[1]).toBe(1);
+});
+
+test('get week number from string (year change)', () => {
+  expect(getWeekNumber('2014/12/28')[0]).toBe(2014);
+  expect(getWeekNumber('2014/12/28')[1]).toBe(52);
+  expect(getWeekNumber('2014/12/29')[0]).toBe(2015);
+  expect(getWeekNumber('2014/12/29')[1]).toBe(1);
 });
 
 test('get week number from date', () => {

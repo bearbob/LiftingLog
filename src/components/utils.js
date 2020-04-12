@@ -140,16 +140,16 @@ export const getWeekNumber = (date) => {
     if(!date) return null;
     // Copy date so don't modify original
     var d = new Date(date);
-    if(date.toString() == "Invalid Date") return null;
+    if(d.toString() == "Invalid Date") return null;
     // Set to nearest Thursday: current date + 4 - current day number
     // Make Sunday's day number 7
-    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+    d.setDate(d.getDate() + 4 - (d.getDay()||7));
     // Get first day of year
-    var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    var yearStart = new Date(Date.UTC(d.getFullYear(),0,1));
     // Calculate full weeks to nearest Thursday
     var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
     // Return array of year and week number
-    return [d.getUTCFullYear(), weekNo];
+    return [d.getFullYear(), weekNo];
 };
 
 /**
