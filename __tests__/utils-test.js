@@ -7,189 +7,84 @@ import React from 'react';
 import {
   getBestLog,
   getBestLogs,
+  getLastLog,
+  getLastLogs,
+  formatDate,
+  getWeekNumber,
   isSecondLiftBetter,
   weeksBetween,
   getNextWeek
 } from '../src/components/utils';
 
+const LOGENTRY_A = {
+ "weight": 100,
+ "reps": 5,
+ "date": "2020-02-13T15:35:46.614Z", //cw 7
+ "oneRM": 90,
+ "score": 93.9
+};
+const LOGENTRY_B = {
+ "weight": 62.5,
+ "reps": 2,
+ "date": "2020-02-19T08:44:42.042Z", //cw 8
+ "oneRM": 65,
+ "score": 67.8
+};
+const LOGENTRY_C = {
+ "weight": 55,
+ "reps": 10,
+ "date": "2020-02-10T19:42:08.036Z", //cw 7
+ "oneRM": 72.5,
+ "score": 75.6
+};
+
 //################################# Test getBestLogs() //#################################
 
 test('find best logs (n=1)', () => {
-  var a = {
-   "weight": 72.5,
-   "reps": 8,
-   "date": "2020-02-12T15:35:46.614Z",
-   "oneRM": 90,
-   "score": 93.9
-  };
-  var b = {
-   "weight": 62.5,
-   "reps": 2,
-   "date": "2020-02-19T08:44:42.042Z",
-   "oneRM": 65,
-   "score": 67.8
-  };
-  var c = {
-   "weight": 55,
-   "reps": 10,
-   "date": "2020-02-10T19:42:08.036Z",
-   "oneRM": 72.5,
-   "score": 75.6
-  };
-  var logs = [a, b, c];
-  expect(getBestLogs(logs, 1)[0].weight).toBe(72.5);
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getBestLogs(logs, 1)[0].weight).toBe(LOGENTRY_A.weight);
+  expect(getBestLogs(logs, 1)[0].weight).toBe(LOGENTRY_A.weight);
 });
 
 test('find best logs (n=2)', () => {
-  var a = {
-   "weight": 72.5,
-   "reps": 8,
-   "date": "2020-02-12T15:35:46.614Z",
-   "oneRM": 90,
-   "score": 93.9
-  };
-  var b = {
-   "weight": 62.5,
-   "reps": 2,
-   "date": "2020-02-19T08:44:42.042Z",
-   "oneRM": 65,
-   "score": 67.8
-  };
-  var c = {
-   "weight": 55,
-   "reps": 10,
-   "date": "2020-02-10T19:42:08.036Z",
-   "oneRM": 72.5,
-   "score": 75.6
-  };
-  var logs = [a, b, c];
-  expect(getBestLogs(logs, 2)[0].weight).toBe(72.5);
-  expect(getBestLogs(logs, 2)[1].weight).toBe(62.5);
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getBestLogs(logs, 2)[0].weight).toBe(LOGENTRY_A.weight);
+  expect(getBestLogs(logs, 2)[1].weight).toBe(LOGENTRY_B.weight);
 });
 
 test('find best logs (n=0)', () => {
-  var a = {
-   "weight": 72.5,
-   "reps": 8,
-   "date": "2020-02-12T15:35:46.614Z",
-   "oneRM": 90,
-   "score": 93.9
-  };
-  var b = {
-   "weight": 62.5,
-   "reps": 2,
-   "date": "2020-02-19T08:44:42.042Z",
-   "oneRM": 65,
-   "score": 67.8
-  };
-  var c = {
-   "weight": 55,
-   "reps": 10,
-   "date": "2020-02-10T19:42:08.036Z",
-   "oneRM": 72.5,
-   "score": 75.6
-  };
-  var logs = [a, b, c];
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
   expect(getBestLogs(logs, 0).length).toBe(0);
 });
 
 test('find best logs, check size', () => {
-  var a = {
-   "weight": 72.5,
-   "reps": 8,
-   "date": "2020-02-12T15:35:46.614Z",
-   "oneRM": 90,
-   "score": 93.9
-  };
-  var b = {
-   "weight": 62.5,
-   "reps": 2,
-   "date": "2020-02-19T08:44:42.042Z",
-   "oneRM": 65,
-   "score": 67.8
-  };
-  var c = {
-   "weight": 55,
-   "reps": 10,
-   "date": "2020-02-10T19:42:08.036Z",
-   "oneRM": 72.5,
-   "score": 75.6
-  };
-  var logs = [a, b, c];
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
   expect(getBestLogs(logs, 1).length).toBe(1);
   expect(getBestLogs(logs, 2).length).toBe(2);
   expect(getBestLogs(logs, 3).length).toBe(3);
 });
 
 test('best logs expected more than exist', () => {
-  var a = {
-   "weight": 72.5,
-   "reps": 8,
-   "date": "2020-02-12T15:35:46.614Z",
-   "oneRM": 90,
-   "score": 93.9
-  };
-  var b = {
-   "weight": 62.5,
-   "reps": 2,
-   "date": "2020-02-19T08:44:42.042Z",
-   "oneRM": 65,
-   "score": 67.8
-  };
-  var c = {
-   "weight": 55,
-   "reps": 10,
-   "date": "2020-02-10T19:42:08.036Z",
-   "oneRM": 72.5,
-   "score": 75.6
-  };
-  var logs = [a, b, c];
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
   expect(getBestLogs(logs, 4).length).toBe(3);
   expect(getBestLogs(logs, 5).length).toBe(3);
 });
 
 test('best logs request negative size', () => {
-  var a = {
-   "weight": 72.5,
-   "reps": 8,
-   "date": "2020-02-12T15:35:46.614Z",
-   "oneRM": 90,
-   "score": 93.9
-  };
-  var b = {
-   "weight": 62.5,
-   "reps": 2,
-   "date": "2020-02-19T08:44:42.042Z",
-   "oneRM": 65,
-   "score": 67.8
-  };
-  var c = {
-   "weight": 55,
-   "reps": 10,
-   "date": "2020-02-10T19:42:08.036Z",
-   "oneRM": 72.5,
-   "score": 75.6
-  };
-  var logs = [a, b, c];
-  expect(getBestLogs(logs, -1).length).toBe(2);
-  expect(getBestLogs(logs, -2).length).toBe(1);
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getBestLogs(logs, -1).length).toBe(0);
+  expect(getBestLogs(logs, -2).length).toBe(0);
   expect(getBestLogs(logs, -3).length).toBe(0);
 });
 
 test('best logs from single', () => {
-  var a = {
-   "weight": 72.5,
-   "reps": 8,
-   "date": "2020-02-12T15:35:46.614Z",
-   "oneRM": 90,
-   "score": 93.9
-  };
-  var logs = [a];
-  expect(getBestLogs(logs, 4)[0].weight).toBe(72.5);
+  var logs = [LOGENTRY_A];
+  expect(getBestLogs(logs, 4)[0].weight).toBe(LOGENTRY_A.weight);
 });
 
 test('best logs from empty', () => {
   expect(getBestLogs([], 4).length).toBe(0);
+  expect(getBestLogs().length).toBe(0);
 });
 
 test('best logs from null/undefined', () => {
@@ -198,14 +93,7 @@ test('best logs from null/undefined', () => {
 });
 
 test('best logs from null/undefined amount', () => {
-  var a = {
-   "weight": 72.5,
-   "reps": 8,
-   "date": "2020-02-12T15:35:46.614Z",
-   "oneRM": 90,
-   "score": 93.9
-  };
-  var logs = [a];
+  var logs = [LOGENTRY_A];
   expect(getBestLogs(logs, null).length).toBe(0);
   expect(getBestLogs(logs, undefined).length).toBe(0);
 });
@@ -213,69 +101,26 @@ test('best logs from null/undefined amount', () => {
 //################################# Test getBestLogs() & getBestLog() //#################################
 
 test('compare getBestLog and getBestLogs (n=1)', () => {
-  var a = {
-   "weight": 72.5,
-   "reps": 8,
-   "date": "2020-02-12T15:35:46.614Z",
-   "oneRM": 90,
-   "score": 93.9
-  };
-  var b = {
-   "weight": 62.5,
-   "reps": 2,
-   "date": "2020-02-19T08:44:42.042Z",
-   "oneRM": 65,
-   "score": 67.8
-  };
-  var c = {
-   "weight": 55,
-   "reps": 10,
-   "date": "2020-02-10T19:42:08.036Z",
-   "oneRM": 72.5,
-   "score": 75.6
-  };
-  var logs = [a, b, c];
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
   expect(getBestLogs(logs, 1)[0].weight).toBe(getBestLog(logs).weight);
 });
 
 //################################# Test getBestLog() //#################################
 
 test('find best log', () => {
-  var a = {
-   "weight": 72.5,
-   "reps": 8,
-   "date": "2020-02-12T15:35:46.614Z",
-   "oneRM": 90,
-   "score": 93.9
-  };
-  var b = {
-   "weight": 62.5,
-   "reps": 2,
-   "date": "2020-02-19T08:44:42.042Z",
-   "oneRM": 65,
-   "score": 67.8
-  };
-  var c = {
-   "weight": 55,
-   "reps": 10,
-   "date": "2020-02-10T19:42:08.036Z",
-   "oneRM": 72.5,
-   "score": 75.6
-  };
-  var logs = [a, b, c];
-  expect(getBestLog(logs).weight).toBe(72.5);
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getBestLog(logs).weight).toBe(LOGENTRY_A.weight);
+  logs = [LOGENTRY_B, LOGENTRY_C, LOGENTRY_A];
+  expect(getBestLog(logs).weight).toBe(LOGENTRY_A.weight);
+  logs = [LOGENTRY_C, LOGENTRY_B, LOGENTRY_A];
+  expect(getBestLog(logs).weight).toBe(LOGENTRY_A.weight);
+  logs = [LOGENTRY_C, LOGENTRY_A, LOGENTRY_B];
+  expect(getBestLog(logs).weight).toBe(LOGENTRY_A.weight);
 });
 
 test('find best log from single element list', () => {
-  var a = {
-   "weight": 72.5,
-   "reps": 8,
-   "date": "2020-02-12T15:35:46.614Z",
-   "oneRM": 90,
-   "score": 93.9
-  };
-  var logs = [a];
-  expect(getBestLog(logs).weight).toBe(72.5);
+  var logs = [LOGENTRY_A];
+  expect(getBestLog(logs).weight).toBe(LOGENTRY_A.weight);
 });
 
 test('find best log from empty', () => {
@@ -285,6 +130,168 @@ test('find best log from empty', () => {
 test('find best log from null/undefined', () => {
   expect(getBestLog(null)).toBe(null);
   expect(getBestLog(undefined)).toBe(null);
+});
+
+//################################# Test getLastLogs() //#################################
+
+test('find last logs (n=1), not grouped', () => {
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getLastLogs(logs, 1)[0].weight).toBe(LOGENTRY_B.weight);
+  expect(getLastLogs(logs, 1, false)[0].weight).toBe(LOGENTRY_B.weight);
+});
+
+test('find last logs (n=2), not grouped', () => {
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getLastLogs(logs, 2)[0].weight).toBe(LOGENTRY_B.weight);
+  expect(getLastLogs(logs, 2)[1].weight).toBe(LOGENTRY_A.weight);
+});
+
+test('find last logs (size check, n=0)', () => {
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getLastLogs(logs, 0).length).toBe(0);
+  expect(getLastLogs(logs, 0, true).length).toBe(0);
+});
+
+test('find last logs (size check, n=1,2,3)', () => {
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getLastLogs(logs, 1).length).toBe(1);
+  expect(getLastLogs(logs, 2).length).toBe(2);
+  expect(getLastLogs(logs, 3).length).toBe(3);
+});
+
+test('find last logs (size check, requests too many)', () => {
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getLastLogs(logs, 4).length).toBe(3);
+  expect(getLastLogs(logs, 3, true).length).toBe(2);
+});
+
+test('find last logs (size check, requests negative)', () => {
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getLastLogs(logs, -1).length).toBe(0);
+  expect(getLastLogs(logs, -1, true).length).toBe(0);
+});
+
+test('find last logs (n=1), grouped', () => {
+  //a and c are in the same week, b is in a later week
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getLastLogs(logs, 1, true)[0].weight).toBe(LOGENTRY_B.weight);
+});
+
+test('find last logs (n=2), grouped', () => {
+  //a and c are in the same week, b is in a later week
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getLastLogs(logs, 2, true)[0].weight).toBe(LOGENTRY_B.weight);
+  expect(getLastLogs(logs, 2, true)[1].weight).toBe(LOGENTRY_A.weight);
+});
+
+test('find last logs (size check, n=1,2), grouped', () => {
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getLastLogs(logs, 1, true).length).toBe(1);
+  expect(getLastLogs(logs, 2, true).length).toBe(2);
+});
+
+test('find last logs with empty input', () => {
+  var logs = [];
+  expect(getLastLogs(logs, 1).length).toBe(0);
+  expect(getLastLogs(logs, 2, true).length).toBe(0);
+});
+
+test('find last logs with null/undefined input', () => {
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getLastLogs(null, 2).length).toBe(0);
+  expect(getLastLogs(null, 2, false).length).toBe(0);
+  expect(getLastLogs(null, 2, true).length).toBe(0);
+  expect(getLastLogs(undefined, 2).length).toBe(0);
+  expect(getLastLogs(undefined, 2, false).length).toBe(0);
+  expect(getLastLogs(undefined, 2, true).length).toBe(0);
+
+  expect(getLastLogs(logs, null).length).toBe(0);
+  expect(getLastLogs(logs, null, false).length).toBe(0);
+  expect(getLastLogs(logs, null, true).length).toBe(0);
+  expect(getLastLogs(logs, undefined).length).toBe(0);
+  expect(getLastLogs(logs, undefined, false).length).toBe(0);
+  expect(getLastLogs(logs, undefined, true).length).toBe(0);
+
+  expect(getLastLogs().length).toBe(0);
+});
+
+//################################# Test getLastLogs() & getLastLog() //#################################
+
+test('compare getLastLog and getLastLogs (n=1)', () => {
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getLastLogs(logs, 1)[0].weight).toBe(getLastLog(logs).weight);
+});
+
+//################################# Test getLastLog() //#################################
+
+test('find last log', () => {
+  var logs = [LOGENTRY_A, LOGENTRY_B, LOGENTRY_C];
+  expect(getLastLog(logs).weight).toBe(LOGENTRY_B.weight);
+});
+
+test('find last log from single element list', () => {
+  var logs = [LOGENTRY_A];
+  expect(getLastLog(logs).weight).toBe(LOGENTRY_A.weight);
+});
+
+test('find last log from empty', () => {
+  expect(getLastLog([])).toBe(null);
+});
+
+test('find last log from null/undefined', () => {
+  expect(getLastLog(null)).toBe(null);
+  expect(getLastLog(undefined)).toBe(null);
+});
+
+//################################# Test formatDate() //#################################
+
+test('formatting date with expected input', () => {
+  let newDate = new Date("2020-02-13T15:35:46.614Z");
+  expect(formatDate(newDate)).toBe("13.02.2020");
+  expect(formatDate(newDate, false)).toBe("13.02.2020");
+});
+
+test('formatting date with expected input (reversed)', () => {
+  let newDate = new Date("2020-02-13T15:35:46.614Z");
+  expect(formatDate(newDate, true)).toBe("2020.02.13");
+});
+
+test('formatting date with string input', () => {
+  let newDate = "2020-02-13T15:35:46.614Z";
+  expect(formatDate(newDate)).toBe("13.02.2020");
+  expect(formatDate(newDate, false)).toBe("13.02.2020");
+});
+
+test('formatting date with string input (reversed)', () => {
+  let newDate = "2020-02-13T15:35:46.614Z";
+  expect(formatDate(newDate, true)).toBe("2020.02.13");
+
+});
+
+test('formatting date with non-date string input', () => {
+  let newDate = "2020 and something about tuesday";
+  expect(formatDate(newDate)).toBe("none");
+  expect(formatDate(newDate, false)).toBe("none");
+  expect(formatDate(newDate, true)).toBe("none");
+});
+
+test('formatting date with integer input', () => {
+  let newDate = 20200403;
+  expect(formatDate(newDate)).toBe("none");
+  expect(formatDate(newDate, false)).toBe("none");
+  expect(formatDate(newDate, true)).toBe("none");
+});
+
+test('formatting date with empty input', () => {
+  expect(formatDate([])).toBe("none");
+  expect(formatDate([], false)).toBe("none");
+  expect(formatDate([], true)).toBe("none");
+  expect(formatDate(null)).toBe("none");
+  expect(formatDate(null, false)).toBe("none");
+  expect(formatDate(null, true)).toBe("none");
+  expect(formatDate(undefined)).toBe("none");
+  expect(formatDate(undefined, false)).toBe("none");
+  expect(formatDate(undefined, true)).toBe("none");
 });
 
 //################################# Test isSecondLiftBetter() //#################################
@@ -335,6 +342,41 @@ test('null or undefined input for lift comparison', () => {
   expect(isSecondLiftBetter(a, undefined)).toBe(false);
   expect(isSecondLiftBetter(undefined, b)).toBe(true);
   expect(isSecondLiftBetter(undefined, undefined)).toBe(false);
+});
+
+//################################# Test getWeekNumber() //#################################
+
+test('get week number from string', () => {
+  let strDate = '2020-02-13T15:35:46.614Z';
+  expect(getWeekNumber(strDate).length).toBe(2);
+  expect(getWeekNumber(strDate)[0]).toBe(2020);
+  expect(getWeekNumber(strDate)[1]).toBe(7);
+});
+
+test('get week number from string (year change)', () => {
+  expect(getWeekNumber('2014/12/29')[0]).toBe(2015);
+  expect(getWeekNumber('2014/12/29')[1]).toBe(1);
+  expect(getWeekNumber('2012/1/1')[0]).toBe(2011);
+  expect(getWeekNumber('2012/1/1')[1]).toBe(52);
+});
+
+test('get week number from date', () => {
+  let strDate = new Date('2020-02-13T15:35:46.614Z');
+  expect(getWeekNumber(strDate).length).toBe(2);
+  expect(getWeekNumber(strDate)[0]).toBe(2020);
+  expect(getWeekNumber(strDate)[1]).toBe(7);
+});
+
+test('get week number with wrong input', () => {
+  expect(getWeekNumber("")).toBe(null);
+  expect(getWeekNumber("not a date string")).toBe(null);
+  expect(getWeekNumber('12345-99-99T15:35:46.614Z')).toBe(null);
+});
+
+test('get week number with empty input', () => {
+  expect(getWeekNumber()).toBe(null);
+  expect(getWeekNumber(null)).toBe(null);
+  expect(getWeekNumber(undefined)).toBe(null);
 });
 
 //################################# Test weeksBetween() //#################################

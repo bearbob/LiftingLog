@@ -11,7 +11,7 @@
  */
 export const getBestLogs = (logArray, amount) => {
   if(!logArray) return [];
-  if(!amount) return [];
+  if(!amount || amount < 1) return [];
   return logArray.sort((a, b) => {
     if(isSecondLiftBetter(a, b)) {
       return 1;
@@ -50,7 +50,9 @@ export const getBestLog = (logArray) => {
  * @returns {array}
  */
 export const getLastLogs = (logArray, amount, groupByWeek) => {
-  if(logArray.length < 1) return [];
+  if(!logArray || logArray.length < 1) return [];
+  if(!amount || amount < 1) return [];
+
   var sortedArray = logArray.sort((a, b) => (a.date > b.date) ? -1 : 1);
   if(!groupByWeek) {
     return sortedArray.slice(0, amount);
@@ -85,6 +87,7 @@ export const getLastLogs = (logArray, amount, groupByWeek) => {
  * @returns {object}
  */
 export const getLastLog = (logArray) => {
+  if(!logArray || logArray.length < 1) return null;
   return logArray.reduce((prev, current) => (prev.date > current.date) ? prev : current);
 };
 
@@ -98,12 +101,18 @@ export const getLastLog = (logArray) => {
  */
 export const formatDate = (date, reverse) => {
   if(!date) return "none";
-  let days = date.getDate().toString().padStart(2, '0');
-  let months = (date.getMonth()+1).toString().padStart(2, '0');
-  if(!reverse) {
-    return days +"."+months+"."+date.getFullYear();
+  if(typeof date === "string") date = new Date(date);
+  if(date.toString() == "Invalid Date") return "none";
+  try {
+    let days = date.getDate().toString().padStart(2, '0');
+    let months = (date.getMonth()+1).toString().padStart(2, '0');
+    if(!reverse) {
+      return days +"."+months+"."+date.getFullYear();
+    }
+    return date.getFullYear()+"."+months+"."+days;
+  } catch (ignore) {
+    return "none";
   }
-  return date.getFullYear()+"."+months+"."+days;
 };
 
 /**
@@ -124,12 +133,14 @@ export const formatDate = (date, reverse) => {
  *      2012/1/1   is Sunday in week 52 of 2011
  * @public
  * @static
- * @param {string} date - String representation of a date object
+ * @param {string|object} date - String representation of a date object or the date object
  * @returns {array} Array with the year as first element and the number of the calender week of the date as second element
  */
 export const getWeekNumber = (date) => {
+    if(!date) return null;
     // Copy date so don't modify original
     var d = new Date(date);
+    if(date.toString() == "Invalid Date") return null;
     // Set to nearest Thursday: current date + 4 - current day number
     // Make Sunday's day number 7
     d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
