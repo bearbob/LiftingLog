@@ -6,7 +6,8 @@ export const ColorScheme = {
   second: '#1e6b29',
   third: '#2ba84a',
   fourth: '#2d3a3a',
-  fith: '#fcfffc'
+  fith: '#fcfffc',
+  sixth: '#9e9e9e'
 };
 
 export const Color = {
@@ -18,10 +19,12 @@ export const Color = {
   activeBackgroundColor: ColorScheme.fourth,
   mainBackgroundColor: ColorScheme.fourth,
   mainFontColor: ColorScheme.fith,
+  mainFontColorInactive: ColorScheme.sixth,
   buttonBackgroundColor: ColorScheme.third,
   inactiveButtonBackgroundColor: ColorScheme.second,
   borderColor: ColorScheme.second,
   buttonBorderColor: ColorScheme.second,
+  inactiveButtonBorder: ColorScheme.third,
   graphShadowColor: ColorScheme.second,
 };
 
@@ -64,11 +67,15 @@ export const Theme = StyleSheet.create({
     backgroundColor: Color.inactiveButtonBackgroundColor,
     padding: 20,
     borderWidth: 2,
-    borderColor: Color.buttonBorderColor,
+    borderColor: Color.inactiveButtonBorder,
     marginTop: 7,
   },
   buttonText: {
     color: Color.mainFontColor,
+    fontWeight: 'bold'
+  },
+  buttonTextInactive: {
+    color: Color.mainFontColorInactive,
     fontWeight: 'bold'
   },
   input: {

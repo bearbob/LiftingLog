@@ -38,7 +38,7 @@ class ExerciseGraphsScreen extends React.Component {
         <ScrollView contentInsetAdjustmentBehavior="automatic" >
           <View>
             <Text style={Theme.title}>Weight progress last weeks</Text>
-            <PerformanceGraph id={this.state.id} />
+            <PerformanceGraph id={this.state.id} includeInactiveWeeks={true} />
             <Text style={Theme.title}>Strength score progress last weeks</Text>
             <ScoreGraph id={this.state.id} includeInactiveWeeks={true} />
           </View>

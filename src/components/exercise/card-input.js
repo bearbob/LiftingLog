@@ -143,7 +143,9 @@ class ExerciseInput extends React.Component {
            }
          }}
          >
-          <Text style={Theme.buttonText}>Add</Text>
+          <Text style={this.state.submitButtonActive?Theme.buttonText:Theme.buttonTextInactive}>
+            Add
+          </Text>
         </TouchableOpacity>
       </View>
     );

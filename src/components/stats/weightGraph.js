@@ -11,62 +11,19 @@ import {
   StyleSheet,
   Text
 } from 'react-native';
+import AbstractGraph from './abstractGraph';
 import { LineChart } from "react-native-chart-kit";
-import { retrieveData } from 'components/storage';
 import { Color } from 'components/stylesheet.js';
-import { getLastLogs, getWeekNumber } from 'components/utils';
 
-class PerformanceGraph extends React.Component {
+class PerformanceGraph extends AbstractGraph {
   constructor(props) {
     super(props);
-    this.state = {
-      id: this.props.id,
-      labels: [], //if no data found, give an error message instead of the graph
-      data: [] //if no data found, give an error message instead of the graph
-    };
-    this.refresh = this.refresh.bind(this);
-    retrieveData(this.props.id, this.refresh);
-  }
-
-  componentDidMount() {
-    this.updaterID = setInterval(
-      () => {
-        retrieveData(this.state.id, this.refresh);
-      },
-      15000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.updaterID);
-  }
-
-  refresh (value) {
-    if (value !== null) {
-        let item = JSON.parse(value);
-        // Our data is fetched successfully
-        let last = getLastLogs(item, 6, true).reverse();
-        let dates = [];
-        let weight = [];
-        last.forEach(entry => {
-          dates.push(getWeekNumber(entry.date));
-          weight.push(entry.weight);
-        });
-        this.setState({
-          labels: dates,
-          data: weight
-        });
-    } else {
-      this.setState({
-        labels: [],
-        data:  []
-      });
-    }
+    this.state.dataType = 'weight';
   }
 
   render() {
     if(this.state.labels.length < 1 || this.state.data.length < 1) {
-      return (<Text style={style.sectionDescription}>No data to visualize</Text>);
+      return (<Text style={this.getStyle().sectionDescription}>No data to visualize</Text>);
     }
     return (
       <LineChart
@@ -78,7 +35,7 @@ class PerformanceGraph extends React.Component {
             }
           ]
         }}
-        width={Dimensions.get("window").width} // from react-native
+        width={Dimensions.get("window").width-16} // from react-native
         height={Dimensions.get("window").height/3}
         yAxisSuffix="kg"
         chartConfig={{
@@ -102,25 +59,10 @@ class PerformanceGraph extends React.Component {
           marginVertical: 8,
           borderRadius: 0
         }}
-        style={style.container}
+        style={this.getStyle().container}
       />
     );
   }
 }
-
-const style = StyleSheet.create({
-  container: {
-    borderRadius: 0,
-    marginTop: 5,
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: Color.backgroundColor
-  },
-  sectionDescription: {
-    fontSize: 18,
-    fontWeight: '400',
-    color: Color.buttonBackgroundColor
-  }
-});
 
 export default PerformanceGraph;
