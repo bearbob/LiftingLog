@@ -76,8 +76,8 @@ class SettingsScreen extends React.Component {
       <SafeAreaView style={Theme.safeArea}>
         <ScrollView contentInsetAdjustmentBehavior="automatic">
           <View style={Theme.maincontainer}>
-            <Text style={Theme.sectionDescription}>Here you can change your personal data.</Text>
-            <Text style={Theme.sectionDescription}>This information is used to calculate your Wilks and strength scores.</Text>
+            <Text style={Theme.text}>Here you can change your personal data.</Text>
+            <Text style={Theme.text}>This information is used to calculate your Wilks and strength scores.</Text>
           </View>
           <TouchableOpacity
            style={Theme.button}
