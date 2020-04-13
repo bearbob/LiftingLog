@@ -3,10 +3,10 @@ import { StyleSheet } from 'react-native';
 
 export const ColorScheme = {
   first: '#212121', //the darkest color
-  second: '#323232', //second darkest color
+  second: '#3B3B3B', //second darkest color
   //-----------
-  third: '#14FFEC', //brightest non-white color
-  fourth: '#0d7377', // darker version of the brightest non-white color
+  third: '#1BFF91', //brightest non-white color
+  fourth: '#108C5A', // darker version of the brightest non-white color
   //-----------
   fith: '#fcfffc', //almost white
   sixth: '#9e9e9e', // grey
@@ -88,6 +88,7 @@ export const Theme = StyleSheet.create({
   input: {
     height: 35,
     width: 80,
+    borderRadius: 10,
     marginTop: 5,
     borderColor: Color.buttonBorderColor,
     backgroundColor: Color.mainBackgroundColor,

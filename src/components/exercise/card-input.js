@@ -95,7 +95,7 @@ class ExerciseInput extends React.Component {
           }}
           value={this.state.weight}
         />
-        <Text style={Theme.buttonText}> x </Text>
+        <Text style={Theme.text}> x </Text>
         <TextInput
           style={Theme.input}
           keyboardType="numeric"
@@ -107,7 +107,7 @@ class ExerciseInput extends React.Component {
           }}
           value={this.state.reps}
         />
-        <Text style={Theme.buttonText}> @ </Text>
+      <Text style={Theme.text}> @ </Text>
         <TouchableOpacity
          style={Theme.picker}
          onPress={() => this.setState({ showDatepicker:true })}
