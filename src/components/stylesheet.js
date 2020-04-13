@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 
 export const ColorScheme = {
-  first: '#040f0f',
+  first: '#09200c',
   second: '#1e6b29',
   third: '#2ba84a',
   fourth: '#2d3a3a',

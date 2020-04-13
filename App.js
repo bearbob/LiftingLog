@@ -54,6 +54,19 @@ function ExerciseStackScreen() {
   );
 }
 
+const SettingsStack = createStackNavigator();
+
+function SettingsStackScreen() {
+  return (
+    <SettingsStack.Navigator
+      initialRouteName="Settings">
+      <SettingsStack.Screen name="Settings" component={SettingsScreen} />
+      <SettingsStack.Screen name="DevTools" component={DevToolScreen} />
+    </SettingsStack.Navigator>
+  );
+}
+
+
 const App: () => React$Node = () => {
   return (
     <NavigationContainer theme={MyTheme}>
@@ -94,16 +107,9 @@ const App: () => React$Node = () => {
         />
         <Tab.Screen
           name="Settings"
-          component={SettingsScreen}
+          component={SettingsStackScreen}
           options={{
             title: 'Settings'
-          }}
-        />
-        <Tab.Screen
-          name="DevTools"
-          component={DevToolScreen}
-          options={{
-            title: 'DevTools'
           }}
         />
       </Tab.Navigator>

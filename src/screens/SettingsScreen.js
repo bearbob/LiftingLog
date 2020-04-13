@@ -9,12 +9,11 @@ import React from 'react';
 import {
   SafeAreaView,
   Button,
-  StyleSheet,
   ScrollView,
   TouchableOpacity,
   Text,
   TextInput,
-  StatusBar,
+  View,
 } from 'react-native';
 import { storeData, retrieveData } from 'components/storage';
 import { formatDate } from 'components/utils';
@@ -74,12 +73,12 @@ class SettingsScreen extends React.Component {
   render() {
     return (
       <>
-      <StatusBar barStyle="dark-content" />
       <SafeAreaView style={Theme.safeArea}>
         <ScrollView contentInsetAdjustmentBehavior="automatic">
-          <Text style={Theme.title}>Settings</Text>
-          <Text style={Theme.buttonText}>Here you can change your personal data.</Text>
-          <Text style={Theme.buttonText}>This information is used to calculate your Wilks and strength scores.</Text>
+          <View style={Theme.maincontainer}>
+            <Text style={Theme.sectionDescription}>Here you can change your personal data.</Text>
+            <Text style={Theme.sectionDescription}>This information is used to calculate your Wilks and strength scores.</Text>
+          </View>
           <TouchableOpacity
            style={Theme.button}
            onPress={this.flipGender}
@@ -127,6 +126,11 @@ class SettingsScreen extends React.Component {
                 }}
               />
             )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={Theme.button}
+            onPress={() => { this.props.navigation.navigate('DevTools') }}>
+            <Text style={Theme.buttonText}>Open DevTools</Text>
           </TouchableOpacity>
 
         </ScrollView>

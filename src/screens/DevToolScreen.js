@@ -11,10 +11,9 @@ import {
   Clipboard,
   SafeAreaView,
   ScrollView,
-  StatusBar,
-  StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import { Exercises } from 'components/content';
 import { Color, Theme } from 'components/stylesheet';
@@ -120,13 +119,13 @@ class DevToolScreen extends React.Component {
   render() {
     return (
       <>
-      <StatusBar barStyle="dark-content" />
       <SafeAreaView style={Theme.safeArea}>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={Theme.scrollView}>
-          <Text style={Theme.title}>Developer Tools</Text>
-          <Text style={Theme.buttonText}>Some tools that help managing and developing the app.</Text>
+          <View style={Theme.maincontainer}>
+            <Text style={Theme.sectionDescription}>Some tools that help managing and developing the app.</Text>
+          </View>
           <TouchableOpacity
            style={this.state.fillWithTestData?Theme.button:Theme.buttonInactive}
            onPress={() => {
