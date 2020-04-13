@@ -3,31 +3,33 @@ import { StyleSheet } from 'react-native';
 
 export const ColorScheme = {
   first: '#212121', //the darkest color
-  second: '#0d7377',
-  third: '#14ffec',
-  fourth: '#323232', //second darkest color
-  fith: '#fcfffc',
-  sixth: '#9e9e9e',
-  seventh: '#003300',
+  second: '#323232', //second darkest color
+  //-----------
+  third: '#14FFEC', //brightest non-white color
+  fourth: '#0d7377', // darker version of the brightest non-white color
+  //-----------
+  fith: '#fcfffc', //almost white
+  sixth: '#9e9e9e', // grey
+  seventh: '#003300', // almost black
 };
 
 export const Color = {
   textColor: ColorScheme.third,
   headerColor: ColorScheme.fith,
   active: ColorScheme.third,
-  inactive: ColorScheme.second,
+  inactive: ColorScheme.fourth,
   backgroundColor: ColorScheme.first,
-  activeBackgroundColor: ColorScheme.fourth,
-  mainBackgroundColor: ColorScheme.fourth,
+  activeBackgroundColor: ColorScheme.second,//
+  mainBackgroundColor: ColorScheme.second,//
   mainFontColor: ColorScheme.fith,
   mainFontColorInactive: ColorScheme.sixth,
   buttonFontColor: ColorScheme.seventh,
   buttonBackgroundColor: ColorScheme.third,
-  inactiveButtonBackgroundColor: ColorScheme.second,
-  borderColor: ColorScheme.second,
-  buttonBorderColor: ColorScheme.second,
+  inactiveButtonBackgroundColor: ColorScheme.fourth,
+  borderColor: ColorScheme.fourth,
+  buttonBorderColor: ColorScheme.fourth,
   inactiveButtonBorder: ColorScheme.third,
-  graphShadowColor: ColorScheme.second,
+  graphShadowColor: ColorScheme.fourth,
 };
 
 export const Theme = StyleSheet.create({
