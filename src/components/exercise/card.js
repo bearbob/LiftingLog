@@ -13,7 +13,8 @@ import {
 } from 'react-native';
 import { getBestLog, getLastLog, printLogLine } from 'components/utils';
 import { retrieveData } from 'components/storage';
-import { Theme } from 'components/stylesheet.js';
+import { Theme, Color } from 'components/stylesheet.js';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 class ExerciseCard extends React.Component {
@@ -73,9 +74,30 @@ class ExerciseCard extends React.Component {
     return (
       <View style={Theme.maincontainer}>
         <TouchableOpacity onPress={this.onTouch}>
-          <Text style={Theme.title}>{ this.state.name }</Text>
-          <Text style={Theme.sectionDescription}>{ printLogLine("Last", this.state.lastWeight, this.state.lastReps, this.state.lastDate) }</Text>
-          <Text style={Theme.sectionDescription}>{ printLogLine("Best", this.state.bestWeight, this.state.bestReps, this.state.bestDate) }</Text>
+          <View style={Theme.rowContainer}>
+            <View>
+              <Text style={Theme.title}>{ this.state.name }</Text>
+              <View style={Theme.sectionContainer}>
+                <Text style={Theme.sectionTitle}>Last: </Text>
+                <Text style={Theme.sectionDescription}>
+                  {printLogLine('', this.state.lastWeight, this.state.lastReps, this.state.lastDate) }
+                </Text>
+              </View>
+              <View style={Theme.sectionContainer}>
+                <Text style={Theme.sectionTitle}>Best: </Text>
+                <Text style={Theme.sectionDescription}>
+                  {printLogLine('', this.state.bestWeight, this.state.bestReps, this.state.bestDate) }
+                </Text>
+              </View>
+            </View>
+            <Text style={{marginLeft: 'auto'}}>
+              <Icon
+                name="ios-arrow-forward"
+                color={Color.active}
+                size={25}
+              />
+            </Text>
+          </View>
         </TouchableOpacity>
       </View>
     );

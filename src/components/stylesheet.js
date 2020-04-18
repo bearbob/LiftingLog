@@ -57,10 +57,24 @@ export const Theme = StyleSheet.create({
   centeredContainer: {
     alignItems: 'center',
   },
+  sectionContainer: {
+    borderWidth: 0,
+    flexDirection: 'row',
+  },
   sectionDescription: {
     fontSize: 18,
     fontWeight: '400',
     color: Color.buttonBackgroundColor,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '400',
+    color: Color.mainFontColor,
+  },
+  rowContainer: {
+    borderWidth: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   button: {
     alignItems: 'center',
@@ -80,9 +94,21 @@ export const Theme = StyleSheet.create({
     borderColor: Color.inactiveButtonBorder,
     marginTop: 7,
   },
+  iconButton: {
+    alignItems: 'center',
+    borderRadius: 20,
+    backgroundColor: Color.buttonBackgroundColor,
+    padding: 20,
+    borderWidth: 2,
+    borderColor: Color.buttonBorderColor,
+    marginTop: 7,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
   buttonText: {
     color: Color.buttonFontColor,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 14,
   },
   buttonTextInactive: {
     color: Color.mainFontColorInactive,
@@ -92,7 +118,7 @@ export const Theme = StyleSheet.create({
     height: 45,
     width: 80,
     borderRadius: 10,
-    borderColor: Color.buttonBorderColor,
+    borderColor: Color.buttonBackgroundColor,
     backgroundColor: Color.mainBackgroundColor,
     color: Color.mainFontColor,
     borderWidth: 1,

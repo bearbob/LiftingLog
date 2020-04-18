@@ -66,9 +66,14 @@ class ExerciseHistoryCard extends React.Component {
       for (let i=0; i < this.state.lastLogs.length; i++) {
         let value = this.state.lastLogs[i];
         items.push(
-          <Text style={Theme.sectionDescription} key={"lastLogs"+i}>
-            {formatDate(new Date(value.date), true)+": "+value.weight + "kg x" +value.reps}
-          </Text>
+          <View style={Theme.sectionContainer} key={"lastLogs_v"+i}>
+            <Text style={Theme.sectionTitle} key={"lastLogs_t"+i}>
+              {formatDate(new Date(value.date), true)+": "}
+            </Text>
+            <Text style={Theme.sectionDescription} key={"lastLogs_d"+i}>
+              {value.weight + "kg x" +value.reps}
+            </Text>
+          </View>
         );
       }
       return items;

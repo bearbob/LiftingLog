@@ -77,17 +77,44 @@ class ExerciseDetailsCard extends React.Component {
     return (
       <View style={Theme.maincontainer}>
         <Text style={Theme.title}>Last values - {formatDate(this.state.lastDate)}</Text>
-          <Text style={Theme.sectionDescription}>{printLogLine("Last", this.state.lastWeight, this.state.lastReps, this.state.lastDate) }</Text>
-          <Text style={Theme.sectionDescription}>Last one rep max: {this.state.lastOneRM?this.state.lastOneRM+" kg": "No data available"}
+        <View style={Theme.sectionContainer}>
+          <Text style={Theme.sectionTitle}>Last: </Text>
+          <Text style={Theme.sectionDescription}>
+            {printLogLine('', this.state.lastWeight, this.state.lastReps, this.state.lastDate) }
           </Text>
-          <Text style={Theme.sectionDescription}>Last strength score: {this.state.lastStrengthScore?this.state.lastStrengthScore: "No data available"}
+        </View>
+        <View style={Theme.sectionContainer}>
+          <Text style={Theme.sectionTitle}>Last one rep max: </Text>
+          <Text style={Theme.sectionDescription}>
+            {this.state.lastOneRM?this.state.lastOneRM+" kg": "No data available"}
           </Text>
+        </View>
+        <View style={Theme.sectionContainer}>
+          <Text style={Theme.sectionTitle}>Last strength score: </Text>
+          <Text style={Theme.sectionDescription}>
+            {this.state.lastStrengthScore?this.state.lastStrengthScore: "No data available"}
+          </Text>
+        </View>
+
         <Text style={Theme.title}>Best results - {formatDate(this.state.bestDate)}</Text>
-          <Text style={Theme.sectionDescription}>{printLogLine("Best", this.state.bestWeight, this.state.bestReps, this.state.bestDate) }</Text>
-          <Text style={Theme.sectionDescription}>Best one rep max: {this.state.bestOneRM?this.state.bestOneRM+" kg": "No data available"}
-          </Text>
-          <Text style={Theme.sectionDescription}>Best strength score: {this.state.bestStrengthScore?this.state.bestStrengthScore: "No data available"}
-          </Text>
+          <View style={Theme.sectionContainer}>
+            <Text style={Theme.sectionTitle}>Best: </Text>
+            <Text style={Theme.sectionDescription}>
+              {printLogLine('', this.state.bestWeight, this.state.bestReps, this.state.bestDate) }
+            </Text>
+          </View>
+          <View style={Theme.sectionContainer}>
+            <Text style={Theme.sectionTitle}>Best one rep max: </Text>
+            <Text style={Theme.sectionDescription}>
+              {this.state.bestOneRM?this.state.bestOneRM+" kg": "No data available"}
+            </Text>
+          </View>
+          <View style={Theme.sectionContainer}>
+            <Text style={Theme.sectionTitle}>Best strength score: </Text>
+            <Text style={Theme.sectionDescription}>
+              {this.state.bestStrengthScore?this.state.bestStrengthScore: "No data available"}
+            </Text>
+          </View>
       </View>
     );
   }

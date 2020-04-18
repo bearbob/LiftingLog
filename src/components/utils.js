@@ -178,13 +178,16 @@ export const isSecondLiftBetter = (a, b) => {
  * @param {object} date - The date of the lift
  */
 export const printLogLine = (text, weight, reps, date) => {
+  if(text && text.length > 0) {
+    text = text+': ';
+  }
   if(!weight || !reps) {
-    return text+": No data available yet";
+    return text+"No data available yet";
   }
   if(Object.prototype.toString.call(date) !== '[object Date]') {
     date = new Date(date);
   }
-  return text+": "+ weight + "kg x" +reps+ " @ " + formatDate(date);
+  return text+ weight + "kg x" +reps+ " @ " + formatDate(date);
 };
 
 /**

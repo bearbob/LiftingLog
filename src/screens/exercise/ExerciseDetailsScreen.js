@@ -17,11 +17,12 @@ import {
   StatusBar
 } from 'react-native';
 
-import { Theme } from 'components/stylesheet';
+import { Theme, Color } from 'components/stylesheet';
 import { ExerciseDetailsCard, ExerciseInput, ExerciseHistoryCard } from 'components/exercise';
 import PerformanceGraph from "components/stats";
 import { getLastLogs, formatDate, printLogLine } from 'components/utils';
 import { retrieveData } from 'components/storage';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class ExerciseDetailsScreen extends React.Component {
   constructor(props) {
@@ -46,10 +47,15 @@ class ExerciseDetailsScreen extends React.Component {
               <ExerciseInput id={this.state.id}/>
             </View>
             <ExerciseHistoryCard id={this.state.id} />
-            <TouchableOpacity style={Theme.button}
+            <TouchableOpacity style={Theme.iconButton}
              onPress={() => { this.props.navigation.navigate('Graphs', {id: this.state.id, name: this.state.name}) }}
              >
-              <Text style={Theme.buttonText}>Show Graphs</Text>
+             <Icon
+               name="ios-stats"
+               color={Color.buttonFontColor}
+               size={16}
+             />
+             <Text style={Theme.buttonText}> Show Graphs</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
