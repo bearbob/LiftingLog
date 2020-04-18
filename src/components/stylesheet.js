@@ -54,6 +54,9 @@ export const Theme = StyleSheet.create({
   text: {
     color: Color.mainFontColor,
   },
+  centeredContainer: {
+    alignItems: 'center',
+  },
   sectionDescription: {
     fontSize: 18,
     fontWeight: '400',
@@ -86,10 +89,9 @@ export const Theme = StyleSheet.create({
     fontWeight: 'bold'
   },
   input: {
-    height: 35,
+    height: 45,
     width: 80,
     borderRadius: 10,
-    marginTop: 5,
     borderColor: Color.buttonBorderColor,
     backgroundColor: Color.mainBackgroundColor,
     color: Color.mainFontColor,
@@ -97,12 +99,15 @@ export const Theme = StyleSheet.create({
   },
   inputContainer: {
     alignItems: 'center',
+    justifyContent: 'center',
     borderWidth: 0,
     flexDirection: 'row',
     paddingTop: 10
   },
   picker: {
     alignItems: 'center',
+    height: 45,
+    justifyContent: 'center',
     backgroundColor: Color.buttonBackgroundColor,
     padding: 5,
     borderRadius: 10,

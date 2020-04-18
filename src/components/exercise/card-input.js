@@ -84,52 +84,63 @@ class ExerciseInput extends React.Component {
     return (
       <View>
         <View style={Theme.inputContainer}>
-        <TextInput
-          style={Theme.input}
-          keyboardType="numeric"
-          onChangeText={(text, eventCount, target) => {
-              this.setState({
-                weight: text,
-                submitButtonActive: this.isButtonActive([text, this.state.reps])
-              });
-          }}
-          value={this.state.weight}
-        />
-        <Text style={Theme.text}> x </Text>
-        <TextInput
-          style={Theme.input}
-          keyboardType="numeric"
-          onChangeText={(text, eventCount, target) => {
-              this.setState({
-                reps: text,
-                submitButtonActive: this.isButtonActive([this.state.weight, text])
-              });
-          }}
-          value={this.state.reps}
-        />
-      <Text style={Theme.text}> @ </Text>
-        <TouchableOpacity
-         style={Theme.picker}
-         onPress={() => this.setState({ showDatepicker:true })}
-         >
-          <Text style={Theme.buttonText}>{formatDate(this.state.date)}</Text>
-        </TouchableOpacity>
-        {this.state.showDatepicker && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={this.state.date}
-            mode='date'
-            display="default"
-            onChange={(event, selectedDate) => {
-                const currentDate = selectedDate || this.state.date;
-                this.setState({
-                  date:currentDate,
-                  showDatepicker:false
-                });
-            }}
-          />
-        )}
+          <View style={Theme.centeredContainer}>
+            <TextInput
+              style={Theme.input}
+              keyboardType="numeric"
+              onChangeText={(text, eventCount, target) => {
+                  this.setState({
+                    weight: text,
+                    submitButtonActive: this.isButtonActive([text, this.state.reps])
+                  });
+              }}
+              value={this.state.weight}
+            />
+            <Text style={Theme.text}>Kilogramm</Text>
+          </View>
+
+          <Text style={Theme.text}> x </Text>
+          <View style={Theme.centeredContainer}>
+            <TextInput
+              style={Theme.input}
+              keyboardType="numeric"
+              onChangeText={(text, eventCount, target) => {
+                  this.setState({
+                    reps: text,
+                    submitButtonActive: this.isButtonActive([this.state.weight, text])
+                  });
+              }}
+              value={this.state.reps}
+            />
+            <Text style={Theme.text}>Reps</Text>
+          </View>
+          <Text style={Theme.text}> @ </Text>
+          <View style={Theme.centeredContainer}>
+            <TouchableOpacity
+             style={Theme.picker}
+             onPress={() => this.setState({ showDatepicker:true })}
+             >
+              <Text style={Theme.buttonText}>{formatDate(this.state.date)}</Text>
+            </TouchableOpacity>
+            <Text style={Theme.text}>Date</Text>
+          </View>
+          {this.state.showDatepicker && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={this.state.date}
+              mode='date'
+              display="default"
+              onChange={(event, selectedDate) => {
+                  const currentDate = selectedDate || this.state.date;
+                  this.setState({
+                    date:currentDate,
+                    showDatepicker:false
+                  });
+              }}
+            />
+          )}
         </View>
+
         <TouchableOpacity
          style={this.state.submitButtonActive?Theme.button:Theme.buttonInactive}
          onPress={() => {
@@ -147,6 +158,7 @@ class ExerciseInput extends React.Component {
             Add
           </Text>
         </TouchableOpacity>
+
       </View>
     );
   }

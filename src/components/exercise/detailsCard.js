@@ -30,15 +30,19 @@ class ExerciseDetailsCard extends React.Component {
   }
 
   componentDidMount() {
+    this._mounted = true;
     this.updaterID = setInterval(
       () => {
-        retrieveData(this.state.id, this.refresh);
+        if(this._mounted) {
+          retrieveData(this.state.id, this.refresh);
+        }
       },
       5000
     );
   }
 
   componentWillUnmount() {
+    this._mounted = false;
     clearInterval(this.updaterID);
   }
 
