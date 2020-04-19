@@ -36,7 +36,7 @@ class ExerciseHistoryCard extends React.Component {
           retrieveData(this.state.id, this.refresh);
         }
       },
-      5000
+      3000
     );
   }
 
@@ -78,7 +78,7 @@ class ExerciseHistoryCard extends React.Component {
       }
       return items;
     }
-    return (<Text style={Theme.sectionDescription}>No recent logs available</Text>);
+    return (<Text style={Theme.sectionDescription}>No recent logs available. Such lonely.</Text>);
   }
 
   render() {

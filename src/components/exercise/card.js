@@ -31,15 +31,19 @@ class ExerciseCard extends React.Component {
   }
 
   componentDidMount() {
+    this._mounted = true;
     this.updaterID = setInterval(
       () => {
-        retrieveData(this.state.id, this.refresh);
+        if(this._mounted) {
+          retrieveData(this.state.id, this.refresh);
+        }
       },
-      15000
+      3000
     );
   }
 
   componentWillUnmount() {
+    this._mounted = false;
     clearInterval(this.updaterID);
   }
 
@@ -70,6 +74,24 @@ class ExerciseCard extends React.Component {
     });
   }
 
+  getSadWords() {
+    let items = [
+      'So sad.',
+      'Terrible.',
+      'Not cool.',
+      'Horrible.',
+      'Hit it!',
+      'Very sad.',
+      'Change it!',
+      'Many sad.',
+      'Such sad.',
+      'Do it.',
+      'WWBD?', //What would batman do
+      'Not ok.',
+    ];
+    return items[Math.floor(Math.random() * items.length)];
+  }
+
   render() {
     return (
       <View style={Theme.maincontainer}>
@@ -77,18 +99,28 @@ class ExerciseCard extends React.Component {
           <View style={Theme.rowContainer}>
             <View>
               <Text style={Theme.title}>{ this.state.name }</Text>
-              <View style={Theme.sectionContainer}>
-                <Text style={Theme.sectionTitle}>Last: </Text>
-                <Text style={Theme.sectionDescription}>
-                  {printLogLine('', this.state.lastWeight, this.state.lastReps, this.state.lastDate) }
-                </Text>
-              </View>
-              <View style={Theme.sectionContainer}>
-                <Text style={Theme.sectionTitle}>Best: </Text>
-                <Text style={Theme.sectionDescription}>
-                  {printLogLine('', this.state.bestWeight, this.state.bestReps, this.state.bestDate) }
-                </Text>
-              </View>
+              {this.state.lastDate && (
+                <View style={Theme.sectionContainer}>
+                  <Text style={Theme.sectionTitle}>Last: </Text>
+                  <Text style={Theme.sectionDescription}>
+                    {printLogLine('', this.state.lastWeight, this.state.lastReps, this.state.lastDate) }
+                  </Text>
+                </View>
+              )}
+              {this.state.bestDate && (
+                <View style={Theme.sectionContainer}>
+                  <Text style={Theme.sectionTitle}>Best: </Text>
+                  <Text style={Theme.sectionDescription}>
+                    {printLogLine('', this.state.bestWeight, this.state.bestReps, this.state.bestDate) }
+                  </Text>
+                </View>
+              )}
+              {!this.state.lastDate && (
+                <View style={Theme.sectionContainer}>
+                  <Text style={Theme.sectionTitle}>No data available yet.</Text>
+                  <Text style={Theme.sectionDescription}> {this.getSadWords()}</Text>
+                </View>
+              )}
             </View>
             <Text style={{marginLeft: 'auto'}}>
               <Icon
