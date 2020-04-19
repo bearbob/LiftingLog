@@ -18,7 +18,8 @@ import {
 import { storeData, retrieveData } from 'components/storage';
 import { formatDate } from 'components/utils';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Theme } from 'components/stylesheet';
+import { Theme, Color } from 'components/stylesheet';
+import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 
 class SettingsScreen extends React.Component {
@@ -77,18 +78,33 @@ class SettingsScreen extends React.Component {
         <ScrollView contentInsetAdjustmentBehavior="automatic">
           <View style={Theme.maincontainer}>
             <Text style={Theme.text}>Here you can change your personal data.</Text>
-            <Text style={Theme.text}>This information is used to calculate your Wilks and strength scores.</Text>
+            <Text style={Theme.text}>This information is needed to calculate your Wilks and strength scores.</Text>
           </View>
-          <TouchableOpacity
-           style={Theme.button}
+          <TouchableOpacity style={Theme.maincontainer}
            onPress={this.flipGender}
            >
-            <Text style={Theme.buttonText}>Sex: {this.state.isMale?"Male":"Female"}</Text>
+            <View style={Theme.rowContainer}>
+              <View style={Theme.sectionContainer}>
+                <Text style={Theme.sectionTitle}>Biological gender: </Text>
+                <Text style={Theme.sectionDescription}>{this.state.isMale?"Male":"Female"}</Text>
+              </View>
+              <View style={{marginLeft: 'auto'}}>
+                <Text style={{marginRight: 10}}>
+                  <Icon
+                    name="ios-swap"
+                    color={Color.active}
+                    size={35}
+                  />
+                </Text>
+              </View>
+            </View>
+
           </TouchableOpacity>
           <TouchableOpacity
             style={Theme.button}
             onPress={() => this.setState({ showDatepicker:true })}
            >
+
             <Text style={Theme.buttonText}>Birthday: {formatDate(this.state.birthday)} (age: {this.state.age})</Text>
           </TouchableOpacity>
           {this.state.showDatepicker && (
@@ -128,9 +144,14 @@ class SettingsScreen extends React.Component {
             )}
           </TouchableOpacity>
           <TouchableOpacity
-            style={Theme.button}
+            style={Theme.iconButton}
             onPress={() => { this.props.navigation.navigate('DevTools') }}>
-            <Text style={Theme.buttonText}>Open DevTools</Text>
+            <Icon
+              name="ios-bug"
+              color={Color.buttonFontColor}
+              size={16}
+            />
+            <Text style={Theme.buttonText}> Open DevTools</Text>
           </TouchableOpacity>
 
         </ScrollView>

@@ -30,16 +30,20 @@ class AbstractGraph extends React.Component {
     retrieveData(this.props.id, this.refresh);
   }
 
-  componentDidMount() {
+  ccomponentDidMount() {
+    this._mounted = true;
     this.updaterID = setInterval(
       () => {
-        retrieveData(this.state.id, this.refresh);
+        if(this._mounted) {
+          retrieveData(this.state.id, this.refresh);
+        }
       },
-      15000
+      5000
     );
   }
 
   componentWillUnmount() {
+    this._mounted = false;
     clearInterval(this.updaterID);
   }
 

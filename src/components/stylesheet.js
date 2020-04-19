@@ -138,4 +138,8 @@ export const Theme = StyleSheet.create({
     padding: 5,
     borderRadius: 10,
   },
+  chart: {
+    marginTop: 5,
+    marginBottom: 10,
+  },
 });

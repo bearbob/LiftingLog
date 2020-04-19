@@ -8,12 +8,12 @@
 import React from 'react';
 import {
   Dimensions,
-  StyleSheet,
-  Text
+  Text,
+  View
 } from 'react-native';
 import AbstractGraph from './abstractGraph';
 import { BarChart } from "react-native-chart-kit";
-import { Color } from 'components/stylesheet.js';
+import { Color, Theme } from 'components/stylesheet.js';
 
 class ScoreGraph extends AbstractGraph {
   constructor(props) {
@@ -26,6 +26,7 @@ class ScoreGraph extends AbstractGraph {
       return (<Text style={this.getStyle().sectionDescription}>No data to visualize</Text>);
     }
     return (
+      <View style={Theme.chart}>
       <BarChart
         data={{
           labels: this.state.labels,
@@ -50,6 +51,7 @@ class ScoreGraph extends AbstractGraph {
         }}
         style={this.getStyle().container}
       />
+      </View>
     );
   }
 }
