@@ -44,11 +44,13 @@ class ExerciseInput extends React.Component {
    */
   storeData (weight, reps, date) {
     retrieveData(["bodyweight", "birthday", "isMale"], (values) => {
+      //if the settings are incomplete, we will use a default setting:
+      // female, 20 years old, 55kg bodyweight
       var defaultBirthday = moment().subtract(20, 'years');
       if(!values) {
         values = { bodyweight: 75, birthday: defaultBirthday, isMale: false};
       }
-      values.bodyweight = values.bodyweight?values.bodyweight:75;
+      values.bodyweight = values.bodyweight?values.bodyweight:55;
       values.birthday = new Date(values.birthday?values.birthday:defaultBirthday);
       values.isMale = values.isMale?values.isMale:false;
       var age = moment().diff(moment(values.birthday), 'years');

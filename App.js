@@ -21,8 +21,8 @@ import  {
   ExerciseListScreen,
   DevToolScreen,
   SettingsScreen
-  } from 'screens';
-  import Icon from 'react-native-vector-icons/Ionicons';
+} from 'screens';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 

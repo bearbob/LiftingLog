@@ -9,17 +9,17 @@
 
 import React from 'react';
 import {
+  Alert,
   SafeAreaView,
-  StyleSheet,
   ScrollView,
+  StatusBar,
   View,
-  Text,
-  StatusBar
 } from 'react-native';
 
 import { Exercises } from 'components/content';
 import { Theme } from 'components/stylesheet';
 import { ExerciseCard } from 'components/exercise';
+import { dataExists } from 'components/storage';
 
 
 class ExerciseListHomeScreen extends React.Component {
@@ -27,8 +27,21 @@ class ExerciseListHomeScreen extends React.Component {
     super(props);
     this.state = {
       refreshing: false,
-      keyPrefix: 'a'
+      keyPrefix: 'a',
     };
+    this.alertSettingsIncomplete = this.alertSettingsIncomplete.bind(this);
+    dataExists(["birthday", "bodyweight"], this.alertSettingsIncomplete);
+  }
+
+  alertSettingsIncomplete(hideAlert) {
+    if(!hideAlert) {
+      Alert.alert(
+        "Settings incomplete",
+        "You need to finish the setup before you start logging exercises. Otherwise your scores will be inacurate.",
+        [{ text: "Go to Settings", onPress: () => this.props.navigation.navigate('Settings') }],
+        { cancelable: false }
+      );
+    }
   }
 
   renderExercises() {

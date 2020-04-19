@@ -27,11 +27,11 @@ class SettingsScreen extends React.Component {
     super(props);
     this.state = {
       isMale: false,
-      birthday: new Date(),
+      birthday: null,
       showDatepicker: false,
       showWeightInput: false,
       age: 0,
-      bodyweight: 0,
+      bodyweight: null,
     };
     this.flipGender = this.flipGender.bind(this);
     retrieveData("isMale", (value) => {
@@ -55,10 +55,6 @@ class SettingsScreen extends React.Component {
       if (value !== null) {
         this.setState({
           bodyweight: JSON.parse(value)
-        });
-      }else{
-        this.setState({
-          bodyweight: "Undefined"
         });
       }
     });
@@ -98,6 +94,7 @@ class SettingsScreen extends React.Component {
                 </Text>
               </View>
             </View>
+            <Text style={Theme.text}>Touch to change</Text>
 
           </TouchableOpacity>
           <TouchableOpacity
@@ -105,12 +102,12 @@ class SettingsScreen extends React.Component {
             onPress={() => this.setState({ showDatepicker:true })}
            >
 
-            <Text style={Theme.buttonText}>Birthday: {formatDate(this.state.birthday)} (age: {this.state.age})</Text>
+            <Text style={Theme.buttonText}>Birthday: {this.state.birthday? formatDate(this.state.birthday) + ' (age: '+this.state.age+')':'Not set'}</Text>
           </TouchableOpacity>
           {this.state.showDatepicker && (
             <DateTimePicker
               testID="dateTimePicker"
-              value={this.state.birthday}
+              value={this.state.birthday?this.state.birthday: new Date()}
               mode='date'
               display="default"
               onChange={(event, selectedDate) => {
@@ -129,7 +126,7 @@ class SettingsScreen extends React.Component {
            style={Theme.button}
            onPress={() => { this.setState({ showWeightInput: !this.state.showWeightInput})}}
            >
-            <Text style={Theme.buttonText}>Bodyweight: {this.state.bodyweight} kg</Text>
+            <Text style={Theme.buttonText}>Bodyweight: {this.state.bodyweight? this.state.bodyweight+ ' kg':'Not set'}</Text>
             {this.state.showWeightInput && (
               <TextInput
                 style={Theme.input}

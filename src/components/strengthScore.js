@@ -124,12 +124,20 @@ export const getSingleExerciseStrengthScore = (isMale, age, bodyweight, exercise
  * @public
  * Calculates the one repitition maximum for a single exercise
  * @param {double} weight - The weight lifted
- * @param {integer} reps - The number of times the weight was lifted
- * @param {double} [roundTo] - The final value will be rounded down to the nearest multiple of this number
+ * @param {integer} reps - The number of times the weight was lifted (max 30)
+ * @param {double} [roundTo] - The final value will be rounded down to the nearest multiple of this number. If negative, it will round up. Default is 1.
  * @return {double}
  */
 export const getOneRepMaximum = (weight, reps, roundTo) => {
+  if(!weight || !reps || reps < 1) return 0;
+  reps = reps>30?30:reps;
   roundTo = roundTo || 1;
-  let orm = weight * (1 + reps/30);
+  roundTo = roundTo < 0? roundTo*(-1): roundTo;
+
+  //epley formula
+  //let orm = weight * (1 + reps/30);
+
+  //brzycki formula
+  let orm = weight * 36/(37-reps);
   return Math.floor(orm/roundTo)*roundTo;
 };

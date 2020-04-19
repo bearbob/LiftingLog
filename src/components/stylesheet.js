@@ -11,6 +11,9 @@ export const ColorScheme = {
   fith: '#fcfffc', //almost white
   sixth: '#9e9e9e', // grey
   seventh: '#003300', // almost black
+  //
+  eigth: '#ed8e8e', //red tone, for warnings
+  ninth: '#721010', //darker red, for warnings
 };
 
 export const Color = {
@@ -30,6 +33,8 @@ export const Color = {
   buttonBorderColor: ColorScheme.fourth,
   inactiveButtonBorder: ColorScheme.third,
   graphShadowColor: ColorScheme.fourth,
+  warningButtonBackgroundColor: ColorScheme.eigth,
+  warningButtonBorderColor: ColorScheme.ninth,
 };
 
 export const Theme = StyleSheet.create({
@@ -101,6 +106,17 @@ export const Theme = StyleSheet.create({
     padding: 20,
     borderWidth: 2,
     borderColor: Color.buttonBorderColor,
+    marginTop: 7,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  warningIconButton: {
+    alignItems: 'center',
+    borderRadius: 20,
+    backgroundColor: Color.warningButtonBackgroundColor,
+    padding: 20,
+    borderWidth: 2,
+    borderColor: Color.warningButtonBorderColor,
     marginTop: 7,
     flexDirection: 'row',
     justifyContent: 'center',
