@@ -35,14 +35,15 @@ class SettingsScreen extends React.Component {
     };
     this.flipGender = this.flipGender.bind(this);
     retrieveData("isMale", (value) => {
-      if (value !== null) {
+      if (value !== null && value !== 'null') {
           this.setState({
             isMale: JSON.parse(value)
           });
         }
     });
     retrieveData("birthday", (value) => {
-      if (value !== null) {
+      if (value !== null && value !== 'null') {
+        console.log('Inside');
         var birthday = JSON.parse(value);
         var years = moment().diff(moment(birthday), 'years');
         this.setState({
@@ -52,7 +53,7 @@ class SettingsScreen extends React.Component {
       }
     });
     retrieveData("bodyweight", (value) => {
-      if (value !== null) {
+      if (value !== null && value !== 'null') {
         this.setState({
           bodyweight: JSON.parse(value)
         });
@@ -74,7 +75,7 @@ class SettingsScreen extends React.Component {
         <ScrollView contentInsetAdjustmentBehavior="automatic">
           <View style={Theme.maincontainer}>
             <Text style={Theme.text}>Here you can change your personal data.</Text>
-            <Text style={Theme.text}>This information is needed to calculate your Wilks and strength scores.</Text>
+            <Text style={Theme.text}>This information is needed to calculate your strength scores.</Text>
           </View>
           <TouchableOpacity style={Theme.maincontainer}
            onPress={this.flipGender}
@@ -98,11 +99,29 @@ class SettingsScreen extends React.Component {
 
           </TouchableOpacity>
           <TouchableOpacity
-            style={Theme.button}
+            style={Theme.maincontainer}
             onPress={() => this.setState({ showDatepicker:true })}
            >
-
-            <Text style={Theme.buttonText}>Birthday: {this.state.birthday? formatDate(this.state.birthday) + ' (age: '+this.state.age+')':'Not set'}</Text>
+           <View style={Theme.rowContainer}>
+             <View style={Theme.sectionContainer}>
+               <Text style={Theme.sectionTitle}>Birthday: </Text>
+               <Text style={Theme.sectionDescription}>{this.state.birthday? formatDate(this.state.birthday):'Not set'}</Text>
+             </View>
+             <View style={{marginLeft: 'auto'}}>
+               <Text style={{marginRight: 10}}>
+                 <Icon
+                   name="ios-calendar"
+                   color={Color.active}
+                   size={35}
+                 />
+               </Text>
+             </View>
+           </View>
+           <View style={Theme.sectionContainer}>
+             <Text style={Theme.sectionTitle}>Age: </Text>
+             <Text style={Theme.sectionDescription}>{this.state.age? this.state.age:'Not set'}</Text>
+           </View>
+           <Text style={Theme.text}>Touch to change</Text>
           </TouchableOpacity>
           {this.state.showDatepicker && (
             <DateTimePicker
@@ -123,28 +142,52 @@ class SettingsScreen extends React.Component {
             />
           )}
           <TouchableOpacity
-           style={Theme.button}
+           style={Theme.maincontainer}
            onPress={() => { this.setState({ showWeightInput: !this.state.showWeightInput})}}
            >
-            <Text style={Theme.buttonText}>Bodyweight: {this.state.bodyweight? this.state.bodyweight+ ' kg':'Not set'}</Text>
+           <View style={Theme.rowContainer}>
+             <View style={Theme.sectionContainer}>
+               <Text style={Theme.sectionTitle}>Bodyweight: </Text>
+               <Text style={Theme.sectionDescription}>{this.state.bodyweight? this.state.bodyweight+ ' kg':'Not set'}</Text>
+             </View>
+             <View style={{marginLeft: 'auto'}}>
+               <Text style={{marginRight: 10}}>
+                 <Icon
+                   name="ios-body"
+                   color={Color.active}
+                   size={35}
+                 />
+               </Text>
+             </View>
+           </View>
             {this.state.showWeightInput && (
-              <TextInput
-                style={Theme.input}
-                keyboardType="numeric"
-                onChangeText={(input, eventCount, target) => {
-                    this.setState({
-                      bodyweight: parseInt(input)
-                    });
-                    storeData("bodyweight", parseInt(input));
-                }}
-              />
+              <View style={Theme.rowContainer}>
+                <TextInput
+                  style={Theme.input}
+                  keyboardType="numeric"
+                  value={this.state.bodyweight?this.state.bodyweight+'':''}
+                  onChangeText={(input, eventCount, target) => {
+                      this.setState({
+                        bodyweight: parseInt(input)
+                      });
+                      storeData("bodyweight", parseInt(input));
+                  }}
+                />
+              <View style={{padding: 5}}/>
+                <TouchableOpacity
+                 style={Theme.picker}
+                 onPress={() => { this.setState({ showWeightInput: !this.state.showWeightInput})}}
+                 >
+                 <Text style={Theme.buttonText}>Save</Text>
+                 </TouchableOpacity>
+               </View>
             )}
           </TouchableOpacity>
           <TouchableOpacity
             style={Theme.iconButton}
             onPress={() => { this.props.navigation.navigate('DevTools') }}>
             <Icon
-              name="ios-bug"
+              name="ios-construct"
               color={Color.buttonFontColor}
               size={16}
             />

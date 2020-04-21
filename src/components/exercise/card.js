@@ -23,7 +23,8 @@ class ExerciseCard extends React.Component {
     this.state = {
       name: this.props.text,
       id: this.props.id,
-      showInput: false
+      showInput: false,
+      random: Math.random(),
     };
     this.refresh = this.refresh.bind(this);
     this.onTouch = this.props.onTouch;
@@ -38,7 +39,7 @@ class ExerciseCard extends React.Component {
           retrieveData(this.state.id, this.refresh);
         }
       },
-      3000
+      5000
     );
   }
 
@@ -86,10 +87,13 @@ class ExerciseCard extends React.Component {
       'Many sad.',
       'Such sad.',
       'Do it.',
-      'WWBD?', //What would batman do
+      'Why?', //What would batman do
       'Not ok.',
+      'Start now!',
+      'Your turn.',
+      'Yet!',
     ];
-    return items[Math.floor(Math.random() * items.length)];
+    return items[Math.floor(this.state.random * items.length)];
   }
 
   render() {
