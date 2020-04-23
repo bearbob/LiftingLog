@@ -77,7 +77,7 @@ const App: () => React$Node = () => {
             let iconName = focused ? 'ios-list-box' : 'ios-list';
 
             if (route.name === 'ExerciseList') {
-              iconName = focused ? 'ios-add-circle' : 'ios-add-circle-outline';
+              iconName = 'ios-fitness';
             } else if (route.name === 'Graphs') {
               iconName = 'ios-trending-up';
             } else if (route.name === 'Settings') {
@@ -102,7 +102,7 @@ const App: () => React$Node = () => {
           name="ExerciseList"
           component={ExerciseStackScreen}
           options={{
-            title: 'Exercises'
+            title: 'Lifts'
           }}
         />
         <Tab.Screen

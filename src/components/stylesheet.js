@@ -37,6 +37,11 @@ export const Color = {
   warningButtonBorderColor: ColorScheme.ninth,
 };
 
+const RADIUS_TOP_LEFT = 10;
+const RADIUS_TOP_RIGHT = 10;
+const RADIUS_BOTTOM_LEFT = 10;
+const RADIUS_BOTTOM_RIGHT = 10;
+
 export const Theme = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -49,11 +54,13 @@ export const Theme = StyleSheet.create({
     color: Color.headerColor
   },
   maincontainer: {
-    borderRadius: 20,
+    borderTopLeftRadius: RADIUS_TOP_LEFT,
+    borderTopRightRadius: RADIUS_TOP_RIGHT,
+    borderBottomLeftRadius: RADIUS_BOTTOM_LEFT,
+    borderBottomRightRadius: RADIUS_BOTTOM_RIGHT,
     marginTop: 5,
     padding: 10,
-    borderWidth: 1,
-    borderColor: Color.backgroundColor,
+    borderWidth: 0,
     backgroundColor: Color.mainBackgroundColor
   },
   text: {
@@ -83,7 +90,10 @@ export const Theme = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    borderRadius: 20,
+    borderTopLeftRadius: RADIUS_TOP_LEFT,
+    borderTopRightRadius: RADIUS_TOP_RIGHT,
+    borderBottomLeftRadius: RADIUS_BOTTOM_LEFT,
+    borderBottomRightRadius: RADIUS_BOTTOM_RIGHT,
     backgroundColor: Color.buttonBackgroundColor,
     padding: 20,
     borderWidth: 2,
@@ -92,7 +102,10 @@ export const Theme = StyleSheet.create({
   },
   buttonInactive: {
     alignItems: 'center',
-    borderRadius: 20,
+    borderTopLeftRadius: RADIUS_TOP_LEFT,
+    borderTopRightRadius: RADIUS_TOP_RIGHT,
+    borderBottomLeftRadius: RADIUS_BOTTOM_LEFT,
+    borderBottomRightRadius: RADIUS_BOTTOM_RIGHT,
     backgroundColor: Color.inactiveButtonBackgroundColor,
     padding: 20,
     borderWidth: 2,
@@ -101,7 +114,10 @@ export const Theme = StyleSheet.create({
   },
   iconButton: {
     alignItems: 'center',
-    borderRadius: 20,
+    borderTopLeftRadius: RADIUS_TOP_LEFT,
+    borderTopRightRadius: RADIUS_TOP_RIGHT,
+    borderBottomLeftRadius: RADIUS_BOTTOM_LEFT,
+    borderBottomRightRadius: RADIUS_BOTTOM_RIGHT,
     backgroundColor: Color.buttonBackgroundColor,
     padding: 20,
     borderWidth: 2,
@@ -112,7 +128,10 @@ export const Theme = StyleSheet.create({
   },
   warningIconButton: {
     alignItems: 'center',
-    borderRadius: 20,
+    borderTopLeftRadius: RADIUS_TOP_LEFT,
+    borderTopRightRadius: RADIUS_TOP_RIGHT,
+    borderBottomLeftRadius: RADIUS_BOTTOM_LEFT,
+    borderBottomRightRadius: RADIUS_BOTTOM_RIGHT,
     backgroundColor: Color.warningButtonBackgroundColor,
     padding: 20,
     borderWidth: 2,
@@ -133,7 +152,10 @@ export const Theme = StyleSheet.create({
   input: {
     height: 45,
     width: 80,
-    borderRadius: 10,
+    borderTopLeftRadius: RADIUS_TOP_LEFT,
+    borderTopRightRadius: RADIUS_TOP_RIGHT,
+    borderBottomLeftRadius: RADIUS_BOTTOM_LEFT,
+    borderBottomRightRadius: RADIUS_BOTTOM_RIGHT,
     borderColor: Color.buttonBackgroundColor,
     backgroundColor: Color.mainBackgroundColor,
     color: Color.mainFontColor,
