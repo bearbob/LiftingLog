@@ -14,11 +14,10 @@ import {
   ExerciseListHomeScreen,
   ExerciseDetailsScreen,
   ExerciseGraphsScreen
-} from 'screens/exercise';
+} from 'screens/lifts';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Color } from 'components/stylesheet';
 import  {
-  ExerciseListScreen,
   DevToolScreen,
   SettingsScreen
 } from 'screens';
