@@ -1,4 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import moment from 'moment';
+import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
+import { getWeekNumber, formatDate } from 'components/utils';
 
 /**
  * Check if the objects with the given key exist in the database.
@@ -96,4 +99,115 @@ export const storeObjectInArray = async (key, object, append) => {
         // Error saving data
         console.log(error.message);
     }
+};
+
+/**
+ * Store the given value in an array in the database. If the array already
+ * contains data, the value will be added if append is true. If not, the
+ * array will contain only the given value.
+ * In contrast to storeObjectInArray the element will only be added if it
+ * isn't already in the array, preventing duplicates.
+ * @public
+ * @static
+ * @param {string} key - The key to store the object under
+ * @param {object} value - The value that will be stored in the database
+ */
+export const storeObjectInSet = async (key, value) => {
+    try {
+      var array = [];
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        array = JSON.parse(value);
+      }
+      if(!array.includes(value)) {
+          console.log("Set size: "+array.length+", added "+value);
+          array.push(value);
+          await AsyncStorage.setItem(key, JSON.stringify(array));
+      }
+    } catch (error) {
+        // Error saving data
+        console.log(error.message);
+    }
+};
+
+/**
+ * @private
+ * @static
+ * @param {object} aParams
+ * @param {object} aParams.exercise
+ * @param {object} aParams.date
+ * @param {object} aParams.score
+ */
+const storeStrengthScore = async (aParams) => {
+    const key = 'strengthScoreCollection';
+    let week = getWeekNumber(aParams.date);
+    let weekId = week[0] + '/' + week[1];
+    let id = aParams.exercise;
+    try {
+      var collection = {};
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        collection = JSON.parse(value);
+      }
+      if(!collection[weekId]) {
+        collection[weekId] = {};
+        collection[weekId][id] = aParams.score;
+      } else {
+        if(!collection[weekId][id] || collection[weekId][id] < aParams.score) {
+          collection[weekId][id] = aParams.score;
+        }
+      }
+
+      await AsyncStorage.setItem(key, JSON.stringify(collection));
+    } catch (error) {
+        // Error saving data
+        console.log(error.message);
+    }
+};
+
+/**
+ * @public
+ * Save the new lift data to the database
+ * @param {object} aParams - The weight lifted
+ * @param {string} aParams.id - The identification string of the exercise
+ * @param {double} aParams.weight - The weight lifted
+ * @param {integer} aParams.reps - The repitition the weight was lifted for
+ * @param {date} aParams.date - The date of the lift
+ */
+export const storeWeightLog = (aParams) => {
+  const weight = aParams.weight;
+  const reps = aParams.reps;
+  const date = aParams.date;
+  const id = aParams.id;
+  retrieveData(["bodyweight", "birthday", "isMale"], (values) => {
+    //if the settings are incomplete, we will use a default setting:
+    // female, 20 years old, 55kg bodyweight
+    var defaultBirthday = moment().subtract(20, 'years');
+    if(!values) {
+      values = { bodyweight: 75, birthday: defaultBirthday, isMale: false};
+    }
+    values.bodyweight = values.bodyweight?values.bodyweight:55;
+    values.birthday = new Date(values.birthday?values.birthday:defaultBirthday);
+    values.isMale = values.isMale?values.isMale:false;
+    var age = moment().diff(moment(values.birthday), 'years');
+    var oneRm = getOneRepMaximum(weight, reps, 2.5);
+    var strengthScore = getSingleExerciseStrengthScore(
+      values.isMale,
+      age,
+      values.bodyweight,
+      id,
+      oneRm
+    );
+    storeObjectInArray(
+      id,
+      { weight: weight, reps: reps, date: date, oneRM: oneRm, score: strengthScore},
+      true
+    );
+    storeObjectInSet('calendar', formatDate(date, true));
+    storeStrengthScore({
+      exercise: id,
+      date: date,
+      score: strengthScore
+    });
+  });
 };

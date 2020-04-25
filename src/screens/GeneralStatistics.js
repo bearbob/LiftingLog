@@ -18,16 +18,11 @@ import {
 } from 'react-native';
 
 import { Theme } from 'components/stylesheet';
-import { PerformanceGraph, ScoreGraph } from "components/stats";
+import { CalendarGraph } from "components/stats";
 
 class GeneralStatisticsScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      id: this.props.route.params.id,
-      name: this.props.route.params.name,
-    };
-    this.props.navigation.setOptions({ title: this.state.name });
   }
 
   render() {
@@ -37,10 +32,8 @@ class GeneralStatisticsScreen extends React.Component {
       <SafeAreaView style={Theme.safeArea}>
         <ScrollView contentInsetAdjustmentBehavior="automatic" >
           <View>
-            <Text style={Theme.title}>Weight progress last weeks</Text>
-            <PerformanceGraph id={this.state.id} includeInactiveWeeks={true} />
-            <Text style={Theme.title}>Strength score progress last weeks</Text>
-            <ScoreGraph id={this.state.id} includeInactiveWeeks={true} />
+            <Text style={Theme.title}>Overall strength score progress last weeks</Text>
+            <CalendarGraph />
           </View>
         </ScrollView>
       </SafeAreaView>

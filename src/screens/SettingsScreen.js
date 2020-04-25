@@ -43,7 +43,6 @@ class SettingsScreen extends React.Component {
     });
     retrieveData("birthday", (value) => {
       if (value !== null && value !== 'null') {
-        console.log('Inside');
         var birthday = JSON.parse(value);
         var years = moment().diff(moment(birthday), 'years');
         this.setState({

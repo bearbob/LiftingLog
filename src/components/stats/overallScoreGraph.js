@@ -14,7 +14,7 @@ import AbstractGraph from './abstractGraph';
 import { BarChart } from "react-native-chart-kit";
 import { Color, Theme } from 'components/stylesheet.js';
 
-class ScoreGraph extends AbstractGraph {
+class OverallScoreGraph extends AbstractGraph {
   constructor(props) {
     super(props);
     this.state.dataType = 'score';
@@ -55,4 +55,4 @@ class ScoreGraph extends AbstractGraph {
   }
 }
 
-export default ScoreGraph;
+export default OverallScoreGraph;
