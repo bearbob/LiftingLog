@@ -120,7 +120,6 @@ export const storeObjectInSet = async (key, newValue) => {
         array = JSON.parse(value);
       }
       if(!array.includes(newValue)) {
-          console.log("Set size: "+array.length+", added "+newValue);
           array.push(newValue);
           await AsyncStorage.setItem(key, JSON.stringify(array));
       }
@@ -205,7 +204,6 @@ export const storeWeightLog = (aParams) => {
     );
     let days = date.getDate().toString().padStart(2, '0');
     let months = (date.getMonth()+1).toString().padStart(2, '0');
-    console.log('Adding '+(date.getFullYear()+"-"+months+"-"+days));
     storeObjectInSet('calendar', (date.getFullYear()+"-"+months+"-"+days));
     storeStrengthScore({
       exercise: id,

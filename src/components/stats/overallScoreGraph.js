@@ -11,7 +11,6 @@ import {
   StyleSheet,
   View
 } from 'react-native';
-import AbstractGraph from './abstractGraph';
 import { BarChart } from "react-native-chart-kit";
 import { Color, Theme } from 'components/stylesheet.js';
 import { retrieveData } from 'components/storage';
@@ -31,11 +30,9 @@ class OverallScoreGraph extends React.Component {
 
   ccomponentDidMount() {
     this._mounted = true;
-    console.log('Compontent mounted');
     this.updaterID = setInterval(
       () => {
         if(this._mounted) {
-          console.log('Retrieve');
           retrieveData(this.state.id, this.refresh);
         }
       },
@@ -55,7 +52,6 @@ class OverallScoreGraph extends React.Component {
         let scoreObject = JSON.parse(value);
         // the data is fetched successfully
         let weeks = Object.keys(scoreObject).sort().slice(-6);
-        console.log("weeks = "+weeks.length);
         //TODO include missing weeks
         weeks.forEach(entry => {
           dates.push(entry);
