@@ -53,7 +53,6 @@ class CalendarGraph extends React.Component {
           data.push({date: dates[i], count: 1});
         }
     }
-
     this.setState({
       data: data
     });
