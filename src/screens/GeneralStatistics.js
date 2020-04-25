@@ -32,7 +32,7 @@ class GeneralStatisticsScreen extends React.Component {
       <SafeAreaView style={Theme.safeArea}>
         <ScrollView contentInsetAdjustmentBehavior="automatic" >
           <View>
-            <Text style={Theme.title}>Overall strength score progress last weeks</Text>
+            <Text style={Theme.title}>Trainings last 90 days</Text>
             <CalendarGraph />
           </View>
         </ScrollView>

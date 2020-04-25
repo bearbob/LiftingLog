@@ -11,7 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
-import { BarChart } from "react-native-chart-kit";
+import { ContributionGraph } from "react-native-chart-kit";
 import { Color, Theme } from 'components/stylesheet.js';
 import { retrieveData } from 'components/storage';
 
@@ -73,16 +73,24 @@ class CalendarGraph extends React.Component {
     });
   }
 
+  getColor(opacity = 1) {
+    if(Number.isNaN(opacity)) {
+      opacity = 1;
+    }
+    return `rgba(77, 188, 94, ${opacity})`;
+  }
+
   render() {
     if(this.state.data.length < 1) {
       return (<Text style={this.getStyle().sectionDescription}>No data to visualize</Text>);
     }
     return (
       <View style={Theme.chart}>
+      <Text style={Theme.sectionDescription}>Logged {this.state.data.length} trainings</Text>
       <ContributionGraph
         values={this.state.data}
-        endDate={new Date("2020-05-01")}
-        numDays={105}
+        endDate={new Date()}
+        numDays={90}
         width={Dimensions.get("window").width-16} // from react-native
         height={Dimensions.get("window").height/3}
         chartConfig={{
@@ -90,8 +98,8 @@ class CalendarGraph extends React.Component {
           fillShadowGradient: Color.graphShadowColor,
           fillShadowGradientOpacity: 0.4,
           decimalPlaces: 2, // optional, defaults to 2dp
-          color: (opacity = 1) => `rgba(77, 188, 94, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(77, 188, 94, ${opacity})`,
+          color: this.getColor,
+          labelColor: this.getColor,
           style: {
             borderRadius: 1
           }

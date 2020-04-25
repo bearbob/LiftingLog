@@ -110,18 +110,18 @@ export const storeObjectInArray = async (key, object, append) => {
  * @public
  * @static
  * @param {string} key - The key to store the object under
- * @param {object} value - The value that will be stored in the database
+ * @param {object} newValue - The value that will be stored in the database
  */
-export const storeObjectInSet = async (key, value) => {
+export const storeObjectInSet = async (key, newValue) => {
     try {
       var array = [];
       const value = await AsyncStorage.getItem(key);
       if (value !== null) {
         array = JSON.parse(value);
       }
-      if(!array.includes(value)) {
-          console.log("Set size: "+array.length+", added "+value);
-          array.push(value);
+      if(!array.includes(newValue)) {
+          console.log("Set size: "+array.length+", added "+newValue);
+          array.push(newValue);
           await AsyncStorage.setItem(key, JSON.stringify(array));
       }
     } catch (error) {
@@ -203,7 +203,10 @@ export const storeWeightLog = (aParams) => {
       { weight: weight, reps: reps, date: date, oneRM: oneRm, score: strengthScore},
       true
     );
-    storeObjectInSet('calendar', formatDate(date, true));
+    let days = date.getDate().toString().padStart(2, '0');
+    let months = (date.getMonth()+1).toString().padStart(2, '0');
+    console.log('Adding '+(date.getFullYear()+"-"+months+"-"+days));
+    storeObjectInSet('calendar', (date.getFullYear()+"-"+months+"-"+days));
     storeStrengthScore({
       exercise: id,
       date: date,
