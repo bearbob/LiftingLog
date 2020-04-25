@@ -22,5 +22,17 @@ export const Exercises = [
   {
     name: "Deadlift",
     id: "deadlift"
-  }
+  },
+  {
+    name: "Barbell Front Squat",
+    id: "frontsquat"
+  },
+  {
+    name: "Incline Bench Press",
+    id: "inclinebenchpress"
+  },
+  {
+    name: "Pendlay Row",
+    id: "pendlayrow"
+  },
 ];

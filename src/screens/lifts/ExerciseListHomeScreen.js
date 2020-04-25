@@ -13,13 +13,16 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
+  Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
 import { Exercises } from 'components/content';
-import { Theme } from 'components/stylesheet';
+import { Theme, Color } from 'components/stylesheet';
 import { ExerciseCard } from 'components/exercise';
 import { dataExists } from 'components/storage';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 class ExerciseListHomeScreen extends React.Component {
@@ -28,6 +31,7 @@ class ExerciseListHomeScreen extends React.Component {
     this.state = {
       refreshing: false,
       keyPrefix: 'a',
+      showInfoBox: false,
     };
     this.alertSettingsIncomplete = this.alertSettingsIncomplete.bind(this);
     dataExists(["birthday", "bodyweight"], this.alertSettingsIncomplete);
@@ -61,6 +65,31 @@ class ExerciseListHomeScreen extends React.Component {
           <View>
             {this.renderExercises()}
           </View>
+          <TouchableOpacity style={Theme.maincontainer}
+           onPress={() => this.setState({ showInfoBox: !this.state.showInfoBox })}
+           >
+           <View style={Theme.rowContainer}>
+             <Icon
+               name="ios-information-circle-outline"
+               color={Color.mainFontColor}
+               size={20}
+             />
+           <Text style={Theme.sectionDescription}> Tap to show more information</Text>
+           </View>
+         {this.state.showInfoBox && (
+           <View>
+             <Text style={Theme.text}>This list is used to track your strength progress for the main lifts.</Text>
+             <Text style={Theme.text}>
+               The goal is to increase the maximum weight you can lift per exercise.
+               To track your progress, you only record the set with the highest weight and most reps you did.
+             </Text>
+             <Text style={Theme.text}>
+               For example, if you did 2 sets with 100kg and 4 reps and one set with 9 reps and 90kg, you track 100kg and 4 reps,
+               even though you did lifted more weight in total for the third set.
+             </Text>
+           </View>
+         )}
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
       </>

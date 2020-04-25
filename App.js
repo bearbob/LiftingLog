@@ -14,13 +14,13 @@ import {
   ExerciseListHomeScreen,
   ExerciseDetailsScreen,
   ExerciseGraphsScreen
-} from 'screens/exercise';
+} from 'screens/lifts';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Color } from 'components/stylesheet';
 import  {
-  ExerciseListScreen,
   DevToolScreen,
-  SettingsScreen
+  SettingsScreen,
+  GeneralStatisticsScreen
 } from 'screens';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -66,6 +66,17 @@ function SettingsStackScreen() {
   );
 }
 
+const StatisticStack = createStackNavigator();
+
+function StatisticStackScreen() {
+  return (
+    <StatisticStack.Navigator
+      initialRouteName="Stats">
+      <StatisticStack.Screen name="Stats" component={GeneralStatisticsScreen} />
+    </StatisticStack.Navigator>
+  );
+}
+
 
 const App: () => React$Node = () => {
   return (
@@ -103,6 +114,13 @@ const App: () => React$Node = () => {
           component={ExerciseStackScreen}
           options={{
             title: 'Lifts'
+          }}
+        />
+        <Tab.Screen
+          name="Stats"
+          component={StatisticStackScreen}
+          options={{
+            title: 'Stats'
           }}
         />
         <Tab.Screen

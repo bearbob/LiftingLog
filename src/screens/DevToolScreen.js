@@ -24,6 +24,7 @@ import { storeObjectInArray, retrieveData } from 'components/storage';
 import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { formatDate } from 'components/utils';
 import moment from 'moment';
 
 class DevToolScreen extends React.Component {
@@ -38,9 +39,10 @@ class DevToolScreen extends React.Component {
       if (value !== null) {
           array = JSON.parse(value);
       }
-      let amount = Math.floor(Math.random() * (40+15)) + 15;
+      let amount = Math.floor(Math.random() * (10+5)) + 5;
       console.log("Adding "+amount+" new entries to "+sExerciseID);
       var dataContainer = [];
+      var dateContainer = [];
       for(let i=0; i<amount; i++){
         let randWeight = Math.floor(Math.random() * (40+i)) + i;
         randWeight = Math.floor(randWeight/2.5)*2.5;
@@ -76,9 +78,11 @@ class DevToolScreen extends React.Component {
               score: strengthScore
             }
           );
+          dateContainer.push(formatDate(randDate));
         });
       }
       await AsyncStorage.setItem(sExerciseID, JSON.stringify(dataContainer));
+      await AsyncStorage.setItem('calendar', JSON.stringify(dateContainer));
     } catch (error) {
         // Error saving data
         console.log(error.message);
