@@ -3,7 +3,6 @@
  */
 
 import 'react-native';
-import React from 'react';
 import {
   getBestLog,
   getBestLogs,
@@ -13,29 +12,29 @@ import {
   getWeekNumber,
   isSecondLiftBetter,
   weeksBetween,
-  getNextWeek
+  getNextWeek,
 } from '../src/components/utils';
 
 const LOGENTRY_A = {
- "weight": 100,
- "reps": 5,
- "date": "2020-02-13T15:35:46.614Z", //cw 7
- "oneRM": 90,
- "score": 93.9
+  weight: 100,
+  reps: 5,
+  date: '2020-02-13T15:35:46.614Z', //cw 7
+  oneRM: 90,
+  score: 93.9,
 };
 const LOGENTRY_B = {
- "weight": 62.5,
- "reps": 2,
- "date": "2020-02-19T08:44:42.042Z", //cw 8
- "oneRM": 65,
- "score": 67.8
+  weight: 62.5,
+  reps: 2,
+  date: '2020-02-19T08:44:42.042Z', //cw 8
+  oneRM: 65,
+  score: 67.8,
 };
 const LOGENTRY_C = {
- "weight": 55,
- "reps": 10,
- "date": "2020-02-10T19:42:08.036Z", //cw 7
- "oneRM": 72.5,
- "score": 75.6
+  weight: 55,
+  reps: 10,
+  date: '2020-02-10T19:42:08.036Z', //cw 7
+  oneRM: 72.5,
+  score: 75.6,
 };
 
 //################################# Test getBestLogs() //#################################
@@ -246,95 +245,136 @@ test('find last log from null/undefined', () => {
 //################################# Test formatDate() //#################################
 
 test('formatting date with expected input', () => {
-  let newDate = new Date("2020-02-13T15:35:46.614Z");
-  expect(formatDate(newDate)).toBe("13.02.2020");
-  expect(formatDate(newDate, false)).toBe("13.02.2020");
+  let newDate = new Date('2020-02-13T15:35:46.614Z');
+  expect(formatDate(newDate)).toBe('13.02.2020');
+  expect(formatDate(newDate, false)).toBe('13.02.2020');
 });
 
 test('formatting date with expected input (reversed)', () => {
-  let newDate = new Date("2020-02-13T15:35:46.614Z");
-  expect(formatDate(newDate, true)).toBe("2020.02.13");
+  let newDate = new Date('2020-02-13T15:35:46.614Z');
+  expect(formatDate(newDate, true)).toBe('2020.02.13');
 });
 
 test('formatting date with string input', () => {
-  let newDate = "2020-02-13T15:35:46.614Z";
-  expect(formatDate(newDate)).toBe("13.02.2020");
-  expect(formatDate(newDate, false)).toBe("13.02.2020");
+  let newDate = '2020-02-13T15:35:46.614Z';
+  expect(formatDate(newDate)).toBe('13.02.2020');
+  expect(formatDate(newDate, false)).toBe('13.02.2020');
 });
 
 test('formatting date with string input (reversed)', () => {
-  let newDate = "2020-02-13T15:35:46.614Z";
-  expect(formatDate(newDate, true)).toBe("2020.02.13");
-
+  let newDate = '2020-02-13T15:35:46.614Z';
+  expect(formatDate(newDate, true)).toBe('2020.02.13');
 });
 
 test('formatting date with non-date string input', () => {
-  let newDate = "2020 and something about tuesday";
-  expect(formatDate(newDate)).toBe("none");
-  expect(formatDate(newDate, false)).toBe("none");
-  expect(formatDate(newDate, true)).toBe("none");
+  let newDate = '2020 and something about tuesday';
+  expect(formatDate(newDate)).toBe('none');
+  expect(formatDate(newDate, false)).toBe('none');
+  expect(formatDate(newDate, true)).toBe('none');
 });
 
 test('formatting date with integer input', () => {
   let newDate = 20200403;
-  expect(formatDate(newDate)).toBe("none");
-  expect(formatDate(newDate, false)).toBe("none");
-  expect(formatDate(newDate, true)).toBe("none");
+  expect(formatDate(newDate)).toBe('none');
+  expect(formatDate(newDate, false)).toBe('none');
+  expect(formatDate(newDate, true)).toBe('none');
 });
 
 test('formatting date with empty input', () => {
-  expect(formatDate([])).toBe("none");
-  expect(formatDate([], false)).toBe("none");
-  expect(formatDate([], true)).toBe("none");
-  expect(formatDate(null)).toBe("none");
-  expect(formatDate(null, false)).toBe("none");
-  expect(formatDate(null, true)).toBe("none");
-  expect(formatDate(undefined)).toBe("none");
-  expect(formatDate(undefined, false)).toBe("none");
-  expect(formatDate(undefined, true)).toBe("none");
+  expect(formatDate([])).toBe('none');
+  expect(formatDate([], false)).toBe('none');
+  expect(formatDate([], true)).toBe('none');
+  expect(formatDate(null)).toBe('none');
+  expect(formatDate(null, false)).toBe('none');
+  expect(formatDate(null, true)).toBe('none');
+  expect(formatDate(undefined)).toBe('none');
+  expect(formatDate(undefined, false)).toBe('none');
+  expect(formatDate(undefined, true)).toBe('none');
 });
 
 //################################# Test isSecondLiftBetter() //#################################
 
 test('same lift', () => {
-  var a = { weight: 100, reps: 5 };
-  var b = { weight: 100, reps: 5 };
+  let a = {
+    weight: 100,
+    reps: 5,
+  };
+  let b = {
+    weight: 100,
+    reps: 5,
+  };
   expect(isSecondLiftBetter(a, b)).toBe(false);
 });
 
 test('second lift has more weight', () => {
-  var a = { weight: 100, reps: 5 };
-  var b = { weight: 110, reps: 5 };
+  let a = {
+    weight: 100,
+    reps: 5,
+  };
+  let b = {
+    weight: 110,
+    reps: 5,
+  };
   expect(isSecondLiftBetter(a, b)).toBe(true);
 });
 
 test('second lift has more weight, less reps', () => {
-  var a = { weight: 100, reps: 5 };
-  var b = { weight: 110, reps: 1 };
+  let a = {
+    weight: 100,
+    reps: 5,
+  };
+  let b = {
+    weight: 110,
+    reps: 1,
+  };
   expect(isSecondLiftBetter(a, b)).toBe(true);
 });
 
 test('second lift has more reps', () => {
-  var a = { weight: 100, reps: 5 };
-  var b = { weight: 100, reps: 6 };
+  let a = {
+    weight: 100,
+    reps: 5,
+  };
+  let b = {
+    weight: 100,
+    reps: 6,
+  };
   expect(isSecondLiftBetter(a, b)).toBe(true);
 });
 
 test('second lift has less reps', () => {
-  var a = { weight: 100, reps: 5 };
-  var b = { weight: 100, reps: 4 };
+  let a = {
+    weight: 100,
+    reps: 5,
+  };
+  let b = {
+    weight: 100,
+    reps: 4,
+  };
   expect(isSecondLiftBetter(a, b)).toBe(false);
 });
 
 test('second lift has less weight, more reps', () => {
-  var a = { weight: 100, reps: 5 };
-  var b = { weight: 90, reps: 7 };
+  let a = {
+    weight: 100,
+    reps: 5,
+  };
+  let b = {
+    weight: 90,
+    reps: 7,
+  };
   expect(isSecondLiftBetter(a, b)).toBe(false);
 });
 
 test('null or undefined input for lift comparison', () => {
-  var a = { weight: 100, reps: 5 };
-  var b = { weight: 90, reps: 7 };
+  let a = {
+    weight: 100,
+    reps: 5,
+  };
+  let b = {
+    weight: 90,
+    reps: 7,
+  };
   expect(isSecondLiftBetter(a, null)).toBe(false);
   expect(isSecondLiftBetter(null, b)).toBe(true);
   expect(isSecondLiftBetter(null, null)).toBe(false);
@@ -378,8 +418,8 @@ test('get week number from date', () => {
 });
 
 test('get week number with wrong input', () => {
-  expect(getWeekNumber("")).toBe(null);
-  expect(getWeekNumber("not a date string")).toBe(null);
+  expect(getWeekNumber('')).toBe(null);
+  expect(getWeekNumber('not a date string')).toBe(null);
   expect(getWeekNumber('12345-99-99T15:35:46.614Z')).toBe(null);
 });
 
@@ -476,7 +516,7 @@ test('getNextWeek year change', () => {
 
 test('getNextWeek with error input', () => {
   expect(getNextWeek([2019])).toBe(null);
-  expect(getNextWeek(["NaN", "NaN"])).toBe(null);
+  expect(getNextWeek(['NaN', 'NaN'])).toBe(null);
   expect(getNextWeek([])).toBe(null);
   expect(getNextWeek(null)).toBe(null);
   expect(getNextWeek(undefined)).toBe(null);

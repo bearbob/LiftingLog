@@ -7,7 +7,7 @@ The app will calculate your one rep maximum and your strength score for this lif
 
 ## Use Cases
 I want to...
-* know how much weight i used a given exercise the last time
+* know how much weight I used a given exercise the last time
 * see how my lifting strength progressed over several training sessions
 * see my 1RM progress over several weeks
 
