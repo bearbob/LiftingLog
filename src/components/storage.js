@@ -1,7 +1,12 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import moment from 'moment';
-import { getSingleExerciseStrengthScore, getOneRepMaximum } from 'components/strengthScore';
-import { getWeekNumber, formatDate } from 'components/utils';
+import {
+  getSingleExerciseStrengthScore,
+  getOneRepMaximum,
+  getOneRepMaximumForBodyWeightExercise,
+} from 'components/strengthScore';
+import {isBodyweightExercise} from 'components/content';
+import {getWeekNumber} from 'components/utils';
 
 /**
  * Check if the objects with the given key exist in the database.
@@ -11,23 +16,26 @@ import { getWeekNumber, formatDate } from 'components/utils';
  * @param {function} [callback] - The function that will be executed after the data has been queried. Recieves true as input, if all requested parameters exist in the storage
  */
 export const dataExists = async (key, callback) => {
-    if(!Array.isArray(key)) {
-      key = [key];
+  if (!Array.isArray(key)) {
+    key = [key];
+  }
+  try {
+    let exists = true;
+    for (let i = 0; i < key.length; i++) {
+      let tmp = await AsyncStorage.getItem(key[i]);
+      if (!tmp) {
+        exists = false;
+      }
+      //FIXME Why the break here? This will let the loop run only once
+      break;
     }
-    try {
-        let exists = true;
-        for(let i=0; i<key.length; i++){
-          let tmp = await AsyncStorage.getItem(key[i]);
-          if(!tmp) exists = false;
-          break;
-        }
-        if(callback) {
-          callback(exists);
-        }
-    } catch (error) {
-        // Error retrieving data
-        console.log(error.message);
+    if (callback) {
+      callback(exists);
     }
+  } catch (error) {
+    // Error retrieving data
+    console.log(error.message);
+  }
 };
 
 /**
@@ -38,21 +46,21 @@ export const dataExists = async (key, callback) => {
  * @param {function} callback - The function that will be executed when the data has been loaded. Has the input parameter "value".
  */
 export const retrieveData = async (key, callback) => {
-    try {
-        var value;
-        if(Array.isArray(key)) {
-          value = {};
-          for(let i=0; i<key.length; i++){
-            value[key[i]] = await AsyncStorage.getItem(key[i]);
-          }
-        } else {
-          value = await AsyncStorage.getItem(key);
-        }
-        callback(value);
-    } catch (error) {
-        // Error retrieving data
-        console.log(error.message);
+  try {
+    var value;
+    if (Array.isArray(key)) {
+      value = {};
+      for (let i = 0; i < key.length; i++) {
+        value[key[i]] = await AsyncStorage.getItem(key[i]);
+      }
+    } else {
+      value = await AsyncStorage.getItem(key);
     }
+    callback(value);
+  } catch (error) {
+    // Error retrieving data
+    console.log(error.message);
+  }
 };
 
 /**
@@ -63,12 +71,12 @@ export const retrieveData = async (key, callback) => {
  * @param {object} object - The object that will be stored in the database
  */
 export const storeData = async (key, data) => {
-    try {
-      await AsyncStorage.setItem(key, JSON.stringify(data));
-    } catch (error) {
-        // Error saving data
-        console.log(error.message);
-    }
+  try {
+    await AsyncStorage.setItem(key, JSON.stringify(data));
+  } catch (error) {
+    // Error saving data
+    console.log(error.message);
+  }
 };
 
 /**
@@ -82,23 +90,23 @@ export const storeData = async (key, data) => {
  * @param {boolean} append - If false, the existing data is overwritten
  */
 export const storeObjectInArray = async (key, object, append) => {
-    if(append === null || append === undefined) {
-      append = true;
-    }
-    try {
-      var array = [];
-      if(append) {
-        const value = await AsyncStorage.getItem(key);
-        if (value !== null) {
-          array = JSON.parse(value);
-        }
+  if (append === null || append === undefined) {
+    append = true;
+  }
+  try {
+    var array = [];
+    if (append) {
+      const value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        array = JSON.parse(value);
       }
-      array.push(object);
-      await AsyncStorage.setItem(key, JSON.stringify(array));
-    } catch (error) {
-        // Error saving data
-        console.log(error.message);
     }
+    array.push(object);
+    await AsyncStorage.setItem(key, JSON.stringify(array));
+  } catch (error) {
+    // Error saving data
+    console.log(error.message);
+  }
 };
 
 /**
@@ -113,20 +121,20 @@ export const storeObjectInArray = async (key, object, append) => {
  * @param {object} newValue - The value that will be stored in the database
  */
 export const storeObjectInSet = async (key, newValue) => {
-    try {
-      var array = [];
-      const value = await AsyncStorage.getItem(key);
-      if (value !== null) {
-        array = JSON.parse(value);
-      }
-      if(!array.includes(newValue)) {
-          array.push(newValue);
-          await AsyncStorage.setItem(key, JSON.stringify(array));
-      }
-    } catch (error) {
-        // Error saving data
-        console.log(error.message);
+  try {
+    var array = [];
+    const value = await AsyncStorage.getItem(key);
+    if (value !== null) {
+      array = JSON.parse(value);
     }
+    if (!array.includes(newValue)) {
+      array.push(newValue);
+      await AsyncStorage.setItem(key, JSON.stringify(array));
+    }
+  } catch (error) {
+    // Error saving data
+    console.log(error.message);
+  }
 };
 
 /**
@@ -137,31 +145,29 @@ export const storeObjectInSet = async (key, newValue) => {
  * @param {object} aParams.date
  * @param {object} aParams.score
  */
-const storeStrengthScore = async (aParams) => {
-    const key = 'strengthScoreCollection';
-    let week = getWeekNumber(aParams.date);
-    let weekId = week[0] + '/' + week[1];
-    let id = aParams.exercise;
-    try {
-      var collection = {};
-      const value = await AsyncStorage.getItem(key);
-      if (value !== null) {
-        collection = JSON.parse(value);
-      }
-      if(!collection[weekId]) {
-        collection[weekId] = {};
-        collection[weekId][id] = aParams.score;
-      } else {
-        if(!collection[weekId][id] || collection[weekId][id] < aParams.score) {
-          collection[weekId][id] = aParams.score;
-        }
-      }
-
-      await AsyncStorage.setItem(key, JSON.stringify(collection));
-    } catch (error) {
-        // Error saving data
-        console.log(error.message);
+const storeStrengthScore = async aParams => {
+  const key = 'strengthScoreCollection';
+  let week = getWeekNumber(aParams.date);
+  let weekId = week[0] + '/' + week[1];
+  let id = aParams.exercise;
+  try {
+    var collection = {};
+    const value = await AsyncStorage.getItem(key);
+    if (value !== null) {
+      collection = JSON.parse(value);
     }
+    if (!collection[weekId]) {
+      collection[weekId] = {};
+      collection[weekId][id] = aParams.score;
+    } else if (!collection[weekId][id] || collection[weekId][id] < aParams.score) {
+      collection[weekId][id] = aParams.score;
+    }
+
+    await AsyncStorage.setItem(key, JSON.stringify(collection));
+  } catch (error) {
+    // Error saving data
+    console.log(error.message);
+  }
 };
 
 /**
@@ -173,42 +179,48 @@ const storeStrengthScore = async (aParams) => {
  * @param {integer} aParams.reps - The repitition the weight was lifted for
  * @param {date} aParams.date - The date of the lift
  */
-export const storeWeightLog = (aParams) => {
+export const storeWeightLog = aParams => {
   const weight = aParams.weight;
   const reps = aParams.reps;
   const date = aParams.date;
   const id = aParams.id;
-  retrieveData(["bodyweight", "birthday", "isMale"], (values) => {
+  retrieveData(['bodyweight', 'birthday', 'isMale'], values => {
     //if the settings are incomplete, we will use a default setting:
     // female, 20 years old, 55kg bodyweight
     var defaultBirthday = moment().subtract(20, 'years');
-    if(!values) {
-      values = { bodyweight: 75, birthday: defaultBirthday, isMale: false};
+    if (!values) {
+      values = {bodyweight: 75, birthday: defaultBirthday, isMale: false};
     }
-    values.bodyweight = values.bodyweight?values.bodyweight:55;
-    values.birthday = new Date(values.birthday?values.birthday:defaultBirthday);
-    values.isMale = values.isMale?values.isMale:false;
+    values.bodyweight = values.bodyweight ? values.bodyweight : 55;
+    values.birthday = new Date(values.birthday ? values.birthday : defaultBirthday);
+    values.isMale = values.isMale ? values.isMale : false;
     var age = moment().diff(moment(values.birthday), 'years');
-    var oneRm = getOneRepMaximum(weight, reps, 2.5);
+
+    let oneRm;
+    if (isBodyweightExercise(id)) {
+      oneRm = getOneRepMaximumForBodyWeightExercise(values.bodyweight + weight, reps, 2.5);
+    } else {
+      oneRm = getOneRepMaximum(weight, reps, 2.5);
+    }
     var strengthScore = getSingleExerciseStrengthScore(
       values.isMale,
       age,
       values.bodyweight,
       id,
-      oneRm
+      oneRm,
     );
     storeObjectInArray(
       id,
-      { weight: weight, reps: reps, date: date, oneRM: oneRm, score: strengthScore},
-      true
+      {weight: weight, reps: reps, date: date, oneRM: oneRm, score: strengthScore},
+      true,
     );
     let days = date.getDate().toString().padStart(2, '0');
-    let months = (date.getMonth()+1).toString().padStart(2, '0');
-    storeObjectInSet('calendar', (date.getFullYear()+"-"+months+"-"+days));
+    let months = (date.getMonth() + 1).toString().padStart(2, '0');
+    storeObjectInSet('calendar', date.getFullYear() + '-' + months + '-' + days);
     storeStrengthScore({
       exercise: id,
       date: date,
-      score: strengthScore
+      score: strengthScore,
     });
   });
 };

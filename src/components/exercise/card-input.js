@@ -5,20 +5,11 @@
  */
 
 import React from 'react';
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  Text,
-  TouchableOpacity,
-  Button,
-  Alert
-} from 'react-native';
+import {TextInput, View, Text, TouchableOpacity} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { formatDate } from 'components/utils';
-import { Theme } from 'components/stylesheet.js';
-import { storeWeightLog } from 'components/storage';
-import moment from 'moment';
+import {formatDate} from 'components/utils';
+import {Theme} from 'components/stylesheet.js';
+import {storeWeightLog} from 'components/storage';
 
 class ExerciseInput extends React.Component {
   constructor(props) {
@@ -29,7 +20,7 @@ class ExerciseInput extends React.Component {
       weight: null,
       reps: null,
       showDatepicker: false,
-      date: new Date() //default date is today
+      date: new Date(), //default date is today
     };
   }
 
@@ -38,9 +29,11 @@ class ExerciseInput extends React.Component {
    * @returns true if both input arguments are not null and not empty strings
    */
   isButtonActive(conditions) {
-    for(let i=0; i<conditions.length; i++) {
+    for (let i = 0; i < conditions.length; i++) {
       let c = conditions[i];
-      if(c === null || c === undefined || c === '') return false;
+      if (c === null || c === undefined || c === '') {
+        return false;
+      }
     }
     return true;
   }
@@ -54,10 +47,10 @@ class ExerciseInput extends React.Component {
               style={Theme.input}
               keyboardType="numeric"
               onChangeText={(text, eventCount, target) => {
-                  this.setState({
-                    weight: text,
-                    submitButtonActive: this.isButtonActive([text, this.state.reps])
-                  });
+                this.setState({
+                  weight: text,
+                  submitButtonActive: this.isButtonActive([text, this.state.reps]),
+                });
               }}
               value={this.state.weight}
             />
@@ -70,10 +63,10 @@ class ExerciseInput extends React.Component {
               style={Theme.input}
               keyboardType="numeric"
               onChangeText={(text, eventCount, target) => {
-                  this.setState({
-                    reps: text,
-                    submitButtonActive: this.isButtonActive([this.state.weight, text])
-                  });
+                this.setState({
+                  reps: text,
+                  submitButtonActive: this.isButtonActive([this.state.weight, text]),
+                });
               }}
               value={this.state.reps}
             />
@@ -82,9 +75,8 @@ class ExerciseInput extends React.Component {
           <Text style={Theme.text}> @ </Text>
           <View style={Theme.centeredContainer}>
             <TouchableOpacity
-             style={Theme.picker}
-             onPress={() => this.setState({ showDatepicker:true })}
-             >
+              style={Theme.picker}
+              onPress={() => this.setState({showDatepicker: true})}>
               <Text style={Theme.buttonText}>{formatDate(this.state.date)}</Text>
             </TouchableOpacity>
             <Text style={Theme.text}>Date</Text>
@@ -93,42 +85,40 @@ class ExerciseInput extends React.Component {
             <DateTimePicker
               testID="dateTimePicker"
               value={this.state.date}
-              mode='date'
+              mode="date"
               display="default"
               onChange={(event, selectedDate) => {
-                  const currentDate = selectedDate || this.state.date;
-                  this.setState({
-                    date:currentDate,
-                    showDatepicker:false
-                  });
+                const currentDate = selectedDate || this.state.date;
+                this.setState({
+                  date: currentDate,
+                  showDatepicker: false,
+                });
               }}
             />
           )}
         </View>
 
         <TouchableOpacity
-         style={this.state.submitButtonActive?Theme.button:Theme.buttonInactive}
-         onPress={() => {
-           if(this.isButtonActive([this.state.weight, this.state.reps])){
-             storeWeightLog({
-               id: this.state.id,
-               weight: parseInt(this.state.weight),
-               reps: parseInt(this.state.reps),
-               date: this.state.date
-             });
-             this.setState({
-               submitButtonActive: false,
-               reps: null,
-               weight: null
-             });
-           }
-         }}
-         >
-          <Text style={this.state.submitButtonActive?Theme.buttonText:Theme.buttonTextInactive}>
+          style={this.state.submitButtonActive ? Theme.button : Theme.buttonInactive}
+          onPress={() => {
+            if (this.isButtonActive([this.state.weight, this.state.reps])) {
+              storeWeightLog({
+                id: this.state.id,
+                weight: parseInt(this.state.weight),
+                reps: parseInt(this.state.reps),
+                date: this.state.date,
+              });
+              this.setState({
+                submitButtonActive: false,
+                reps: null,
+                weight: null,
+              });
+            }
+          }}>
+          <Text style={this.state.submitButtonActive ? Theme.buttonText : Theme.buttonTextInactive}>
             Add
           </Text>
         </TouchableOpacity>
-
       </View>
     );
   }

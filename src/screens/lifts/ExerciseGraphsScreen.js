@@ -8,17 +8,10 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  TouchableOpacity,
-  StatusBar
-} from 'react-native';
+import {SafeAreaView, ScrollView, View, Text, StatusBar} from 'react-native';
 
-import { Theme } from 'components/stylesheet';
-import { PerformanceGraph, ScoreGraph } from "components/stats";
+import {Theme} from 'components/stylesheet';
+import {PerformanceGraph, ScoreGraph} from 'components/stats';
 
 class ExerciseGraphsScreen extends React.Component {
   constructor(props) {
@@ -27,23 +20,23 @@ class ExerciseGraphsScreen extends React.Component {
       id: this.props.route.params.id,
       name: this.props.route.params.name,
     };
-    this.props.navigation.setOptions({ title: this.state.name });
+    this.props.navigation.setOptions({title: this.state.name});
   }
 
   render() {
     return (
       <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={Theme.safeArea}>
-        <ScrollView contentInsetAdjustmentBehavior="automatic" >
-          <View>
-            <Text style={Theme.title}>Weight progress last weeks</Text>
-            <PerformanceGraph id={this.state.id} includeInactiveWeeks={true} />
-            <Text style={Theme.title}>Strength score progress last weeks</Text>
-            <ScoreGraph id={this.state.id} includeInactiveWeeks={true} />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+        <StatusBar barStyle="dark-content" />
+        <SafeAreaView style={Theme.safeArea}>
+          <ScrollView contentInsetAdjustmentBehavior="automatic">
+            <View>
+              <Text style={Theme.title}>Weight progress last weeks</Text>
+              <PerformanceGraph id={this.state.id} includeInactiveWeeks={true} />
+              <Text style={Theme.title}>Strength score progress last weeks</Text>
+              <ScoreGraph id={this.state.id} includeInactiveWeeks={true} />
+            </View>
+          </ScrollView>
+        </SafeAreaView>
       </>
     );
   }

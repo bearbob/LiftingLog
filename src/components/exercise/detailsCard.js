@@ -6,16 +6,10 @@
  */
 
 import React from 'react';
-import {
-  TextInput,
-  View,
-  Text,
-  TouchableOpacity
-} from 'react-native';
-import { getBestLog, getLastLog, formatDate, printLogLine } from 'components/utils';
-import { retrieveData } from 'components/storage';
-import { Theme } from 'components/stylesheet';
-
+import {View, Text} from 'react-native';
+import {getBestLog, getLastLog, formatDate, printLogLine} from 'components/utils';
+import {retrieveData} from 'components/storage';
+import {Theme} from 'components/stylesheet';
 
 class ExerciseDetailsCard extends React.Component {
   constructor(props) {
@@ -23,7 +17,7 @@ class ExerciseDetailsCard extends React.Component {
     this.state = {
       name: this.props.text,
       id: this.props.id,
-      showInput: false
+      showInput: false,
     };
     this.refresh = this.refresh.bind(this);
     retrieveData(this.props.id, this.refresh);
@@ -31,14 +25,11 @@ class ExerciseDetailsCard extends React.Component {
 
   componentDidMount() {
     this._mounted = true;
-    this.updaterID = setInterval(
-      () => {
-        if(this._mounted) {
-          retrieveData(this.state.id, this.refresh);
-        }
-      },
-      3000
-    );
+    this.updaterID = setInterval(() => {
+      if (this._mounted) {
+        retrieveData(this.state.id, this.refresh);
+      }
+    }, 3000);
   }
 
   componentWillUnmount() {
@@ -54,22 +45,22 @@ class ExerciseDetailsCard extends React.Component {
     let best = null;
     let last = null;
     if (value !== null) {
-        let item = JSON.parse(value);
-        best = getBestLog(item);
-        last = getLastLog(item);
+      let item = JSON.parse(value);
+      best = getBestLog(item);
+      last = getLastLog(item);
     }
     this.setState({
-      bestWeight: best? best.weight:null,
-      bestReps: best? best.reps:null,
-      bestDate: best? new Date(best.date):null,
-      bestOneRM: (best && best.oneRM)? best.oneRM:null,
-      bestStrengthScore: (best && best.score)? best.score:null,
+      bestWeight: best ? best.weight : null,
+      bestReps: best ? best.reps : null,
+      bestDate: best ? new Date(best.date) : null,
+      bestOneRM: best && best.oneRM ? best.oneRM : null,
+      bestStrengthScore: best && best.score ? best.score : null,
       //---------------
-      lastWeight: last? last.weight:null,
-      lastReps: last? last.reps:null,
-      lastDate: last? new Date(last.date):null,
-      lastOneRM: (last && last.oneRM)?last.oneRM:null,
-      lastStrengthScore: (last && last.score)?last.score:null,
+      lastWeight: last ? last.weight : null,
+      lastReps: last ? last.reps : null,
+      lastDate: last ? new Date(last.date) : null,
+      lastOneRM: last && last.oneRM ? last.oneRM : null,
+      lastStrengthScore: last && last.score ? last.score : null,
     });
   }
 
@@ -82,19 +73,19 @@ class ExerciseDetailsCard extends React.Component {
             <View style={Theme.sectionContainer}>
               <Text style={Theme.sectionTitle}>Last: </Text>
               <Text style={Theme.sectionDescription}>
-                {printLogLine('', this.state.lastWeight, this.state.lastReps, this.state.lastDate) }
+                {printLogLine('', this.state.lastWeight, this.state.lastReps, this.state.lastDate)}
               </Text>
             </View>
             <View style={Theme.sectionContainer}>
               <Text style={Theme.sectionTitle}>Last one rep max: </Text>
               <Text style={Theme.sectionDescription}>
-                {this.state.lastOneRM?this.state.lastOneRM+" kg": "No data available"}
+                {this.state.lastOneRM ? this.state.lastOneRM + ' kg' : 'No data available'}
               </Text>
             </View>
             <View style={Theme.sectionContainer}>
               <Text style={Theme.sectionTitle}>Last strength score: </Text>
               <Text style={Theme.sectionDescription}>
-                {this.state.lastStrengthScore?this.state.lastStrengthScore: "No data available"}
+                {this.state.lastStrengthScore ? this.state.lastStrengthScore : 'No data available'}
               </Text>
             </View>
           </>
@@ -109,19 +100,19 @@ class ExerciseDetailsCard extends React.Component {
             <View style={Theme.sectionContainer}>
               <Text style={Theme.sectionTitle}>Best: </Text>
               <Text style={Theme.sectionDescription}>
-                {printLogLine('', this.state.bestWeight, this.state.bestReps, this.state.bestDate) }
+                {printLogLine('', this.state.bestWeight, this.state.bestReps, this.state.bestDate)}
               </Text>
             </View>
             <View style={Theme.sectionContainer}>
               <Text style={Theme.sectionTitle}>Best one rep max: </Text>
               <Text style={Theme.sectionDescription}>
-                {this.state.bestOneRM?this.state.bestOneRM+" kg": "No data available"}
+                {this.state.bestOneRM ? this.state.bestOneRM + ' kg' : 'No data available'}
               </Text>
             </View>
             <View style={Theme.sectionContainer}>
               <Text style={Theme.sectionTitle}>Best strength score: </Text>
               <Text style={Theme.sectionDescription}>
-                {this.state.bestStrengthScore?this.state.bestStrengthScore: "No data available"}
+                {this.state.bestStrengthScore ? this.state.bestStrengthScore : 'No data available'}
               </Text>
             </View>
           </>
