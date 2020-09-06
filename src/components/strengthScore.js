@@ -100,9 +100,19 @@ var percentOfPLTotal = function(isMale, bodyweight, exerciseName, oneRep) {
     return val + 0.37562;
   }
 
-  let chinUpPercent = 1.66589e-9 * Math.pow(l, 4)-5.1621e-7*Math.pow(l,3)+54088e-9*Math.pow(l,2)-0.00281674*l+0.302005;
+  let chinUpPercent =
+    1.66589e-9 * Math.pow(l, 4) -
+    5.1621e-7 * Math.pow(l, 3) +
+    54088e-9 * Math.pow(l, 2) -
+    0.00281674 * l +
+    0.302005;
   if (isMale) {
-    chinUpPercent = 4.01897e-10*Math.pow(l, 4)-2.34536e-7*Math.pow(l,3)+502252e-10*Math.pow(l,2)-0.00502633*l+0.459545;
+    chinUpPercent =
+      4.01897e-10 * Math.pow(l, 4) -
+      2.34536e-7 * Math.pow(l, 3) +
+      502252e-10 * Math.pow(l, 2) -
+      0.00502633 * l +
+      0.459545;
   }
 
   if (exerciseName === 'chinup') {

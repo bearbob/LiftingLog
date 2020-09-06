@@ -214,7 +214,10 @@ export const storeWeightLog = aParams => {
       {weight: weight, reps: reps, date: date, oneRM: oneRm, score: strengthScore},
       true,
     );
-    let days = date.getDate().toString().padStart(2, '0');
+    let days = date
+      .getDate()
+      .toString()
+      .padStart(2, '0');
     let months = (date.getMonth() + 1).toString().padStart(2, '0');
     storeObjectInSet('calendar', date.getFullYear() + '-' + months + '-' + days);
     storeStrengthScore({

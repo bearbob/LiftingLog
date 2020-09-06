@@ -79,20 +79,20 @@ class ExerciseListHomeScreen extends React.Component {
                 <Text style={Theme.sectionDescription}> Tap to show more information</Text>
               </View>
               {this.state.showInfoBox && (
-              <View>
-                <Text style={Theme.text}>
-                  This list is used to track your strength progress for the main lifts.
-                </Text>
-                <Text style={Theme.text}>
-                  The goal is to increase the maximum weight you can lift per exercise.
-                  To track your progress, you only record the set with the highest weight and most reps you did.
-                </Text>
-                <Text style={Theme.text}>
-                  For example, if you did 2 sets with 100kg and 4 reps and one set with 9 reps and 90kg, you track 100kg and 4 reps,
-                  even though you did lifted more weight in total for the third set.
-                </Text>
-              </View>
-           )}
+                <View>
+                  <Text style={Theme.text}>
+                    This list is used to track your strength progress for the main lifts.
+                  </Text>
+                  <Text style={Theme.text}>
+                    The goal is to increase the maximum weight you can lift per exercise.
+                    To track your progress, you only record the set with the highest weight and most reps you did.
+                  </Text>
+                  <Text style={Theme.text}>
+                    For example, if you did 2 sets with 100kg and 4 reps and one set with 9 reps and 90kg,
+                    you track 100kg and 4 reps, even though you lifted more weight in total for the third set.
+                  </Text>
+                </View>
+              )}
             </TouchableOpacity>
           </ScrollView>
         </SafeAreaView>
