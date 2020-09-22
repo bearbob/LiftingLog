@@ -5,7 +5,7 @@
 <!-- PROJECT LOGO -->
 <p align="center">
   <a href="https://github.com/bearbob/LiftingLog">
-    <img src="images/adaptive-icon.png" alt="Logo" width="108" height="108">
+    <img src="images/repo-icon.png" alt="Logo" width="85" height="85">
   </a>
 
   <h3 align="center">Lifting Log</h3>
@@ -89,7 +89,8 @@ npm install
 ```
 
 ### Running
-
+* Execute `npm start` to setup and run the app on your environment
+* Execute `npm test`, if your want to run the unit tests
 
 
 <!-- ROADMAP -->
