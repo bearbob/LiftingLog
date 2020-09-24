@@ -30,4 +30,5 @@ You cannot simply run react-native in WSL, but there is a [workaround](https://s
 
 * http://defrances.co/post/adbwsl/
 * https://stackoverflow.com/questions/42614347/running-react-native-in-wsl-with-the-emulator-running-directly-in-windows
+* https://gist.github.com/bergmannjg/461958db03c6ae41a66d264ae6504ade#enable-access-to-adb-server-from-wsl2
 * https://stackoverflow.com/questions/53365643/windows-subsystem-for-linux-not-recognizing-java-home-environmental-variable
