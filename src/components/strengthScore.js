@@ -230,6 +230,9 @@ export const getOneRepMaximum = (weight, reps, roundTo) => {
  * @return {double} The estimated one rep maxmium, including the bodyweight
  */
 export const getOneRepMaximumForBodyWeightExercise = (bodyweight, weight, reps, roundTo) => {
+  if (typeof bodyweight === 'string') {
+    throw 'WRONG_INPUT_TYPE';
+  }
   let completeWeight = bodyweight + weight;
   return getOneRepMaximum(completeWeight, reps, roundTo);
 };

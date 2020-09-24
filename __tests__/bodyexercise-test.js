@@ -40,8 +40,10 @@ test('One rep max without extra weight', () => {
   expect(getOneRepMaximumForBodyWeightExercise(bodyweight, 0, 5, 5)).toBe(95);
 });
 
-test('One rep max with weight and heavier body', () => {
-  expect(getOneRepMaximumForBodyWeightExercise(103, 15, 5, 2.5)).toBe(137.5);
+test('Test with faulty input types', () => {
+  expect(() => {
+    getOneRepMaximumForBodyWeightExercise('103', 15, 5, 2.5);
+  }).toThrow();
 });
 
 //################################# Test getSingleExerciseStrengthScore() //#################################
