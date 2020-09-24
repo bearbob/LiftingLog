@@ -5,6 +5,9 @@ on Windows with the WSL (e.g. Ubuntu). Mostly you just need to follow the guide
 linked below. The listed steps are just a quick reminder if you've done the
 setup before.
 
+Keep in mind that when you run `npm install`, you need to do it from the windows command line.
+Otherwise access problems could arise when trying to build the app.
+
 ## Setup physical device
 
 Setup Guide: http://defrances.co/post/adbwsl/
