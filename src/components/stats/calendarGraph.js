@@ -85,7 +85,7 @@ class CalendarGraph extends React.Component {
     }
     return (
       <View style={Theme.chart}>
-      <Text style={Theme.sectionDescription}>Logged {this.state.data.length} trainings</Text>
+      <Text style={Theme.sectionDescription}>Logged {this.state.data.length} lifts</Text>
       <ContributionGraph
         values={this.state.data}
         endDate={new Date()}

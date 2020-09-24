@@ -8,17 +8,10 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  Text,
-  TouchableOpacity,
-  StatusBar
-} from 'react-native';
+import {SafeAreaView, ScrollView, View, Text, StatusBar} from 'react-native';
 
-import { Theme } from 'components/stylesheet';
-import { CalendarGraph, OverallScoreGraph } from "components/stats";
+import {Theme} from 'components/stylesheet';
+import {CalendarGraph, OverallScoreGraph} from 'components/stats';
 
 class GeneralStatisticsScreen extends React.Component {
   constructor(props) {
@@ -32,7 +25,7 @@ class GeneralStatisticsScreen extends React.Component {
       <SafeAreaView style={Theme.safeArea}>
         <ScrollView contentInsetAdjustmentBehavior="automatic" >
           <View>
-            <Text style={Theme.title}>Strength Scores</Text>
+            <Text style={Theme.title}>Strength Scores per week</Text>
             <OverallScoreGraph />
             <Text style={Theme.title}>Trainings last 90 days</Text>
             <CalendarGraph />
