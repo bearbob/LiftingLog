@@ -187,14 +187,14 @@ export const storeWeightLog = aParams => {
   retrieveData(['bodyweight', 'birthday', 'isMale'], values => {
     //if the settings are incomplete, we will use a default setting:
     // female, 20 years old, 55kg bodyweight
-    var defaultBirthday = moment().subtract(20, 'years');
+    let defaultBirthday = moment().subtract(20, 'years');
     if (!values) {
       values = {bodyweight: 75, birthday: defaultBirthday, isMale: false};
     }
-    values.bodyweight = values.bodyweight ? values.bodyweight : 55;
+    values.bodyweight = values.bodyweight ? parseInt(values.bodyweight, 10) : 55;
     values.birthday = new Date(values.birthday ? values.birthday : defaultBirthday);
     values.isMale = values.isMale ? values.isMale : false;
-    var age = moment().diff(moment(values.birthday), 'years');
+    let age = moment().diff(moment(values.birthday), 'years');
 
     let oneRm;
     if (isBodyweightExercise(id)) {
@@ -202,7 +202,7 @@ export const storeWeightLog = aParams => {
     } else {
       oneRm = getOneRepMaximum(weight, reps, 2.5);
     }
-    var strengthScore = getSingleExerciseStrengthScore(
+    let strengthScore = getSingleExerciseStrengthScore(
       values.isMale,
       age,
       values.bodyweight,

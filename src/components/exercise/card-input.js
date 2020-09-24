@@ -104,8 +104,8 @@ class ExerciseInput extends React.Component {
             if (this.isButtonActive([this.state.weight, this.state.reps])) {
               storeWeightLog({
                 id: this.state.id,
-                weight: parseInt(this.state.weight),
-                reps: parseInt(this.state.reps),
+                weight: parseInt(this.state.weight, 10),
+                reps: parseInt(this.state.reps, 10),
                 date: this.state.date,
               });
               this.setState({

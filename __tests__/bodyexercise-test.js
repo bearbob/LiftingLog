@@ -40,6 +40,10 @@ test('One rep max without extra weight', () => {
   expect(getOneRepMaximumForBodyWeightExercise(bodyweight, 0, 5, 5)).toBe(95);
 });
 
+test('One rep max with weight and heavier body', () => {
+  expect(getOneRepMaximumForBodyWeightExercise(103, 15, 5, 2.5)).toBe(137.5);
+});
+
 //################################# Test getSingleExerciseStrengthScore() //#################################
 
 test('get pullup strength score (default male)', () => {

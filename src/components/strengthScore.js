@@ -193,7 +193,7 @@ export const getActualOneRepMaximum = (weight, reps) => {
   if (reps === 1) {
     return weight;
   }
-  if (reps > 1 && reps <= 10 && weight > 0) {
+  if (reps > 1 && reps <= 10) {
     return (100 * weight) / (48.8 + 53.8 * Math.exp(-0.075 * reps));
   }
   reps = reps > 30 ? 30 : reps;
@@ -230,5 +230,6 @@ export const getOneRepMaximum = (weight, reps, roundTo) => {
  * @return {double} The estimated one rep maxmium, including the bodyweight
  */
 export const getOneRepMaximumForBodyWeightExercise = (bodyweight, weight, reps, roundTo) => {
-  return getOneRepMaximum(bodyweight + weight, reps, roundTo);
+  let completeWeight = bodyweight + weight;
+  return getOneRepMaximum(completeWeight, reps, roundTo);
 };
