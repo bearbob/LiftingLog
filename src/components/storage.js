@@ -198,7 +198,7 @@ export const storeWeightLog = aParams => {
 
     let oneRm;
     if (isBodyweightExercise(id)) {
-      oneRm = getOneRepMaximumForBodyWeightExercise(values.bodyweight + weight, reps, 2.5);
+      oneRm = getOneRepMaximumForBodyWeightExercise(values.bodyweight, weight, reps, 2.5);
     } else {
       oneRm = getOneRepMaximum(weight, reps, 2.5);
     }

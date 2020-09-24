@@ -49,11 +49,10 @@ class ExerciseListHomeScreen extends React.Component {
 
   renderExercises() {
     var items = [];
-    Object.keys(Exercises).forEach(key => {
-      let value = Exercises[key];
+    for (let [index, value] of Exercises.entries()) {
       items.push(
         <ExerciseCard
-          key={this.state.keyPrefix + key}
+          key={this.state.keyPrefix + index}
           text={value.name}
           id={value.id}
           onTouch={() => {
@@ -61,7 +60,7 @@ class ExerciseListHomeScreen extends React.Component {
           }}
         />,
       );
-    });
+    }
     return items;
   }
 

@@ -88,7 +88,7 @@ class DevToolScreen extends React.Component {
 
   renderClipboardButtons() {
     var items = [];
-    for (const [index, value] of Exercises.entries()) {
+    for (let [index, value] of Exercises.entries()) {
       items.push(
         <TouchableOpacity
          style={Theme.button}

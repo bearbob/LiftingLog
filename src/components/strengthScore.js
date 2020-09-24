@@ -227,7 +227,7 @@ export const getOneRepMaximum = (weight, reps, roundTo) => {
  * @param {double} weight - The additional weight lifted, if additional weight was used for the exercise
  * @param {integer} reps - The number of times the weight was lifted (max 30)
  * @param {double} [roundTo] - The final value will be rounded down to the nearest multiple of this number. If negative, it will round up. Default is 1.
- * @return {double}
+ * @return {double} The estimated one rep maxmium, including the bodyweight
  */
 export const getOneRepMaximumForBodyWeightExercise = (bodyweight, weight, reps, roundTo) => {
   return getOneRepMaximum(bodyweight + weight, reps, roundTo);
