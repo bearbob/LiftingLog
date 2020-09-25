@@ -5,11 +5,11 @@
  */
 
 import React from 'react';
-import {TextInput, View, Text, TouchableOpacity} from 'react-native';
+import {Alert, TextInput, View, Text, TouchableOpacity} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {formatDate} from 'components/utils';
 import {Theme} from 'components/stylesheet.js';
-import {storeWeightLog} from 'components/storage';
+import {dataExists, storeWeightLog} from 'components/storage';
 
 class ExerciseInput extends React.Component {
   constructor(props) {
@@ -26,6 +26,7 @@ class ExerciseInput extends React.Component {
 
   /**
    * @private
+   * @param {array} conditions
    * @returns true if both input arguments are not null and not empty strings
    */
   isButtonActive(conditions) {
@@ -102,17 +103,32 @@ class ExerciseInput extends React.Component {
           style={this.state.submitButtonActive ? Theme.button : Theme.buttonInactive}
           onPress={() => {
             if (this.isButtonActive([this.state.weight, this.state.reps])) {
-              storeWeightLog({
-                id: this.state.id,
-                weight: parseInt(this.state.weight, 10),
-                reps: parseInt(this.state.reps, 10),
-                date: this.state.date,
-              });
-              this.setState({
-                submitButtonActive: false,
-                reps: null,
-                weight: null,
-              });
+              //before we add the data to storage, we check if the settings have
+              //been completed. Otherwise a warning is shown and we don't store
+              let checkSettings = function(bDataExists) {
+                if (bDataExists) {
+                  storeWeightLog({
+                    id: this.state.id,
+                    weight: parseInt(this.state.weight, 10),
+                    reps: parseInt(this.state.reps, 10),
+                    date: this.state.date,
+                  });
+                  this.setState({
+                    submitButtonActive: false,
+                    reps: null,
+                    weight: null,
+                  });
+                } else {
+                  Alert.alert(
+                    'Settings incomplete',
+                    'You need to finish the setup before you start logging exercises. Otherwise your scores will be inacurate.',
+                    [{text: 'Ok', onPress: () => {}}],
+                    {cancelable: true},
+                  );
+                }
+              };
+              checkSettings = checkSettings.bind(this);
+              dataExists(['birthday', 'bodyweight'], checkSettings);
             }
           }}>
           <Text style={this.state.submitButtonActive ? Theme.buttonText : Theme.buttonTextInactive}>

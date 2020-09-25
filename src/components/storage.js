@@ -189,7 +189,7 @@ export const storeWeightLog = aParams => {
     // female, 20 years old, 55kg bodyweight
     let defaultBirthday = moment().subtract(20, 'years');
     if (!values) {
-      values = {bodyweight: 75, birthday: defaultBirthday, isMale: false};
+      values = {bodyweight: 55, birthday: defaultBirthday, isMale: false};
     }
     values.bodyweight = values.bodyweight ? parseInt(values.bodyweight, 10) : 55;
     values.birthday = new Date(values.birthday ? values.birthday : defaultBirthday);
