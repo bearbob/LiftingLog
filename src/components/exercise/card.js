@@ -6,16 +6,11 @@
  */
 
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity
-} from 'react-native';
-import { getBestLog, getLastLog, printLogLine } from 'components/utils';
-import { retrieveData } from 'components/storage';
-import { Theme, Color } from 'components/stylesheet.js';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {getBestLog, getLastLog, printLogLine} from 'components/utils';
+import {retrieveData} from 'components/storage';
+import {Theme, Color} from 'components/stylesheet.js';
 import Icon from 'react-native-vector-icons/Ionicons';
-
 
 class ExerciseCard extends React.Component {
   constructor(props) {
@@ -33,14 +28,11 @@ class ExerciseCard extends React.Component {
 
   componentDidMount() {
     this._mounted = true;
-    this.updaterID = setInterval(
-      () => {
-        if(this._mounted) {
-          retrieveData(this.state.id, this.refresh);
-        }
-      },
-      5000
-    );
+    this.updaterID = setInterval(() => {
+      if (this._mounted) {
+        retrieveData(this.state.id, this.refresh);
+      }
+    }, 5000);
   }
 
   componentWillUnmount() {
@@ -56,22 +48,22 @@ class ExerciseCard extends React.Component {
     let best = null;
     let last = null;
     if (value !== null) {
-        let item = JSON.parse(value);
-        best = getBestLog(item);
-        last = getLastLog(item);
+      let item = JSON.parse(value);
+      best = getBestLog(item);
+      last = getLastLog(item);
     }
     this.setState({
-      bestWeight: best? best.weight:null,
-      bestReps: best? best.reps:null,
-      bestDate: best? new Date(best.date):null,
-      bestOneRM: (best && best.oneRM)? best.oneRM:null,
-      bestStrengthScore: (best && best.score)? best.score:null,
+      bestWeight: best ? best.weight : null,
+      bestReps: best ? best.reps : null,
+      bestDate: best ? new Date(best.date) : null,
+      bestOneRM: best && best.oneRM ? best.oneRM : null,
+      bestStrengthScore: best && best.score ? best.score : null,
       //---------------
-      lastWeight: last? last.weight:null,
-      lastReps: last? last.reps:null,
-      lastDate: last? new Date(last.date):null,
-      lastOneRM: (last && last.oneRM)?last.oneRM:null,
-      lastStrengthScore: (last && last.score)?last.score:null,
+      lastWeight: last ? last.weight : null,
+      lastReps: last ? last.reps : null,
+      lastDate: last ? new Date(last.date) : null,
+      lastOneRM: last && last.oneRM ? last.oneRM : null,
+      lastStrengthScore: last && last.score ? last.score : null,
     });
   }
 
@@ -102,12 +94,17 @@ class ExerciseCard extends React.Component {
         <TouchableOpacity onPress={this.onTouch}>
           <View style={Theme.rowContainer}>
             <View>
-              <Text style={Theme.title}>{ this.state.name }</Text>
+              <Text style={Theme.title}>{this.state.name}</Text>
               {this.state.lastDate && (
                 <View style={Theme.sectionContainer}>
                   <Text style={Theme.sectionTitle}>Last: </Text>
                   <Text style={Theme.sectionDescription}>
-                    {printLogLine('', this.state.lastWeight, this.state.lastReps, this.state.lastDate) }
+                    {printLogLine(
+                      '',
+                      this.state.lastWeight,
+                      this.state.lastReps,
+                      this.state.lastDate,
+                    )}
                   </Text>
                 </View>
               )}
@@ -115,7 +112,12 @@ class ExerciseCard extends React.Component {
                 <View style={Theme.sectionContainer}>
                   <Text style={Theme.sectionTitle}>Best: </Text>
                   <Text style={Theme.sectionDescription}>
-                    {printLogLine('', this.state.bestWeight, this.state.bestReps, this.state.bestDate) }
+                    {printLogLine(
+                      '',
+                      this.state.bestWeight,
+                      this.state.bestReps,
+                      this.state.bestDate,
+                    )}
                   </Text>
                 </View>
               )}
@@ -127,11 +129,7 @@ class ExerciseCard extends React.Component {
               )}
             </View>
             <Text style={{marginLeft: 'auto'}}>
-              <Icon
-                name="ios-arrow-forward"
-                color={Color.active}
-                size={25}
-              />
+              <Icon name="ios-arrow-forward" color={Color.active} size={25} />
             </Text>
           </View>
         </TouchableOpacity>

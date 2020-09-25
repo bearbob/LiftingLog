@@ -21,17 +21,17 @@ class GeneralStatisticsScreen extends React.Component {
   render() {
     return (
       <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={Theme.safeArea}>
-        <ScrollView contentInsetAdjustmentBehavior="automatic" >
-          <View>
-            <Text style={Theme.title}>Strength Scores per week</Text>
-            <OverallScoreGraph />
-            <Text style={Theme.title}>Trainings last 90 days</Text>
-            <CalendarGraph />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+        <StatusBar barStyle="dark-content" />
+        <SafeAreaView style={Theme.safeArea}>
+          <ScrollView contentInsetAdjustmentBehavior="automatic">
+            <View>
+              <Text style={Theme.title}>Strength Scores per week</Text>
+              <OverallScoreGraph />
+              <Text style={Theme.title}>Trainings last 90 days</Text>
+              <CalendarGraph />
+            </View>
+          </ScrollView>
+        </SafeAreaView>
       </>
     );
   }

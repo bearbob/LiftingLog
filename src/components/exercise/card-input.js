@@ -121,7 +121,7 @@ class ExerciseInput extends React.Component {
                 } else {
                   Alert.alert(
                     'Settings incomplete',
-                    'You need to finish the setup before you start logging exercises. Otherwise your scores will be inacurate.',
+                    'You need to finish the setup before you start logging exercises.',
                     [{text: 'Ok', onPress: () => {}}],
                     {cancelable: true},
                   );

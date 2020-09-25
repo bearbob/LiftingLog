@@ -40,7 +40,7 @@ class ExerciseListHomeScreen extends React.Component {
     if (!hideAlert) {
       Alert.alert(
         'Settings incomplete',
-        'You need to finish the setup before you start logging exercises. Otherwise your scores will be inacurate.',
+        'You need to finish the setup before you start logging exercises.',
         [{text: 'Go to Settings', onPress: () => this.props.navigation.navigate('Settings')}],
         {cancelable: false},
       );
@@ -84,12 +84,14 @@ class ExerciseListHomeScreen extends React.Component {
                     This list is used to track your strength progress for the main lifts.
                   </Text>
                   <Text style={Theme.text}>
-                    The goal is to increase the maximum weight you can lift per exercise.
-                    To track your progress, you only record the set with the highest weight and most reps you did.
+                    The goal is to increase the maximum weight you can lift per exercise. To track
+                    your progress, you only record the set with the highest weight and most reps you
+                    did.
                   </Text>
                   <Text style={Theme.text}>
-                    For example, if you did 2 sets with 100kg and 4 reps and one set with 9 reps and 90kg,
-                    you track 100kg and 4 reps, even though you lifted more weight in total for the third set.
+                    For example, if you did 2 sets with 100kg and 4 reps and one set with 9 reps and
+                    90kg, you track 100kg and 4 reps, even though you lifted more weight in total
+                    for the third set.
                   </Text>
                 </View>
               )}

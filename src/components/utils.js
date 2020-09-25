@@ -1,7 +1,7 @@
 /**
  * @public
  * Sorts the log objects in the given array by their weight property in
- * descending order and returns the number of elements defined by "amount".
+ * descending order and returns the number of elements defined by 'amount'.
  * If two elements have the same weight property value, their reps property
  * is compared.
  * @static
@@ -10,14 +10,17 @@
  * @returns {array}
  */
 export const getBestLogs = (logArray, amount) => {
-  if(!logArray) return [];
-  if(!amount || amount < 1) return [];
-  return logArray.sort((a, b) => {
-    if(isSecondLiftBetter(a, b)) {
-      return 1;
-    }
-    return -1;
-  }).slice(0, amount);
+  if (!logArray || !amount || amount < 1) {
+    return [];
+  }
+  return logArray
+    .sort((a, b) => {
+      if (isSecondLiftBetter(a, b)) {
+        return 1;
+      }
+      return -1;
+    })
+    .slice(0, amount);
 };
 
 /**
@@ -29,10 +32,12 @@ export const getBestLogs = (logArray, amount) => {
  * @param {array} logArray - The array to get the logs from
  * @returns {object}
  */
-export const getBestLog = (logArray) => {
-  if(!logArray || logArray.length < 1) return null;
+export const getBestLog = logArray => {
+  if (!logArray || logArray.length < 1) {
+    return null;
+  }
   return logArray.reduce((a, b) => {
-    if(isSecondLiftBetter(a, b)) {
+    if (isSecondLiftBetter(a, b)) {
       return b;
     }
     return a;
@@ -42,7 +47,7 @@ export const getBestLog = (logArray) => {
 /**
  * @public
  * Sorts the log objects in the given array by their date property in
- * descending order and returns the number of elements defined by "amount"
+ * descending order and returns the number of elements defined by 'amount'
  * @static
  * @param {array} logArray - The array to get the logs from
  * @param {integer} amount - The maximum number of elements in the returned array
@@ -50,34 +55,35 @@ export const getBestLog = (logArray) => {
  * @returns {array}
  */
 export const getLastLogs = (logArray, amount, groupByWeek) => {
-  if(!logArray || logArray.length < 1) return [];
-  if(!amount || amount < 1) return [];
+  if (!logArray || logArray.length < 1 || !amount || amount < 1) {
+    return [];
+  }
 
-  var sortedArray = logArray.sort((a, b) => (a.date > b.date) ? -1 : 1);
-  if(!groupByWeek) {
+  var sortedArray = logArray.sort((a, b) => (a.date > b.date ? -1 : 1));
+  if (!groupByWeek) {
     return sortedArray.slice(0, amount);
   }
   //group the entries by calendar week
   var groupedArray = [sortedArray[0]];
-  for(let i=0; i<sortedArray.length; i++) {
+  for (let i = 0; i < sortedArray.length; i++) {
     let current = sortedArray[i];
-    let last = groupedArray[groupedArray.length-1];
+    let last = groupedArray[groupedArray.length - 1];
 
-    if(getWeekNumber(current.date)[0] === getWeekNumber(last.date)[0] &&
+    if (
+      getWeekNumber(current.date)[0] === getWeekNumber(last.date)[0] &&
       getWeekNumber(current.date)[1] === getWeekNumber(last.date)[1]
     ) {
       //same calendar week, replace last element
-      groupedArray[groupedArray.length-1] = (current.weight > last.weight)?current:last;
+      groupedArray[groupedArray.length - 1] = current.weight > last.weight ? current : last;
     } else {
       groupedArray.push(current);
     }
-    if(groupedArray.length >= amount) {
+    if (groupedArray.length >= amount) {
       return groupedArray;
     }
   }
   return groupedArray;
 };
-
 
 /**
  * @public
@@ -86,9 +92,11 @@ export const getLastLogs = (logArray, amount, groupByWeek) => {
  * @param {array} logArray - The array to get the logs from
  * @returns {object}
  */
-export const getLastLog = (logArray) => {
-  if(!logArray || logArray.length < 1) return null;
-  return logArray.reduce((prev, current) => (prev.date > current.date) ? prev : current);
+export const getLastLog = logArray => {
+  if (!logArray || logArray.length < 1) {
+    return null;
+  }
+  return logArray.reduce((prev, current) => (prev.date > current.date ? prev : current));
 };
 
 /**
@@ -100,18 +108,24 @@ export const getLastLog = (logArray) => {
  * @returns {string}
  */
 export const formatDate = (date, reverse) => {
-  if(!date) return "none";
-  if(typeof date === "string") date = new Date(date);
-  if(date.toString() == "Invalid Date") return "none";
+  if (!date) {
+    return 'none';
+  }
+  if (typeof date === 'string') {
+    date = new Date(date);
+  }
+  if (date.toString() === 'Invalid Date') {
+    return 'none';
+  }
   try {
     let days = date.getDate().toString().padStart(2, '0');
-    let months = (date.getMonth()+1).toString().padStart(2, '0');
-    if(!reverse) {
-      return days +"."+months+"."+date.getFullYear();
+    let months = (date.getMonth() + 1).toString().padStart(2, '0');
+    if (!reverse) {
+      return days + '.' + months + '.' + date.getFullYear();
     }
-    return date.getFullYear()+"."+months+"."+days;
+    return date.getFullYear() + '.' + months + '.' + days;
   } catch (ignore) {
-    return "none";
+    return 'none';
   }
 };
 
@@ -136,20 +150,24 @@ export const formatDate = (date, reverse) => {
  * @param {string|object} date - String representation of a date object or the date object
  * @returns {array} Array with the year as first element and the number of the calender week of the date as second element
  */
-export const getWeekNumber = (date) => {
-    if(!date) return null;
-    // Copy date so don't modify original
-    var d = new Date(date);
-    if(d.toString() == "Invalid Date") return null;
-    // Set to nearest Thursday: current date + 4 - current day number
-    // Make Sunday's day number 7
-    d.setDate(d.getDate() + 4 - (d.getDay()||7));
-    // Get first day of year
-    var yearStart = new Date(Date.UTC(d.getFullYear(),0,1));
-    // Calculate full weeks to nearest Thursday
-    var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
-    // Return array of year and week number
-    return [d.getFullYear(), weekNo];
+export const getWeekNumber = date => {
+  if (!date) {
+    return null;
+  }
+  // Copy date so don't modify original
+  var d = new Date(date);
+  if (d.toString() === 'Invalid Date') {
+    return null;
+  }
+  // Set to nearest Thursday: current date + 4 - current day number
+  // Make Sunday's day number 7
+  d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+  // Get first day of year
+  var yearStart = new Date(Date.UTC(d.getFullYear(), 0, 1));
+  // Calculate full weeks to nearest Thursday
+  var weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+  // Return array of year and week number
+  return [d.getFullYear(), weekNo];
 };
 
 /**
@@ -162,10 +180,18 @@ export const getWeekNumber = (date) => {
  * @returns {boolean} True, if the second lift is better
  */
 export const isSecondLiftBetter = (a, b) => {
-  if(!b || !b.weight || !b.reps) return false;
-  if(!a || !a.weight || !a.reps) return true;
-  if(a.weight < b.weight) return true;
-  if(a.weight === b.weight && a.reps < b.reps) return true;
+  if (!b || !b.weight || !b.reps) {
+    return false;
+  }
+  if (!a || !a.weight || !a.reps) {
+    return true;
+  }
+  if (a.weight < b.weight) {
+    return true;
+  }
+  if (a.weight === b.weight && a.reps < b.reps) {
+    return true;
+  }
   return false;
 };
 
@@ -178,16 +204,16 @@ export const isSecondLiftBetter = (a, b) => {
  * @param {object} date - The date of the lift
  */
 export const printLogLine = (text, weight, reps, date) => {
-  if(text && text.length > 0) {
-    text = text+': ';
+  if (text && text.length > 0) {
+    text = text + ': ';
   }
-  if(!weight || !reps) {
-    return text+"No data available yet";
+  if (!weight || !reps) {
+    return text + 'No data available yet';
   }
-  if(Object.prototype.toString.call(date) !== '[object Date]') {
+  if (Object.prototype.toString.call(date) !== '[object Date]') {
     date = new Date(date);
   }
-  return text+ weight + "kg x" +reps+ " @ " + formatDate(date);
+  return text + weight + 'kg x' + reps + ' @ ' + formatDate(date);
 };
 
 /**
@@ -198,9 +224,11 @@ export const printLogLine = (text, weight, reps, date) => {
  * @returns {integer} The number of weeks between the two weeks
  */
 export const weeksBetween = (weekOne, weekTwo) => {
-  if(!weekOne || !weekTwo) return 0;
+  if (!weekOne || !weekTwo) {
+    return 0;
+  }
   let yearDiff = weekTwo[0] - weekOne[0];
-  let weekDiff = (yearDiff*52 + weekTwo[1]) - weekOne[1];
+  let weekDiff = yearDiff * 52 + weekTwo[1] - weekOne[1];
 
   return weekDiff;
 };
@@ -211,12 +239,16 @@ export const weeksBetween = (weekOne, weekTwo) => {
  * @param {array} week Array constiting of two integers, the first on being the year and the second the week of that year
  * @returns {array} Array constiting of two integers, the first on being the year and the second the week of that year
  */
-export const getNextWeek = (week) => {
-  if(!week || week.length != 2) return null;
-  let nextWeek = [parseInt(week[0]), parseInt(week[1])];
-  if(isNaN(nextWeek[0]) || isNaN(nextWeek[1])) return null;
+export const getNextWeek = week => {
+  if (!week || week.length !== 2) {
+    return null;
+  }
+  let nextWeek = [parseInt(week[0], 10), parseInt(week[1], 10)];
+  if (isNaN(nextWeek[0]) || isNaN(nextWeek[1])) {
+    return null;
+  }
   nextWeek[1]++;
-  if(nextWeek[1] > 52) {
+  if (nextWeek[1] > 52) {
     nextWeek[0]++;
     nextWeek[1] = 1;
   }
