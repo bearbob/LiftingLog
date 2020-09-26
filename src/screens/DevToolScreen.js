@@ -44,7 +44,10 @@ class DevToolScreen extends React.Component {
         let randWeight = Math.floor(Math.random() * (40 + i)) + i;
         randWeight = Math.floor(randWeight / 2.5) * 2.5;
         let randreps = Math.floor(Math.random() * 10) + 1;
-        let randDate = new Date(new Date(2020, 0, 1).getTime() + Math.random() * (new Date().getTime() - new Date(2020, 0, 1).getTime()));
+        let randDate = new Date(
+          new Date(2020, 0, 1).getTime() +
+            Math.random() * (new Date().getTime() - new Date(2020, 0, 1).getTime()),
+        );
         await retrieveData(['bodyweight', 'birthday', 'isMale'], values => {
           var defaultBirthday = moment().subtract(20, 'years');
           if (!values) {
@@ -64,9 +67,19 @@ class DevToolScreen extends React.Component {
             oneRm,
           );
           console.log(
-            'Adding to ' + sExerciseID + ': ' + randWeight + 'kg x ' +
-            randreps + ' @ ' + randDate +
-            ' (oneRM: ' + oneRm + 'kg, strengthScore: ' + strengthScore + ')'
+            'Adding to ' +
+              sExerciseID +
+              ': ' +
+              randWeight +
+              'kg x ' +
+              randreps +
+              ' @ ' +
+              randDate +
+              ' (oneRM: ' +
+              oneRm +
+              'kg, strengthScore: ' +
+              strengthScore +
+              ')',
           );
           dataContainer.push({
             weight: randWeight,
@@ -91,9 +104,9 @@ class DevToolScreen extends React.Component {
     for (let [index, value] of Exercises.entries()) {
       items.push(
         <TouchableOpacity
-         style={Theme.button}
-         key={value.id}
-         onPress={async () => {
+          style={Theme.button}
+          key={value.id}
+          onPress={async () => {
             retrieveData(value.id, async data => {
               if (data) {
                 await Clipboard.setString(data);
@@ -113,72 +126,66 @@ class DevToolScreen extends React.Component {
   render() {
     return (
       <>
-      <SafeAreaView style={Theme.safeArea}>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={Theme.scrollView}>
-          <View style={Theme.maincontainer}>
-            <Text style={Theme.text}>Some tools that help managing and developing the app.</Text>
-          </View>
-          {this.renderClipboardButtons()}
-          <View style={{marginTop: 45}} />
-          <TouchableOpacity
-           style={Theme.warningIconButton}
-           onPress={() => {
-             Alert.alert(
-               'Generating random data',
-               'You are about to generate random data. This is only for testing and might ruin your save state. Are you sure?',
-               [
-                 { text: 'Yes, fill', onPress: () => {
-                     Exercises.forEach( entry => {
-                       //don't always fill all fields
-                       if (Math.random() > 0.15) {
-                         this._storeMockData(entry.id);
-                       } else {
-                         console.log('Adding no entries to ' + entry.id);
-                       }
-                     });
-                   }
-                },
-                {text: 'No, cancel'},
-              ],
-              {cancelable: true},
-            );
-          }}>
-             <Icon
-               name="ios-add-circle-outline"
-               color={Color.buttonFontColor}
-               size={16}
-             />
-            <Text style={Theme.buttonText}> Fill with test data</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-           style={Theme.warningIconButton}
-           onPress={() => {
-             Alert.alert(
-               'Delete ALL data',
-               "You are about to delete all data. When it's gone, it's gone. Are you sure?",
-               [
-                { text: 'Yes, nuke it!', onPress: async () => {
-                     try {
-                       await AsyncStorage.clear()
-                     } catch(ignore) { }
-                  }
-                },
-                {text: 'Cancel'},
-              ],
-              {cancelable: true},
-             );
-           }}>
-             <Icon
-               name="ios-nuclear"
-               color={Color.buttonFontColor}
-               size={16}
-             />
-            <Text style={Theme.buttonText}> Clear all data</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </SafeAreaView>
+        <SafeAreaView style={Theme.safeArea}>
+          <ScrollView contentInsetAdjustmentBehavior="automatic" style={Theme.scrollView}>
+            <View style={Theme.maincontainer}>
+              <Text style={Theme.text}>Some tools that help managing and developing the app.</Text>
+            </View>
+            {this.renderClipboardButtons()}
+            <View style={{marginTop: 45}} />
+            <TouchableOpacity
+              style={Theme.warningIconButton}
+              onPress={() => {
+                Alert.alert(
+                  'Generating random data',
+                  'You are about to generate random data. This is only for testing and might ruin your save state. Are you sure?',
+                  [
+                    {
+                      text: 'Yes, fill',
+                      onPress: () => {
+                        Exercises.forEach(entry => {
+                          //don't always fill all fields
+                          if (Math.random() > 0.15) {
+                            this._storeMockData(entry.id);
+                          } else {
+                            console.log('Adding no entries to ' + entry.id);
+                          }
+                        });
+                      }
+                   },
+                   {text: 'No, cancel'},
+                 ],
+                 {cancelable: true},
+               );
+            }}>
+              <Icon name="ios-add-circle-outline" color={Color.buttonFontColor} size={16} />
+              <Text style={Theme.buttonText}> Fill with test data</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+             style={Theme.warningIconButton}
+             onPress={() => {
+               Alert.alert(
+                 'Delete ALL data',
+                 "You are about to delete all data. When it's gone, it's gone. Are you sure?",
+                 [
+                  {
+                    text: 'Yes, nuke it!',
+                    onPress: async () => {
+                       try {
+                         await AsyncStorage.clear()
+                       } catch(ignore) { }
+                    }
+                  },
+                  {text: 'Cancel'},
+                ],
+                {cancelable: true},
+               );
+             }}>
+              <Icon name="ios-nuclear" color={Color.buttonFontColor} size={16} />
+              <Text style={Theme.buttonText}> Clear all data</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </SafeAreaView>
       </>
     );
   }

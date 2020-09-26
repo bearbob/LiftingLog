@@ -118,7 +118,10 @@ export const formatDate = (date, reverse) => {
     return 'none';
   }
   try {
-    let days = date.getDate().toString().padStart(2, '0');
+    let days = date
+      .getDate()
+      .toString()
+      .padStart(2, '0');
     let months = (date.getMonth() + 1).toString().padStart(2, '0');
     if (!reverse) {
       return days + '.' + months + '.' + date.getFullYear();
