@@ -59,6 +59,7 @@ The tracker was developed with these use cases in mind:
 
 * [React Native](https://reactnative.dev/)
 * [JEST](https://jestjs.io/docs/en/tutorial-react-native)
+* Android (even though IOS would be possible as well, I have no device to test this)
 
 
 
