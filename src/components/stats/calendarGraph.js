@@ -27,7 +27,7 @@ class CalendarGraph extends React.Component {
     retrieveData('calendar', this.refresh);
   }
 
-  ccomponentDidMount() {
+  componentDidMount() {
     this._mounted = true;
     this.updaterID = setInterval(
       () => {
@@ -44,7 +44,7 @@ class CalendarGraph extends React.Component {
     clearInterval(this.updaterID);
   }
 
-  refresh (value) {
+  refresh(value) {
     let data = [];
     if (value !== null) {
         let dates = JSON.parse(value);
@@ -73,7 +73,7 @@ class CalendarGraph extends React.Component {
   }
 
   getColor(opacity = 1) {
-    if(Number.isNaN(opacity)) {
+    if (Number.isNaN(opacity)) {
       opacity = 1;
     }
     return `rgba(77, 188, 94, ${opacity})`;
