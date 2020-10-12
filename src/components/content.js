@@ -62,3 +62,15 @@ export const isBodyweightExercise = exerciseId => {
   }
   return matchingExercises[0].bodyweightExercise === true;
 };
+
+/**
+ * @public
+ * @returns {array} Array with string items, each the ID of an exercise
+ */
+export const getExerciseKeys = () => {
+  let result = [];
+  for (const [key, value] of Object.entries(Exercises)) {
+    result.push(value.id);
+  }
+  return result;
+};
