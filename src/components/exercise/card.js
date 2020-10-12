@@ -1,5 +1,6 @@
 /**
- * Defines the exercise cards with weight and rep tracks
+ * The front card component that is used to show basic information
+ * about an exercise. This is the overview, not the detailed view
  *
  * @format
  * @flow

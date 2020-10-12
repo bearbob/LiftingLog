@@ -8,11 +8,11 @@
 import React from 'react';
 import {Alert, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
-import {Exercises} from 'components/content';
+import {Exercises, getExerciseKeys} from 'components/content';
 import {Theme, Color} from 'components/stylesheet';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-community/async-storage';
-import {retrieveData} from 'components/storage';
+import {retrieveData, storeWeightLog} from 'components/storage';
 import {getSingleExerciseStrengthScore, getOneRepMaximum} from 'components/strengthScore';
 import {formatDate} from 'components/utils';
 import moment from 'moment';
@@ -94,6 +94,8 @@ class DevToolScreen extends React.Component {
    */
   renderClipboardButtons() {
     var items = [];
+
+    //render export buttons
     for (let [index, value] of Exercises.entries()) {
       items.push(
         <TouchableOpacity
@@ -106,6 +108,7 @@ class DevToolScreen extends React.Component {
                 let output = 'Exercise;Date;Reps;Weight';
                 let dataArray = JSON.parse(data);
                 for (let i = 0; i < dataArray.length; i++) {
+                  console.log('Converting ' + JSON.stringify(dataArray[i]));
                   output += '\n' + value.id + ';' + dataArray[i].date + ';';
                   output += dataArray[i].reps + ';' + dataArray[i].weight;
                 }
@@ -120,6 +123,36 @@ class DevToolScreen extends React.Component {
         </TouchableOpacity>,
       );
     }
+
+    //render import button
+    items.push(
+      <TouchableOpacity
+        style={Theme.button}
+        key={'import_clipboard'}
+        onPress={async () => {
+          let content = await Clipboard.getString();
+          let rows = content.split('\n');
+          for (let i = 0; i < rows.length; i++) {
+            let columns = rows[i].split(';');
+            if (columns[0] === 'Exercise') {
+              console.log('Skipping headers.');
+              continue; //skip the headers
+            }
+            let logObject = {
+              id: columns[0],
+              weight: columns[3],
+              reps: columns[2],
+              date: new Date(columns[1]),
+            };
+            console.log('Saving ' + JSON.stringify(logObject));
+            //FIXME TODO It looks like this saves only one log entry at the moment
+            storeWeightLog(logObject);
+          }
+        }}>
+        <Text style={Theme.buttonText}>Copy data from Clipboard</Text>
+      </TouchableOpacity>,
+    );
+
     return items;
   }
 
@@ -172,7 +205,7 @@ class DevToolScreen extends React.Component {
                       text: 'Yes, nuke it!',
                       onPress: async () => {
                         try {
-                          await AsyncStorage.clear();
+                          await AsyncStorage.multiRemove(getExerciseKeys());
                         } catch (ignore) {}
                       },
                     },
