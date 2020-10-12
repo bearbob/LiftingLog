@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "android": "npx react-native run-android",
-    "ios": "npx react-native run-ios",
-    "start": "npx react-native start",
+    "start": "npx react-native run-android",
     "test": "npx jest",
     "lint": "npx eslint ."
   },

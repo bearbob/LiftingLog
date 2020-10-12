@@ -90,7 +90,7 @@ class DevToolScreen extends React.Component {
   /**
    * @private
    * Renders a button for each exercise, that will copy the data for the exercise
-   * to the clipboard
+   * to the clipboard. The format of the copied data is JSON
    */
   renderClipboardButtons() {
     var items = [];
@@ -102,7 +102,14 @@ class DevToolScreen extends React.Component {
           onPress={async () => {
             retrieveData(value.id, async data => {
               if (data) {
-                await Clipboard.setString(data);
+                //convert data from JSON to CSV
+                let output = 'Exercise;Date;Reps;Weight';
+                let dataArray = JSON.parse(data);
+                for (let i = 0; i < dataArray.length; i++) {
+                  output += '\n' + value.id + ';' + dataArray[i].date + ';';
+                  output += dataArray[i].reps + ';' + dataArray[i].weight;
+                }
+                await Clipboard.setString(output);
                 Alert.alert('Copied to Clipboard');
               } else {
                 Alert.alert('No data found');
