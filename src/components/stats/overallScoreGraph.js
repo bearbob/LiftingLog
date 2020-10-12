@@ -43,7 +43,9 @@ class OverallScoreGraph extends React.Component {
     if (value !== null) {
       let scoreObject = JSON.parse(value);
       // the data is fetched successfully
-      let weeks = Object.keys(scoreObject).sort().slice(-6);
+      let weeks = Object.keys(scoreObject)
+        .sort()
+        .slice(-6);
       //TODO include missing weeks
       weeks.forEach(entry => {
         //calculate average score

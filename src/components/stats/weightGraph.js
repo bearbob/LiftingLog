@@ -20,6 +20,7 @@ class PerformanceGraph extends AbstractGraph {
     if (this.state.labels.length < 1 || this.state.data.length < 1) {
       return <Text style={this.getStyle().sectionDescription}>No data to visualize</Text>;
     }
+    console.log(JSON.stringify(this.state.data));
     return (
       <View style={Theme.chart}>
         <LineChart

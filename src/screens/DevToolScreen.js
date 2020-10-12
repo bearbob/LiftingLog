@@ -140,8 +140,8 @@ class DevToolScreen extends React.Component {
             }
             let logObject = {
               id: columns[0],
-              weight: columns[3],
-              reps: columns[2],
+              weight: parseFloat(columns[3]),
+              reps: parseInt(columns[2], 10),
               date: new Date(columns[1]),
             };
             console.log('Saving ' + JSON.stringify(logObject));
