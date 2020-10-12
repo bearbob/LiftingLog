@@ -1,5 +1,4 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export const ColorScheme = {
   first: '#212121', //the darkest color
@@ -22,8 +21,9 @@ export const Color = {
   active: ColorScheme.third,
   inactive: ColorScheme.fourth,
   backgroundColor: ColorScheme.first,
-  activeBackgroundColor: ColorScheme.second,//
-  mainBackgroundColor: ColorScheme.second,//
+  activeBackgroundColor: ColorScheme.second,
+  mainBackgroundColor: ColorScheme.second,
+  chartBackgroundColor: ColorScheme.second,
   mainFontColor: ColorScheme.fith,
   mainFontColorInactive: ColorScheme.sixth,
   buttonFontColor: ColorScheme.seventh,
@@ -51,7 +51,7 @@ export const Theme = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: Color.headerColor
+    color: Color.headerColor,
   },
   maincontainer: {
     borderTopLeftRadius: RADIUS_TOP_LEFT,
@@ -61,7 +61,7 @@ export const Theme = StyleSheet.create({
     marginTop: 5,
     padding: 10,
     borderWidth: 0,
-    backgroundColor: Color.mainBackgroundColor
+    backgroundColor: Color.mainBackgroundColor,
   },
   text: {
     color: Color.mainFontColor,
@@ -147,7 +147,7 @@ export const Theme = StyleSheet.create({
   },
   buttonTextInactive: {
     color: Color.mainFontColorInactive,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   input: {
     height: 45,
@@ -166,7 +166,7 @@ export const Theme = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 0,
     flexDirection: 'row',
-    paddingTop: 10
+    paddingTop: 10,
   },
   picker: {
     alignItems: 'center',

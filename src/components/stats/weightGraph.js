@@ -35,7 +35,8 @@ class PerformanceGraph extends AbstractGraph {
           height={Dimensions.get('window').height / 3}
           yAxisSuffix="kg"
           chartConfig={{
-            backgroundGradientFrom: Color.mainBackgroundColor,
+            backgroundGradientFrom: Color.chartBackgroundColor,
+            backgroundGradientTo: Color.chartBackgroundColor,
             fillShadowGradient: Color.graphShadowColor,
             fillShadowGradientOpacity: 0.4,
             decimalPlaces: 1,
