@@ -6,15 +6,8 @@
  */
 
 import React from 'react';
-import {
-  Alert,
-  Clipboard,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Alert, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import Clipboard from '@react-native-community/clipboard';
 import {Exercises} from 'components/content';
 import {Theme, Color} from 'components/stylesheet';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -94,6 +87,11 @@ class DevToolScreen extends React.Component {
     }
   }
 
+  /**
+   * @private
+   * Renders a button for each exercise, that will copy the data for the exercise
+   * to the clipboard
+   */
   renderClipboardButtons() {
     var items = [];
     for (let [index, value] of Exercises.entries()) {
@@ -105,9 +103,9 @@ class DevToolScreen extends React.Component {
             retrieveData(value.id, async data => {
               if (data) {
                 await Clipboard.setString(data);
-                alert('Copied to Clipboard');
+                Alert.alert('Copied to Clipboard');
               } else {
-                alert('No data found');
+                Alert.alert('No data found');
               }
             });
           }}>
