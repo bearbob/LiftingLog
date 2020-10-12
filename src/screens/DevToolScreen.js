@@ -31,11 +31,6 @@ class DevToolScreen extends React.Component {
 
   async _storeMockData(sExerciseID) {
     try {
-      var array = [];
-      const value = await AsyncStorage.getItem(sExerciseID);
-      if (value !== null) {
-        array = JSON.parse(value);
-      }
       let amount = Math.floor(Math.random() * (10 + 5)) + 5;
       console.log('Adding ' + amount + ' new entries to ' + sExerciseID);
       var dataContainer = [];
@@ -117,7 +112,7 @@ class DevToolScreen extends React.Component {
             });
           }}>
           <Text style={Theme.buttonText}>Copy to Clipboard: {value.name}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>,
       );
     }
     return items;
@@ -151,36 +146,36 @@ class DevToolScreen extends React.Component {
                             console.log('Adding no entries to ' + entry.id);
                           }
                         });
-                      }
-                   },
-                   {text: 'No, cancel'},
-                 ],
-                 {cancelable: true},
-               );
-            }}>
+                      },
+                    },
+                    {text: 'No, cancel'},
+                  ],
+                  {cancelable: true},
+                );
+              }}>
               <Icon name="ios-add-circle-outline" color={Color.buttonFontColor} size={16} />
               <Text style={Theme.buttonText}> Fill with test data</Text>
             </TouchableOpacity>
             <TouchableOpacity
-             style={Theme.warningIconButton}
-             onPress={() => {
-               Alert.alert(
-                 'Delete ALL data',
-                 "You are about to delete all data. When it's gone, it's gone. Are you sure?",
-                 [
-                  {
-                    text: 'Yes, nuke it!',
-                    onPress: async () => {
-                       try {
-                         await AsyncStorage.clear()
-                       } catch(ignore) { }
-                    }
-                  },
-                  {text: 'Cancel'},
-                ],
-                {cancelable: true},
-               );
-             }}>
+              style={Theme.warningIconButton}
+              onPress={() => {
+                Alert.alert(
+                  'Delete ALL data',
+                  "You are about to delete all data. When it's gone, it's gone. Are you sure?",
+                  [
+                    {
+                      text: 'Yes, nuke it!',
+                      onPress: async () => {
+                        try {
+                          await AsyncStorage.clear();
+                        } catch (ignore) {}
+                      },
+                    },
+                    {text: 'Cancel'},
+                  ],
+                  {cancelable: true},
+                );
+              }}>
               <Icon name="ios-nuclear" color={Color.buttonFontColor} size={16} />
               <Text style={Theme.buttonText}> Clear all data</Text>
             </TouchableOpacity>
