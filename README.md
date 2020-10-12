@@ -32,7 +32,6 @@
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
-* [Usage](#usage)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [License](#license)
@@ -59,6 +58,7 @@ The tracker was developed with these use cases in mind:
 
 * [React Native](https://reactnative.dev/)
 * [JEST](https://jestjs.io/docs/en/tutorial-react-native)
+* Android (even though IOS would be possible as well, I have no device to test this)
 
 
 
@@ -105,11 +105,12 @@ See the [open issues](https://github.com/bearbob/LiftingLog/issues) for a list o
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
+1. Read the [rules for contribution](./CONTRIBUTING.md)
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+5. Open a Pull Request (a good title and description speed up the review process)
 
 
 
