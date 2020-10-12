@@ -23,7 +23,7 @@ class OverallScoreGraph extends React.Component {
     retrieveData('strengthScoreCollection', this.refresh);
   }
 
-  ccomponentDidMount() {
+  componentDidMount() {
     this._mounted = true;
     this.updaterID = setInterval(() => {
       if (this._mounted) {
@@ -113,7 +113,7 @@ class OverallScoreGraph extends React.Component {
             },
           }}
           style={this.getStyle().container}
-          />
+        />
       </View>
     );
   }

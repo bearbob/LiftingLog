@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export const ColorScheme = {
   first: '#212121', //the darkest color
+  mediumdark: '#292929', //second darkest color
   second: '#3B3B3B', //second darkest color
   //-----------
   third: '#1BFF91', //brightest non-white color
@@ -23,7 +24,7 @@ export const Color = {
   backgroundColor: ColorScheme.first,
   activeBackgroundColor: ColorScheme.second,
   mainBackgroundColor: ColorScheme.second,
-  chartBackgroundColor: ColorScheme.second,
+  chartBackgroundColor: ColorScheme.mediumdark,
   mainFontColor: ColorScheme.fith,
   mainFontColorInactive: ColorScheme.sixth,
   buttonFontColor: ColorScheme.seventh,
