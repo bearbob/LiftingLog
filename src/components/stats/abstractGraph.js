@@ -42,9 +42,8 @@ class AbstractGraph extends React.Component {
     let dates = [];
     let data = [];
     if (value !== null) {
-      let item = JSON.parse(value);
       // Our data is fetched successfully
-      let last = getLastLogs(item, this.state.entries, true).reverse();
+      let last = getLastLogs(value, this.state.entries, true).reverse();
 
       if (this.state.includeInactiveWeeks) {
         last.forEach(entry => {

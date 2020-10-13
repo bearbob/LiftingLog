@@ -49,10 +49,14 @@ export const retrieveData = async (key, callback) => {
     if (Array.isArray(key)) {
       value = {};
       for (let i = 0; i < key.length; i++) {
-        value[key[i]] = await AsyncStorage.getItem(key[i]);
+        let jsonValue = await AsyncStorage.getItem(key[i]);
+        value[key[i]] = jsonValue != null ? JSON.parse(jsonValue) : null;
       }
     } else {
       value = await AsyncStorage.getItem(key);
+      if (value !== null) {
+        value = JSON.parse(value);
+      }
     }
     callback(value);
   } catch (error) {

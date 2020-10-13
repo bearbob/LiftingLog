@@ -38,10 +38,9 @@ class CalendarGraph extends React.Component {
   refresh(value) {
     let data = [];
     if (value !== null) {
-      let dates = JSON.parse(value);
       // Our data is fetched successfully
-      for (let i = 0; i < dates.length; i++) {
-        data.push({date: dates[i], count: 1});
+      for (let i = 0; i < value.length; i++) {
+        data.push({date: value[i], count: 1});
       }
     }
     this.setState({

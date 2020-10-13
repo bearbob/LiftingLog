@@ -42,8 +42,7 @@ class ExerciseHistoryCard extends React.Component {
   refresh(value) {
     let last = null;
     if (value !== null) {
-      let item = JSON.parse(value);
-      last = getLastLogs(item, this.state.lines);
+      last = getLastLogs(value, this.state.lines);
     }
     this.setState({
       lastLogs: last,

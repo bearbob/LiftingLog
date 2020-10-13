@@ -106,11 +106,10 @@ class DevToolScreen extends React.Component {
               if (data) {
                 //convert data from JSON to CSV
                 let output = 'Exercise;Date;Reps;Weight';
-                let dataArray = JSON.parse(data);
-                for (let i = 0; i < dataArray.length; i++) {
-                  console.log('Converting ' + JSON.stringify(dataArray[i]));
-                  output += '\n' + value.id + ';' + dataArray[i].date + ';';
-                  output += dataArray[i].reps + ';' + dataArray[i].weight;
+                for (let i = 0; i < data.length; i++) {
+                  console.log('Converting ' + JSON.stringify(data[i]));
+                  output += '\n' + value.id + ';' + data[i].date + ';';
+                  output += data[i].reps + ';' + data[i].weight;
                 }
                 await Clipboard.setString(output);
                 Alert.alert('Copied to Clipboard');

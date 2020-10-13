@@ -45,9 +45,8 @@ class ExerciseDetailsCard extends React.Component {
     let best = null;
     let last = null;
     if (value !== null) {
-      let item = JSON.parse(value);
-      best = getBestLog(item);
-      last = getLastLog(item);
+      best = getBestLog(value);
+      last = getLastLog(value);
     }
     this.setState({
       bestWeight: best ? best.weight : null,
