@@ -192,7 +192,7 @@ class DevToolScreen extends React.Component {
                 );
               }}>
               <Icon name="ios-add-circle-outline" color={Color.buttonFontColor} size={16} />
-              <Text style={Theme.buttonText}> Fill with test data</Text>
+              <Text style={Theme.buttonText}> Fill with random test data</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={Theme.warningIconButton}
@@ -205,7 +205,9 @@ class DevToolScreen extends React.Component {
                       text: 'Yes, nuke it!',
                       onPress: async () => {
                         try {
-                          await AsyncStorage.multiRemove(getExerciseKeys());
+                          let databaseKeys = getExerciseKeys();
+                          databaseKeys.push('calendar');
+                          await AsyncStorage.multiRemove(databaseKeys);
                         } catch (ignore) {}
                       },
                     },
