@@ -26,8 +26,6 @@ export const dataExists = async (key, callback) => {
       if (!tmp) {
         exists = false;
       }
-      //FIXME Why the break here? This will let the loop run only once
-      break;
     }
     if (callback) {
       callback(exists);
