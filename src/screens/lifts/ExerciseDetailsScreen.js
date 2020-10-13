@@ -20,6 +20,10 @@ class ExerciseDetailsScreen extends React.Component {
       id: this.props.route.params.value.id,
       name: this.props.route.params.value.name,
     };
+  }
+
+  componentDidMount() {
+    //the title has to be set after rendering
     this.props.navigation.setOptions({title: this.state.name});
   }
 
