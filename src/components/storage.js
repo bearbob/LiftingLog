@@ -9,9 +9,9 @@ import {isBodyweightExercise} from 'components/content';
 import {getWeekNumber} from 'components/utils';
 
 /**
- * Check if the objects with the given key exist in the database.
  * @public
  * @static
+ * Check if the objects with the given key exist in the database.
  * @param {string/array} key - The key to fetch the data for or an array of strings
  * @param {function} [callback] - The function that will be executed after the data has been queried. Recieves true as input, if all requested parameters exist in the storage
  */
@@ -39,9 +39,9 @@ export const dataExists = async (key, callback) => {
 };
 
 /**
- * Fetch the given object with the given key from the database.
  * @public
  * @static
+ * Fetch the given object with the given key from the database.
  * @param {string/array} key - The key to fetch the data for or an array of strings
  * @param {function} callback - The function that will be executed when the data has been loaded. Has the input parameter "value".
  */
