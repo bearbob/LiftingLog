@@ -172,7 +172,7 @@ const storeStrengthScore = async aParams => {
 
 /**
  * @public
- * Save the new lift data to the database
+ * Save a new lift data entry to the database
  * @param {object} aParams - The weight lifted
  * @param {string} aParams.id - The identification string of the exercise
  * @param {double} aParams.weight - The weight lifted

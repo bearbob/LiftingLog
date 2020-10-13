@@ -1,5 +1,5 @@
 /**
- * Sample React Native App
+ * Base for the React Native App
  * https://github.com/facebook/react-native
  *
  * @format
@@ -10,18 +10,10 @@ import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {
-  ExerciseListHomeScreen,
-  ExerciseDetailsScreen,
-  ExerciseGraphsScreen
-} from 'screens/lifts';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Color } from 'components/stylesheet';
-import  {
-  DevToolScreen,
-  SettingsScreen,
-  GeneralStatisticsScreen
-} from 'screens';
+import {ExerciseListHomeScreen, ExerciseDetailsScreen, ExerciseGraphsScreen} from 'screens/lifts';
+import {createStackNavigator} from '@react-navigation/stack';
+import {Color} from 'components/stylesheet';
+import {DevToolScreen, SettingsScreen, GeneralStatisticsScreen} from 'screens';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
@@ -33,20 +25,19 @@ const MyTheme = {
     background: Color.backgroundColor,
     card: Color.mainBackgroundColor,
     text: Color.mainFontColor,
-    border: Color.borderColor
-  }
+    border: Color.borderColor,
+  },
 };
 
 const ExerciseStack = createStackNavigator();
 
 function ExerciseStackScreen() {
   return (
-    <ExerciseStack.Navigator
-      initialRouteName="Exercises">
+    <ExerciseStack.Navigator initialRouteName="Exercises">
       <ExerciseStack.Screen
         name="Exercises"
         component={ExerciseListHomeScreen}
-        options={{ title: 'Weight Based Exercises' }}
+        options={{title: 'Weight Based Exercises'}}
       />
       <ExerciseStack.Screen name="Details" component={ExerciseDetailsScreen} />
       <ExerciseStack.Screen name="Graphs" component={ExerciseGraphsScreen} />
@@ -58,8 +49,7 @@ const SettingsStack = createStackNavigator();
 
 function SettingsStackScreen() {
   return (
-    <SettingsStack.Navigator
-      initialRouteName="Settings">
+    <SettingsStack.Navigator initialRouteName="Settings">
       <SettingsStack.Screen name="Settings" component={SettingsScreen} />
       <SettingsStack.Screen name="DevTools" component={DevToolScreen} />
     </SettingsStack.Navigator>
@@ -70,21 +60,19 @@ const StatisticStack = createStackNavigator();
 
 function StatisticStackScreen() {
   return (
-    <StatisticStack.Navigator
-      initialRouteName="Stats">
+    <StatisticStack.Navigator initialRouteName="Stats">
       <StatisticStack.Screen name="Stats" component={GeneralStatisticsScreen} />
     </StatisticStack.Navigator>
   );
 }
-
 
 const App: () => React$Node = () => {
   return (
     <NavigationContainer theme={MyTheme}>
       <Tab.Navigator
         initialRouteName="ExerciseList"
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
             let iconName = focused ? 'ios-list-box' : 'ios-list';
 
             if (route.name === 'ExerciseList') {
@@ -106,28 +94,27 @@ const App: () => React$Node = () => {
           style: {
             backgroundColor: Color.backgroundColor,
             fontWeight: 'bold',
-          }
-        }}
-      >
+          },
+        }}>
         <Tab.Screen
           name="ExerciseList"
           component={ExerciseStackScreen}
           options={{
-            title: 'Lifts'
+            title: 'Lifts',
           }}
         />
         <Tab.Screen
           name="Stats"
           component={StatisticStackScreen}
           options={{
-            title: 'Stats'
+            title: 'Stats',
           }}
         />
         <Tab.Screen
           name="Settings"
           component={SettingsStackScreen}
           options={{
-            title: 'Settings'
+            title: 'Settings',
           }}
         />
       </Tab.Navigator>
