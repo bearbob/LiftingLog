@@ -152,6 +152,31 @@ describe('Checking retrieveData()', () => {
     });
   });
 
+  it('checks if callback is fired for multiple keys', done => {
+    retrieveData([KEY_EXISTS_A, KEY_EXISTS_B], data => {
+      try {
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+
+    expect(AsyncStorage.getItem).toBeCalledWith(KEY_EXISTS_A);
+    expect(AsyncStorage.getItem).toBeCalledWith(KEY_EXISTS_B);
+  });
+
+  it('checks if callback handles multiple keys', done => {
+    retrieveData([KEY_EXISTS_A, KEY_EXISTS_B], data => {
+      try {
+        expect(data[KEY_EXISTS_A]).toEqual(expect.anything());
+        expect(data[KEY_EXISTS_B]).toEqual(expect.anything());
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
+
   it('checks if callback handles existing data', done => {
     retrieveData(KEY, data => {
       try {
