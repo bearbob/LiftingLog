@@ -11,6 +11,24 @@ const KEY_EXISTS_A = 'calendar';
 const KEY_EXISTS_B = 'benchpress';
 const KEY_NEXISTS = '_not_existing_';
 
+const DATA_A = [
+  '2020-07-19',
+  '2020-07-20',
+  '2020-08-01',
+  '2020-08-02',
+  '2020-08-01',
+  '2020-08-11',
+  '2020-08-20',
+  '2020-08-21',
+  '2020-08-22',
+  '2020-08-25',
+];
+const DATA_B = [
+  {weight: 100, reps: 10, date: '2020-07-19T07:08:34.101Z', oneRM: 135, score: 174.2},
+  {weight: 110, reps: 5, date: '2020-07-20T07:18:41.823Z', oneRM: 127.5, score: 74.4},
+  {weight: 110, reps: 5, date: '2020-08-01T07:18:41.823Z', oneRM: 127.5, score: 74.4},
+];
+
 //clean the storage before each test and fill with test data again
 beforeEach(() => {
   AsyncStorage.__INTERNAL_MOCK_STORAGE__ = {};
@@ -18,22 +36,8 @@ beforeEach(() => {
     valueTrue: true,
     valueFalse: false,
   });
-  AsyncStorage.__INTERNAL_MOCK_STORAGE__[KEY_EXISTS_A] = JSON.stringify([
-    '2020-07-19',
-    '2020-07-20',
-    '2020-08-01',
-    '2020-08-02',
-    '2020-08-01',
-    '2020-08-11',
-    '2020-08-20',
-    '2020-08-21',
-    '2020-08-22',
-  ]);
-  AsyncStorage.__INTERNAL_MOCK_STORAGE__[KEY_EXISTS_B] = JSON.stringify([
-    {weight: 100, reps: 10, date: '2020-07-19T07:08:34.101Z', oneRM: 135, score: 174.2},
-    {weight: 110, reps: 5, date: '2020-07-20T07:18:41.823Z', oneRM: 127.5, score: 74.4},
-    {weight: 110, reps: 5, date: '2020-08-01T07:18:41.823Z', oneRM: 127.5, score: 74.4},
-  ]);
+  AsyncStorage.__INTERNAL_MOCK_STORAGE__[KEY_EXISTS_A] = JSON.stringify(DATA_A);
+  AsyncStorage.__INTERNAL_MOCK_STORAGE__[KEY_EXISTS_B] = JSON.stringify(DATA_B);
 });
 
 //clean all mock functions after each test, to limit interplay
@@ -165,11 +169,11 @@ describe('Checking retrieveData()', () => {
     expect(AsyncStorage.getItem).toBeCalledWith(KEY_EXISTS_B);
   });
 
-  it('checks if callback handles multiple keys', done => {
-    retrieveData([KEY_EXISTS_A, KEY_EXISTS_B], data => {
+  it('checks if callback handles existing data', done => {
+    retrieveData(KEY, data => {
       try {
-        expect(data[KEY_EXISTS_A]).toEqual(expect.anything());
-        expect(data[KEY_EXISTS_B]).toEqual(expect.anything());
+        expect(data).toBeDefined();
+        expect(data.valueTrue).toBeTruthy();
         done();
       } catch (error) {
         done(error);
@@ -177,11 +181,11 @@ describe('Checking retrieveData()', () => {
     });
   });
 
-  it('checks if callback handles existing data', done => {
-    retrieveData(KEY, data => {
+  it('checks if callback handles multiple keys', done => {
+    retrieveData([KEY_EXISTS_A, KEY_EXISTS_B], data => {
       try {
-        expect(data).toBeDefined();
-        expect(data.valueTrue).toBeTruthy();
+        expect(data[KEY_EXISTS_A]).toEqual(DATA_A);
+        expect(data[KEY_EXISTS_B]).toEqual(DATA_B);
         done();
       } catch (error) {
         done(error);
@@ -199,12 +203,26 @@ describe('Checking retrieveData()', () => {
       }
     });
   });
+
+  it('checks if callback handles multiple keys with not-existing included', done => {
+    retrieveData([KEY_EXISTS_A, KEY_EXISTS_B], data => {
+      try {
+        expect(data[KEY_EXISTS_A]).toEqual(DATA_A);
+        expect(data[KEY_NEXISTS]).toBeNull();
+        done();
+      } catch (error) {
+        done(error);
+      }
+    });
+  });
 });
 
 //---------------- Testcases for storeData ----------------
 
-it('checks if storeData accesses database', async () => {
-  let data = [];
-  await storeData(KEY, data);
-  expect(AsyncStorage.setItem).toBeCalledWith(KEY, JSON.stringify(data));
+describe('Checking storeData()', () => {
+  it('checks if database is accessed', async () => {
+    let data = [];
+    await storeData(KEY, data);
+    expect(AsyncStorage.setItem).toBeCalledWith(KEY, JSON.stringify(data));
+  });
 });
