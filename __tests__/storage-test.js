@@ -215,7 +215,7 @@ describe('Checking retrieveData()', () => {
   });
 
   it('checks if callback handles multiple keys with not-existing included', done => {
-    retrieveData([KEY_EXISTS_A, KEY_EXISTS_B], data => {
+    retrieveData([KEY_EXISTS_A, KEY_NEXISTS], data => {
       try {
         expect(data[KEY_EXISTS_A]).toEqual(DATA_A);
         expect(data[KEY_NEXISTS]).toBeNull();
