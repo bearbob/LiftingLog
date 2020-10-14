@@ -3,8 +3,15 @@
  */
 
 import 'react-native';
+import moment from 'moment';
 import AsyncStorage from '@react-native-community/async-storage';
-import {dataExists, retrieveData, storeData} from 'components/storage';
+import {
+  dataExists,
+  retrieveData,
+  storeData,
+  storeObjectInArray,
+  storeWeightLog,
+} from 'components/storage';
 
 const KEY = 'testkey';
 const KEY_EXISTS_A = 'calendar';
@@ -32,6 +39,9 @@ const DATA_B = [
 //clean the storage before each test and fill with test data again
 beforeEach(() => {
   AsyncStorage.__INTERNAL_MOCK_STORAGE__ = {};
+  AsyncStorage.__INTERNAL_MOCK_STORAGE__.bodyweight = JSON.stringify(55);
+  AsyncStorage.__INTERNAL_MOCK_STORAGE__.birthday = JSON.stringify(moment().subtract(20, 'years'));
+  AsyncStorage.__INTERNAL_MOCK_STORAGE__.isMale = JSON.stringify(false);
   AsyncStorage.__INTERNAL_MOCK_STORAGE__[KEY] = JSON.stringify({
     valueTrue: true,
     valueFalse: false,
@@ -224,5 +234,81 @@ describe('Checking storeData()', () => {
     let data = [];
     await storeData(KEY, data);
     expect(AsyncStorage.setItem).toBeCalledWith(KEY, JSON.stringify(data));
+  });
+
+  it('checks if new key is saved', async () => {
+    let data = [];
+    let key = 'NEW_KEY_13389';
+    await storeData(key, data);
+    expect(AsyncStorage.__INTERNAL_MOCK_STORAGE__).toHaveProperty(key);
+  });
+});
+
+//---------------- Testcases for storeObjectInArray ----------------
+
+describe('Checking storeObjectInArray()', () => {
+  it('checks if database is accessed', async () => {
+    let data = {id: 'A'};
+    await storeObjectInArray(KEY_EXISTS_B, data);
+    expect(AsyncStorage.setItem).toBeCalled();
+  });
+
+  it('checks if new key is saved', async () => {
+    let data = {id: 'A'};
+    let key = 'NEW_KEY_13389';
+    await storeObjectInArray(key, data);
+    expect(AsyncStorage.__INTERNAL_MOCK_STORAGE__).toHaveProperty(key);
+  });
+});
+
+//---------------- Testcases for storeWeightLog ----------------
+
+describe('Checking storeWeightLog()', () => {
+  it('checks if data is stored', async () => {
+    expect(AsyncStorage.__INTERNAL_MOCK_STORAGE__[exerciseID]).toBeUndefined();
+    let exerciseID = 'bentoverrow';
+    storeWeightLog({
+      id: exerciseID,
+      weight: 50,
+      reps: 3,
+      date: moment().subtract(20, 'days'),
+    });
+    expect(AsyncStorage.__INTERNAL_MOCK_STORAGE__[exerciseID]).toBeDefined();
+  });
+
+  it('checks if all data is stored (check race condition)', async () => {
+    expect(AsyncStorage.__INTERNAL_MOCK_STORAGE__[exerciseID]).toBeUndefined();
+    let exerciseID = 'bentoverrow';
+    storeWeightLog({
+      id: exerciseID,
+      weight: 50,
+      reps: 3,
+      date: moment().subtract(20, 'days'),
+    });
+    storeWeightLog({
+      id: exerciseID,
+      weight: 50,
+      reps: 4,
+      date: moment().subtract(19, 'days'),
+    });
+    storeWeightLog({
+      id: exerciseID,
+      weight: 55,
+      reps: 3,
+      date: moment().subtract(18, 'days'),
+    });
+    storeWeightLog({
+      id: exerciseID,
+      weight: 55,
+      reps: 4,
+      date: moment().subtract(17, 'days'),
+    });
+    storeWeightLog({
+      id: exerciseID,
+      weight: 55,
+      reps: 5,
+      date: moment().subtract(16, 'days'),
+    });
+    expect(AsyncStorage.__INTERNAL_MOCK_STORAGE__[exerciseID].length).toBe(5);
   });
 });

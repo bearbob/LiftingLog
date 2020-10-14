@@ -32,7 +32,7 @@ export const dataExists = async (key, callback) => {
     }
   } catch (error) {
     // Error retrieving data
-    console.log(error.message);
+    console.log('[Error] ' + error.message + ' (35)');
   }
 };
 
@@ -61,7 +61,7 @@ export const retrieveData = async (key, callback) => {
     callback(value);
   } catch (error) {
     // Error retrieving data
-    console.log(error.message);
+    console.log('[Error] ' + error.message + ' (64)');
   }
 };
 
@@ -77,7 +77,7 @@ export const storeData = async (key, data) => {
     await AsyncStorage.setItem(key, JSON.stringify(data));
   } catch (error) {
     // Error saving data
-    console.log(error.message);
+    console.log('[Error] ' + error.message + ' (80)');
   }
 };
 
@@ -89,7 +89,7 @@ export const storeData = async (key, data) => {
  * @static
  * @param {string} key - The key to store the object under
  * @param {object} object - The object that will be stored in the database
- * @param {boolean} append - If false, the existing data is overwritten
+ * @param {boolean} [append] - If false, the existing data is overwritten. Defaults to `true`
  */
 export const storeObjectInArray = async (key, object, append) => {
   if (append === null || append === undefined) {
@@ -107,7 +107,7 @@ export const storeObjectInArray = async (key, object, append) => {
     await AsyncStorage.setItem(key, JSON.stringify(array));
   } catch (error) {
     // Error saving data
-    console.log(error.message);
+    console.log('[Error] ' + error.message + ' (110)');
   }
 };
 
@@ -135,7 +135,7 @@ export const storeObjectInSet = async (key, newValue) => {
     }
   } catch (error) {
     // Error saving data
-    console.log(error.message);
+    console.log('[Error] ' + error.message + ' (138)');
   }
 };
 
@@ -168,7 +168,7 @@ const storeStrengthScore = async aParams => {
     await AsyncStorage.setItem(key, JSON.stringify(collection));
   } catch (error) {
     // Error saving data
-    console.log(error.message);
+    console.log('[Error] ' + error.message + ' (171)');
   }
 };
 
