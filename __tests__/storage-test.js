@@ -151,7 +151,7 @@ describe('Checking dataExists()', () => {
 
 describe('Checking retrieveData()', () => {
   it('checks if accesses database', async () => {
-    await retrieveData(KEY);
+    await retrieveData(KEY, () => {});
     expect(AsyncStorage.getItem).toBeCalledWith(KEY);
   });
 
@@ -262,6 +262,7 @@ describe('Checking storeObjectInArray()', () => {
 });
 
 //---------------- Testcases for storeWeightLog ----------------
+const testBirthday = new Date(moment().subtract(20, 'days'));
 
 describe('Checking storeWeightLog()', () => {
   it('checks if data is stored', async () => {
@@ -271,7 +272,7 @@ describe('Checking storeWeightLog()', () => {
       id: exerciseID,
       weight: 50,
       reps: 3,
-      date: moment().subtract(20, 'days'),
+      date: testBirthday,
     });
     expect(AsyncStorage.__INTERNAL_MOCK_STORAGE__[exerciseID]).toBeDefined();
   });
@@ -283,31 +284,31 @@ describe('Checking storeWeightLog()', () => {
       id: exerciseID,
       weight: 50,
       reps: 3,
-      date: moment().subtract(20, 'days'),
+      date: testBirthday,
     });
     storeWeightLog({
       id: exerciseID,
       weight: 50,
       reps: 4,
-      date: moment().subtract(19, 'days'),
+      date: testBirthday,
     });
     storeWeightLog({
       id: exerciseID,
       weight: 55,
       reps: 3,
-      date: moment().subtract(18, 'days'),
+      date: testBirthday,
     });
     storeWeightLog({
       id: exerciseID,
       weight: 55,
       reps: 4,
-      date: moment().subtract(17, 'days'),
+      date: testBirthday,
     });
     storeWeightLog({
       id: exerciseID,
       weight: 55,
       reps: 5,
-      date: moment().subtract(16, 'days'),
+      date: testBirthday,
     });
     expect(AsyncStorage.__INTERNAL_MOCK_STORAGE__[exerciseID].length).toBe(5);
   });

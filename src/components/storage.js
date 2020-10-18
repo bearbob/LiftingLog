@@ -61,7 +61,7 @@ export const retrieveData = async (key, callback) => {
     callback(value);
   } catch (error) {
     // Error retrieving data
-    console.log('[Error] ' + error.message + ' (64)');
+    console.log('[Error] ' + error.name + ': ' + error.message + ' (64) | ' + error.stack);
   }
 };
 
