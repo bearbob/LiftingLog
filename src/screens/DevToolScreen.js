@@ -145,7 +145,7 @@ class DevToolScreen extends React.Component {
             };
             console.log('Saving ' + JSON.stringify(logObject));
             //FIXME TODO It looks like this saves only one log entry at the moment
-            storeWeightLog(logObject);
+            await storeWeightLog(logObject);
           }
         }}>
         <Text style={Theme.buttonText}>Copy data from Clipboard</Text>

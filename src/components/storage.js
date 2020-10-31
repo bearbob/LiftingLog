@@ -181,12 +181,12 @@ const storeStrengthScore = async aParams => {
  * @param {integer} aParams.reps - The repitition the weight was lifted for
  * @param {date} aParams.date - The date of the lift
  */
-export const storeWeightLog = aParams => {
+export const storeWeightLog = async aParams => {
   const weight = aParams.weight;
   const reps = aParams.reps;
   const date = aParams.date;
   const id = aParams.id;
-  retrieveData(['bodyweight', 'birthday', 'isMale'], values => {
+  await retrieveData(['bodyweight', 'birthday', 'isMale'], async values => {
     //if the settings are incomplete, we will use a default setting:
     // female, 20 years old, 55kg bodyweight
     let defaultBirthday = moment().subtract(20, 'years');
@@ -211,7 +211,7 @@ export const storeWeightLog = aParams => {
       id,
       oneRm,
     );
-    storeObjectInArray(
+    await storeObjectInArray(
       id,
       {weight: weight, reps: reps, date: date, oneRM: oneRm, score: strengthScore},
       true,
@@ -221,8 +221,8 @@ export const storeWeightLog = aParams => {
       .toString()
       .padStart(2, '0');
     let months = (date.getMonth() + 1).toString().padStart(2, '0');
-    storeObjectInSet('calendar', date.getFullYear() + '-' + months + '-' + days);
-    storeStrengthScore({
+    await storeObjectInSet('calendar', date.getFullYear() + '-' + months + '-' + days);
+    await storeStrengthScore({
       exercise: id,
       date: date,
       score: strengthScore,
