@@ -175,8 +175,7 @@ describe('Checking retrieveData()', () => {
       }
     });
 
-    expect(AsyncStorage.getItem).toBeCalledWith(KEY_EXISTS_A);
-    expect(AsyncStorage.getItem).toBeCalledWith(KEY_EXISTS_B);
+    expect(AsyncStorage.getItem).toHaveBeenCalledTimes(2);
   });
 
   it('checks if callback handles existing data', done => {
