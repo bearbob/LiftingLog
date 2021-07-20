@@ -17,7 +17,7 @@
     "@react-navigation/stack": "^5.1.0",
     "moment": "^2.24.0",
     "react": "16.9.0",
-    "react-native": "^0.63.3",
+    "react-native": "^0.64.1",
     "react-native-chart-kit": "^6.6.1",
     "react-native-gesture-handler": "^1.6.0",
     "react-native-reanimated": "^1.7.0",
